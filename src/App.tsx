@@ -4,6 +4,7 @@ function App() {
     return (
         <div className="flex ">
             <Button>Click</Button>
+            <Button>2Click</Button>
         </div>
     );
 }
