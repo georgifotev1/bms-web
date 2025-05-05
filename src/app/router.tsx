@@ -1,4 +1,5 @@
-import { env } from '@/lib/env';
+import { env } from '@/config/env';
+import { paths } from '@/config/paths';
 import { createBrowserRouter, RouteObject, RouterProvider } from 'react-router';
 const BrandComponent = ({ brand }: { brand: string }) => (
     <div>Brand: {brand}</div>
@@ -11,7 +12,15 @@ const createAppRouter = () => {
     let routesConfig: RouteObject[] = [];
 
     if (isLanding) {
-        routesConfig = [{ path: '/', element: <div>Landing</div> }];
+        routesConfig = [
+            {
+                path: paths.landing.path,
+                lazy: () =>
+                    import('./routes/landing/root').then(({ LandinRoute }) => ({
+                        Component: LandinRoute,
+                    })),
+            },
+        ];
     } else if (subdomain == 'app') {
         routesConfig = [{ path: '/', element: <div>Dashboard</div> }];
     } else {
