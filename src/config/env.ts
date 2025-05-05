@@ -3,6 +3,7 @@ import * as z from 'zod';
 const createEnv = () => {
     const EnvSchema = z.object({
         APP_URL: z.string().optional().default('localhost:5173'),
+        API_URL: z.string().optional().default('localhost:8080'),
         APP_HOST: z.string(),
     });
 
