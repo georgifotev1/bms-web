@@ -3,8 +3,8 @@ import { paths } from '../config/paths';
 
 let accessToken: string | null = null;
 
-const tokenService = {
-    setToken(token: string) {
+export const tokenService = {
+    setToken(token: string | null) {
         accessToken = token;
     },
     getToken() {

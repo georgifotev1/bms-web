@@ -8,7 +8,6 @@ const createAppRouter = () => {
     const hostname = window.location.hostname;
     const isLanding = hostname === env.APP_HOST;
     const subdomain = hostname.split('.')[0];
-    console.log(env.APP_HOST == hostname);
     let routesConfig: RouteObject[] = [];
 
     if (isLanding) {
