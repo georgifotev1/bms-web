@@ -1,6 +1,10 @@
 import { env } from '@/config/env';
 import { paths } from '@/config/paths';
+import { AppProtectedRoute } from '@/lib/app-protected-route';
 import { createBrowserRouter, RouteObject, RouterProvider } from 'react-router';
+import AppRoot, {
+    ErrorBoundary as AppRootErrorBoundary,
+} from './routes/app/root';
 const BrandComponent = ({ brand }: { brand: string }) => (
     <div>Brand: {brand}</div>
 );
@@ -21,7 +25,28 @@ const createAppRouter = () => {
             },
         ];
     } else if (subdomain == 'app') {
-        routesConfig = [{ path: '/', element: <div>Dashboard</div> }];
+        routesConfig = [
+            {
+                path: paths.app.root,
+                element: (
+                    <AppProtectedRoute>
+                        <AppRoot />
+                    </AppProtectedRoute>
+                ),
+                ErrorBoundary: AppRootErrorBoundary,
+                children: [
+                    {
+                        path: paths.app.root,
+                        lazy: () =>
+                            import('./routes/app/dashboard').then(
+                                ({ DashboardRoute }) => ({
+                                    Component: DashboardRoute,
+                                })
+                            ),
+                    },
+                ],
+            },
+        ];
     } else {
         routesConfig = [
             { path: '/', element: <BrandComponent brand={subdomain} /> },
