@@ -18,7 +18,7 @@ export type LoginInput = z.infer<typeof loginInputSchema>;
 export type RegisterInput = z.infer<typeof registerInputSchema>;
 
 const getUser = async (): Promise<User> => {
-    return await api.get('/me');
+    return await api.get('/users/me');
 };
 
 const logout = (): Promise<void> => {
@@ -29,7 +29,7 @@ const login = (data: LoginInput): Promise<string> => {
     return api.post('/auth/token', data);
 };
 
-const register = (data: RegisterInput): Promise<unknown> => {
+const register = (data: RegisterInput): Promise<User> => {
     return api.post('/auth/register', data);
 };
 
@@ -44,8 +44,8 @@ export const useLogin = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: login,
-        onSuccess: (data) => {
-            queryClient.setQueryData(['user'], data);
+        onSuccess: (accessToken) => {
+            tokenService.setToken(accessToken);
             queryClient.invalidateQueries({ queryKey: ['user'] });
         },
     });

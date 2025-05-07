@@ -5,7 +5,6 @@ export const paths = {
     },
 
     app: {
-        dashboard: '/',
         auth: {
             register: {
                 path: '/auth/register',
@@ -26,5 +25,6 @@ export const paths = {
                     }`,
             },
         },
+        root: '/',
     },
 } as const;
