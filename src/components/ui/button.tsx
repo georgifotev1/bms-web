@@ -51,7 +51,9 @@ function Button({
             data-slot='button'
             className={cn(buttonVariants({ variant, size, className }))}
             {...props}
-        />
+        >
+            {props.children as React.ReactNode}
+        </Comp>
     );
 }
 

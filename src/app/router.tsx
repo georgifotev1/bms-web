@@ -26,6 +26,22 @@ const createAppRouter = () => {
         ];
     } else if (subdomain == 'app') {
         routesConfig = [
+            // {
+            //     path: paths.auth.register.path,
+            //     HydrateFallback: Spinner,
+            //     lazy: () =>
+            //         import("./routes/auth/register").then(({ RegisterRoute }) => ({
+            //             Component: RegisterRoute,
+            //         })),
+            // },
+            // {
+            //     path: paths.auth.login.path,
+            //     HydrateFallback: Spinner,
+            //     lazy: () =>
+            //         import("./routes/auth/login").then(({ LoginRoute }) => ({
+            //             Component: LoginRoute,
+            //         })),
+            // },
             {
                 path: paths.app.root,
                 element: (
