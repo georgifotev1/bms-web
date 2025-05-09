@@ -9,3 +9,7 @@ export type User = {
     createdAt: Date;
     updatedAt: Date;
 };
+
+export type Token = {
+    token: string;
+};

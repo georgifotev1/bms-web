@@ -10,6 +10,9 @@ export const AppProtectedRoute = ({
     const user = useUser();
     const location = useLocation();
 
+    if (user.isLoading) {
+        return <div>Loading...</div>;
+    }
     if (!user.data) {
         return (
             <Navigate to={paths.app.auth.login.getHref(location.pathname)} />

@@ -34,14 +34,15 @@ const createAppRouter = () => {
             //             Component: RegisterRoute,
             //         })),
             // },
-            // {
-            //     path: paths.auth.login.path,
-            //     HydrateFallback: Spinner,
-            //     lazy: () =>
-            //         import("./routes/auth/login").then(({ LoginRoute }) => ({
-            //             Component: LoginRoute,
-            //         })),
-            // },
+            {
+                path: paths.app.auth.login.path,
+                lazy: () =>
+                    import('./routes/app/auth/login').then(
+                        ({ LoginRoute }) => ({
+                            Component: LoginRoute,
+                        })
+                    ),
+            },
             {
                 path: paths.app.root,
                 element: (

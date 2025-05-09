@@ -1,5 +1,6 @@
+import { paths } from '@/config/paths';
 import { env } from '../config/env';
-import { paths } from '../config/paths';
+import { Token } from '@/types/api';
 
 let accessToken: string | null = null;
 
@@ -10,8 +11,26 @@ export const tokenService = {
     getToken() {
         return accessToken;
     },
-    async refreshToken(): Promise<string> {
-        return await api.get('/auth/refresh');
+    async refreshToken(): Promise<Token> {
+        try {
+            const response = await fetch(`${env.API_URL}/auth/refresh`, {
+                method: 'GET',
+                credentials: 'include',
+                headers: {
+                    Accept: 'application/json',
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error(response.statusText);
+            }
+
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error('Token refresh failed:', error);
+            throw error;
+        }
     },
 };
 
@@ -39,22 +58,22 @@ async function fetchWrapper<T>(
     init: RequestInit = {}
 ): Promise<T> {
     const [url, config] = interceptor(path, init);
-
     try {
         const response = await fetch(`${env.API_URL}${url}`, config);
         if (!response.ok) {
             const errorData = await response.json().catch(() => null);
             const message = errorData?.message || response.statusText;
+            const isAuthRoute = window.location.pathname.includes('auth');
 
             if (response.status === 401) {
                 try {
-                    const newToken = await tokenService.refreshToken();
-                    tokenService.setToken(newToken);
+                    const data = await tokenService.refreshToken();
+                    tokenService.setToken(data.token);
                     const retryConfig = {
                         ...config,
                         headers: {
                             ...config.headers,
-                            Authorization: `Bearer ${newToken}`,
+                            Authorization: `Bearer ${tokenService.getToken()}`,
                         },
                     };
                     const retryResponse = await fetch(
@@ -62,18 +81,21 @@ async function fetchWrapper<T>(
                         retryConfig
                     );
 
-                    if (!retryResponse.ok) {
+                    if (!retryResponse.ok && retryResponse.status === 401) {
+                        if (!isAuthRoute) {
+                            const searchParams = new URLSearchParams();
+                            const redirectTo =
+                                searchParams.get('redirectTo') ||
+                                window.location.pathname;
+                            window.location.href =
+                                paths.app.auth.login.getHref(redirectTo);
+                        }
                         throw new Error(retryResponse.statusText);
                     }
                     return (await retryResponse.json()) as T;
                 } catch (refreshError) {
                     console.error('Token refresh failed:', refreshError);
-                    const searchParams = new URLSearchParams();
-                    const redirectTo =
-                        searchParams.get('redirectTo') ||
-                        window.location.pathname;
-                    window.location.href =
-                        paths.app.auth.login.getHref(redirectTo);
+                    throw new Error('Unauthorized');
                 }
             }
             throw new Error(message);
@@ -81,8 +103,7 @@ async function fetchWrapper<T>(
 
         return (await response.json()) as T;
     } catch (error) {
-        console.error('API call failed: ', error);
-        throw error;
+        return Promise.reject(error);
     }
 }
 
