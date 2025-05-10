@@ -1,5 +1,6 @@
-import { Navigate, useLocation } from 'react-router';
+import { LoadingScreen } from '@/components/ui/spinner/loading-screen';
 import { paths } from '@/config/paths';
+import { Navigate, useLocation } from 'react-router';
 import { useUser } from './auth';
 
 export const AppProtectedRoute = ({
@@ -11,8 +12,11 @@ export const AppProtectedRoute = ({
     const location = useLocation();
 
     if (user.isLoading) {
-        return <div>Loading...</div>;
+        return (
+            <LoadingScreen />
+        );
     }
+
     if (!user.data) {
         return (
             <Navigate to={paths.app.auth.login.getHref(location.pathname)} />

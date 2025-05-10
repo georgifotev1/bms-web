@@ -1,9 +1,11 @@
-import * as React from 'react';
-
 import logo from '@/assets/react.svg';
 import { Head } from '@/components/seo/head';
 import { Link } from '@/components/ui/link';
 import { paths } from '@/config/paths';
+import { useUser } from '@/lib/auth';
+import * as React from 'react';
+import { Navigate, useSearchParams } from 'react-router';
+import { LoadingScreen } from '../ui/spinner/loading-screen';
 
 type LayoutProps = {
     children: React.ReactNode;
@@ -11,6 +13,17 @@ type LayoutProps = {
 };
 
 export const AuthLayout = ({ children, title }: LayoutProps) => {
+    const user = useUser();
+    const [searchParams] = useSearchParams();
+    const redirectTo = searchParams.get('redirectTo');
+
+    if (user.isLoading) return <LoadingScreen />
+
+    if (user.data) {
+        return (
+            <Navigate to={redirectTo ? redirectTo : paths.app.root} />
+        );
+    }
     return (
         <>
             <Head title={title} />
