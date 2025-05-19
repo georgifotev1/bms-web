@@ -20,10 +20,8 @@ export const FieldWrapper = (props: FieldWrapperProps) => {
     const { label, error, children } = props;
     return (
         <div>
-            <Label>
-                {label}
-                <div className='mt-1'>{children}</div>
-            </Label>
+            <Label>{label}</Label>
+            <div className='mt-2'>{children}</div>
             <Error errorMessage={error?.message} />
         </div>
     );
