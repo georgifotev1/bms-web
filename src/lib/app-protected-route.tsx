@@ -12,9 +12,7 @@ export const AppProtectedRoute = ({
     const location = useLocation();
 
     if (user.isLoading) {
-        return (
-            <LoadingScreen />
-        );
+        return <LoadingScreen />;
     }
 
     if (!user.data) {

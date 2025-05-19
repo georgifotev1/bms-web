@@ -11,26 +11,25 @@ export const tokenService = {
     getToken() {
         return accessToken;
     },
+    clearToken() {
+        accessToken = null;
+        window.location.href = paths.app.auth.login.getHref();
+    },
     async refreshToken(): Promise<Token> {
-        try {
-            const response = await fetch(`${env.API_URL}/auth/refresh`, {
-                method: 'GET',
-                credentials: 'include',
-                headers: {
-                    Accept: 'application/json',
-                },
-            });
+        const response = await fetch(`${env.API_URL}/auth/refresh`, {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                Accept: 'application/json',
+            },
+        });
 
-            if (!response.ok) {
-                throw new Error(response.statusText);
-            }
-
-            const data = await response.json();
-            return data;
-        } catch (error) {
-            console.error('Token refresh failed:', error);
-            throw error;
+        if (!response.ok) {
+            throw new Error(response.statusText);
         }
+
+        const data = await response.json();
+        return data;
     },
 };
 
@@ -93,8 +92,7 @@ async function fetchWrapper<T>(
                         throw new Error(retryResponse.statusText);
                     }
                     return (await retryResponse.json()) as T;
-                } catch (refreshError) {
-                    console.error('Token refresh failed:', refreshError);
+                } catch {
                     throw new Error('Unauthorized');
                 }
             }

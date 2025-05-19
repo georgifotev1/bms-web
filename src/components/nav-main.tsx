@@ -62,7 +62,7 @@ export function NavMain() {
             <SidebarGroupLabel>Platform</SidebarGroupLabel>
             <SidebarMenu>
                 {items.map((item) => (
-                    <SidebarMenuItem>
+                    <SidebarMenuItem key={item.title}>
                         <SidebarMenuButton tooltip={item.title}>
                             {item.icon && <item.icon />}
                             <Link to={item.url}>{item.title}</Link>

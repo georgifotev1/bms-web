@@ -66,10 +66,11 @@ export const useRegister = () => {
 
 export const useLogout = () => {
     const queryClient = useQueryClient();
-    tokenService.setToken(null);
+
     return useMutation({
         mutationFn: logout,
         onSuccess: () => {
+            tokenService.clearToken();
             queryClient.removeQueries({ queryKey: ['user'] });
         },
     });
