@@ -1,6 +1,6 @@
 import { Slot } from '@radix-ui/react-slot';
 import { VariantProps, cva } from 'class-variance-authority';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import * as React from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -289,7 +289,7 @@ function SidebarTrigger({
             }}
             {...props}
         >
-            {open ? <ArrowLeft /> : <ArrowRight />}
+            {open ? <ChevronLeft /> : <ChevronRight />}
             <span className='sr-only'>Toggle Sidebar</span>
         </Button>
     );
