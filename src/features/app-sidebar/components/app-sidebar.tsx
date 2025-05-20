@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import { BrandInfo } from '@/components/brand-info';
-import { NavMain } from '@/components/nav-main';
-import { NavUser } from '@/components/nav-user';
+import { BrandInfo } from '@/features/app-sidebar/components/brand-info';
+import { NavMain } from '@/features/app-sidebar/components/nav-main';
+import { NavUser } from '@/features/app-sidebar/components/nav-user';
 import {
     Sidebar,
     SidebarContent,

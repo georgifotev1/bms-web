@@ -1,61 +1,56 @@
-import {
-    Calendar,
-    ListTree,
-    Settings2,
-    Smile
-} from "lucide-react"
+import { Calendar, ListTree, Settings2, Smile } from 'lucide-react';
 
 import {
     SidebarGroup,
     SidebarGroupLabel,
     SidebarMenu,
     SidebarMenuButton,
-    SidebarMenuItem
-} from "@/components/ui/sidebar"
-import { Link } from "./ui/link"
+    SidebarMenuItem,
+} from '@/components/ui/sidebar';
+import { Link } from '../../../components/ui/link';
 
 export function NavMain() {
     const items = [
         {
-            title: "Calendar",
-            url: "#",
+            title: 'Calendar',
+            url: '#',
             icon: Calendar,
             isActive: true,
         },
         {
-            title: "Services",
-            url: "#",
+            title: 'Services',
+            url: '#',
             icon: ListTree,
         },
         {
-            title: "Customers",
-            url: "#",
-            icon: Smile
+            title: 'Customers',
+            url: '#',
+            icon: Smile,
         },
         {
-            title: "Settings",
-            url: "#",
+            title: 'Settings',
+            url: '#',
             icon: Settings2,
             items: [
                 {
-                    title: "General",
-                    url: "#",
+                    title: 'General',
+                    url: '#',
                 },
                 {
-                    title: "Team",
-                    url: "#",
+                    title: 'Team',
+                    url: '#',
                 },
                 {
-                    title: "Billing",
-                    url: "#",
+                    title: 'Billing',
+                    url: '#',
                 },
                 {
-                    title: "Limits",
-                    url: "#",
+                    title: 'Limits',
+                    url: '#',
                 },
             ],
         },
-    ]
+    ];
 
     return (
         <SidebarGroup>
@@ -71,5 +66,5 @@ export function NavMain() {
                 ))}
             </SidebarMenu>
         </SidebarGroup>
-    )
+    );
 }
