@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { z } from 'zod';
-import { Token, User } from '@/types/api';
+import { Token, User, UserWithToken } from '@/types/api';
 import { api, tokenService } from './api-client';
 
 export const loginInputSchema = z.object({
@@ -29,7 +29,7 @@ const login = (data: LoginInput): Promise<Token> => {
     return api.post('/auth/token', data);
 };
 
-const register = (data: RegisterInput): Promise<User> => {
+const register = (data: RegisterInput): Promise<UserWithToken> => {
     return api.post('/auth/register', data);
 };
 
@@ -57,6 +57,7 @@ export const useRegister = () => {
     return useMutation({
         mutationFn: register,
         onSuccess: (data) => {
+            tokenService.setToken(data.token);
             queryClient.setQueryData(['user'], data);
             queryClient.invalidateQueries({ queryKey: ['user'] });
         },

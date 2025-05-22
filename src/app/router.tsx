@@ -29,9 +29,11 @@ const createAppRouter = () => {
             {
                 path: paths.app.auth.register.path,
                 lazy: () =>
-                    import('./routes/app/auth/register').then(({ RegisterRoute }) => ({
-                        Component: RegisterRoute,
-                    })),
+                    import('./routes/app/auth/register').then(
+                        ({ RegisterRoute }) => ({
+                            Component: RegisterRoute,
+                        })
+                    ),
             },
             {
                 path: paths.app.auth.login.path,
@@ -39,6 +41,15 @@ const createAppRouter = () => {
                     import('./routes/app/auth/login').then(
                         ({ LoginRoute }) => ({
                             Component: LoginRoute,
+                        })
+                    ),
+            },
+            {
+                path: paths.app.brandCreate,
+                lazy: () =>
+                    import('./routes/app/brand/create-brand').then(
+                        ({ CreateBrandRoute }) => ({
+                            Component: CreateBrandRoute,
                         })
                     ),
             },

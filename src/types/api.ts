@@ -13,6 +13,9 @@ export type User = {
 export type Token = {
     token: string;
 };
+
+export type UserWithToken = User & Token;
+
 export type SocialLink = {
     id: number;
     brandId: number;

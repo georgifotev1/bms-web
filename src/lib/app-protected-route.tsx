@@ -17,7 +17,7 @@ export const AppProtectedRoute = ({
     const brandId = user.data?.brandId;
     const brand = useBrand(brandId ?? 0);
 
-    if (user.isLoading || brand.isLoading) {
+    if (user.isLoading || user.isFetching || brand.isLoading) {
         return <LoadingScreen />;
     }
 
@@ -28,8 +28,7 @@ export const AppProtectedRoute = ({
     }
 
     if (!brandId) {
-        // Create a page to force user to create a brand
-        return <div>Brand ID not found.</div>;
+        return <Navigate to={paths.app.brandCreate} />;
     }
 
     if (!brand.data) {

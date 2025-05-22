@@ -17,12 +17,10 @@ export const AuthLayout = ({ children, title }: LayoutProps) => {
     const [searchParams] = useSearchParams();
     const redirectTo = searchParams.get('redirectTo');
 
-    if (user.isLoading) return <LoadingScreen />
+    if (user.isLoading) return <LoadingScreen />;
 
     if (user.data) {
-        return (
-            <Navigate to={redirectTo ? redirectTo : paths.app.root} />
-        );
+        return <Navigate to={redirectTo ? redirectTo : paths.app.root} />;
     }
     return (
         <>

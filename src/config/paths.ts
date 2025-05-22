@@ -25,6 +25,7 @@ export const paths = {
                     }`,
             },
         },
+        brandCreate: '/brand/create',
         root: '/',
     },
 } as const;
