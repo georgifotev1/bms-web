@@ -2,7 +2,8 @@ import { LoadingScreen } from '@/components/ui/spinner/loading-screen';
 import { paths } from '@/config/paths';
 import { Navigate, useLocation } from 'react-router';
 import { useUser } from './auth';
-import { useBrand } from './brand';
+import { useBrand } from '../features/brand/api/get-brand';
+import { BrandContext } from '../features/brand/context';
 
 export const AppProtectedRoute = ({
     children,
@@ -14,7 +15,7 @@ export const AppProtectedRoute = ({
     const location = useLocation();
 
     const brandId = user.data?.brandId;
-    const brand = useBrand(String(brandId ?? ''));
+    const brand = useBrand(brandId ?? 0);
 
     if (user.isLoading || brand.isLoading) {
         return <LoadingScreen />;
@@ -26,14 +27,18 @@ export const AppProtectedRoute = ({
         );
     }
 
-    // TODO : add proper error handling
     if (!brandId) {
+        // Create a page to force user to create a brand
         return <div>Brand ID not found.</div>;
     }
 
-    if (brand.error) {
+    if (!brand.data) {
         return <div>Brand not found or error loading brand.</div>;
     }
 
-    return children;
+    return (
+        <BrandContext.Provider value={brand.data}>
+            {children}
+        </BrandContext.Provider>
+    );
 };

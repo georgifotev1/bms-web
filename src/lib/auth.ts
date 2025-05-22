@@ -37,7 +37,6 @@ export const useUser = () => {
     return useQuery({
         queryKey: ['user'],
         queryFn: getUser,
-        retryDelay: 500,
     });
 };
 

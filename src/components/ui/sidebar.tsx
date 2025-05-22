@@ -279,7 +279,7 @@ function SidebarTrigger({
             variant='ghost'
             size='icon'
             className={cn(
-                'size-8 hover:bg-primary/10',
+                'size-8 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground',
                 className,
                 open && 'rounded-full'
             )}
