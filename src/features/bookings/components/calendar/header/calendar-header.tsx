@@ -114,8 +114,7 @@ export function CalendarHeader({ view, events }: IProps) {
                 </div>
 
                 <AddEventDialog>
-                    <Button className='w-full sm:w-auto'>
-                        <Plus />
+                    <Button className='w-full sm:w-auto' icon={<Plus />}>
                         Add Event
                     </Button>
                 </AddEventDialog>

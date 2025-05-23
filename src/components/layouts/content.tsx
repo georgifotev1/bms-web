@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { Head } from '../seo/head';
+import { H3 } from '../typography';
 
 type ContentLayoutProps = {
     children: React.ReactNode;
@@ -11,15 +12,13 @@ export const ContentLayout = ({ children, title }: ContentLayoutProps) => {
     return (
         <>
             <Head title={title} />
-            <div className='py-6'>
-                <div className='mx-auto max-w-7xl px-4 sm:px-6 md:px-8'>
-                    <h1 className='text-2xl font-semibold text-gray-900'>
-                        {title}
-                    </h1>
-                </div>
-                <div className='mx-auto max-w-7xl px-4 py-6 sm:px-6 md:px-8'>
-                    {children}
-                </div>
+            <div className='absolute w-full h-screen overflow-hidden'>
+                <header className='flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12'>
+                    <div className='flex items-center gap-2'>
+                        <H3>{title}</H3>
+                    </div>
+                </header>
+                {children}
             </div>
         </>
     );

@@ -61,8 +61,8 @@ function Button({
             {...props}
         >
             {isLoading && <Spinner size='sm' className='text-current' />}
-            {!isLoading && icon && <span className='mr-2'>{icon}</span>}
-            <span className='mx-2'>{children}</span>
+            {!isLoading && icon && <span>{icon}</span>}
+            <span>{children}</span>
         </Comp>
     );
 }
