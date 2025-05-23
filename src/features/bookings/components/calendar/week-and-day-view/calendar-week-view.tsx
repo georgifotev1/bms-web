@@ -134,7 +134,7 @@ export function CalendarWeekView({ singleDayEvents, multiDayEvents }: IProps) {
                                                         className={cn(
                                                             'relative',
                                                             isDisabled &&
-                                                                'bg-calendar-disabled-hour'
+                                                                'bg-gray-100 cursor-not-allowed line-through pointer-events-none'
                                                         )}
                                                         style={{
                                                             height: '96px',
