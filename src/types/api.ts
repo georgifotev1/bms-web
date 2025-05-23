@@ -1,3 +1,5 @@
+type UUID = string;
+
 export type User = {
     id: string;
     name: string;
@@ -6,8 +8,8 @@ export type User = {
     verified: boolean;
     brandId: number;
     role: string;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt: string;
+    updatedAt: string;
 };
 
 export type Token = {
@@ -22,8 +24,8 @@ export type SocialLink = {
     platform: string;
     url: string;
     displayName: string;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt: string;
+    updatedAt: string;
 };
 
 export type WorkingHour = {
@@ -33,8 +35,8 @@ export type WorkingHour = {
     openTime: string;
     closeTime: string;
     isClosed: boolean;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt: string;
+    updatedAt: string;
 };
 
 export type BrandProfile = {
@@ -52,8 +54,24 @@ export type BrandProfile = {
     logoUrl: string;
     bannerUrl: string;
     currency: string;
-    createdAt: Date;
-    updatedAt: Date;
+    createdAt: string;
+    updatedAt: string;
     socialLinks: SocialLink[];
     workingHours: WorkingHour[];
+};
+
+export type Booking = {
+    id: number;
+    customerId: number;
+    serviceId: UUID;
+    userId: number;
+    brandId: number;
+    startTime: string;
+    endTime: string;
+    customerName: string;
+    userName: string;
+    serviceName: string;
+    comment?: string;
+    createdAt: string;
+    updatedAt: string;
 };

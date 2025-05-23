@@ -12,46 +12,44 @@ export const CreateBrandForm = () => {
     const queryClient = useQueryClient();
 
     return (
-        <div>
-            <Form
-                onSubmit={(values) => {
-                    brand.mutate(values, {
-                        onSuccess: async () => {
-                            await queryClient.invalidateQueries({
-                                queryKey: ['user'],
-                            });
-                            navigate(paths.app.root, { replace: true });
-                        },
-                    });
-                }}
-                schema={createBrandInputSchema}
-            >
-                {({ register, formState }) => (
-                    <>
-                        <Input
-                            type='text'
-                            label='The name of your brand or company'
-                            error={formState.errors['name']}
-                            registration={register('name')}
-                        />
-                        <div>
-                            <Button
-                                isLoading={brand.isPending}
-                                disabled={brand.isPending}
-                                type='submit'
-                                className='w-full'
-                            >
-                                Submit
-                            </Button>
+        <Form
+            onSubmit={(values) => {
+                brand.mutate(values, {
+                    onSuccess: async () => {
+                        await queryClient.invalidateQueries({
+                            queryKey: ['user'],
+                        });
+                        navigate(paths.app.root, { replace: true });
+                    },
+                });
+            }}
+            schema={createBrandInputSchema}
+        >
+            {({ register, formState }) => (
+                <>
+                    <Input
+                        type='text'
+                        label='The name of your brand or company'
+                        error={formState.errors['name']}
+                        registration={register('name')}
+                    />
+                    <div>
+                        <Button
+                            isLoading={brand.isPending}
+                            disabled={brand.isPending}
+                            type='submit'
+                            className='w-full'
+                        >
+                            Submit
+                        </Button>
+                    </div>
+                    {brand.error && (
+                        <div className='text-red-500 text-sm'>
+                            {brand.error.message}
                         </div>
-                        {brand.error && (
-                            <div className='text-red-500 text-sm'>
-                                {brand.error.message}
-                            </div>
-                        )}
-                    </>
-                )}
-            </Form>
-        </div>
+                    )}
+                </>
+            )}
+        </Form>
     );
 };

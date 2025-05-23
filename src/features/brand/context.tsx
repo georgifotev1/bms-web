@@ -16,8 +16,8 @@ export const BrandContext = React.createContext<BrandProfile>({
     logoUrl: '',
     bannerUrl: '',
     currency: '',
-    createdAt: new Date(0),
-    updatedAt: new Date(0),
+    createdAt: '',
+    updatedAt: '',
     socialLinks: [],
     workingHours: [],
 });
