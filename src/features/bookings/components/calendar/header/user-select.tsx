@@ -1,4 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { AvatarGroup } from '@/components/ui/avatar-group';
 import {
     Select,
     SelectContent,
@@ -18,6 +19,28 @@ export function UserSelect() {
             </SelectTrigger>
 
             <SelectContent align='end'>
+                <SelectItem value='all'>
+                    <div className='flex items-center gap-1'>
+                        <AvatarGroup max={2}>
+                            {users.map((user) => (
+                                <Avatar
+                                    key={user.id}
+                                    className='size-6 text-xxs'
+                                >
+                                    <AvatarImage
+                                        src={user.avatar ?? undefined}
+                                        alt={user.name}
+                                    />
+                                    <AvatarFallback className='text-xxs'>
+                                        {user.name[0]}
+                                    </AvatarFallback>
+                                </Avatar>
+                            ))}
+                        </AvatarGroup>
+                        All
+                    </div>
+                </SelectItem>
+
                 {users.map((user) => (
                     <SelectItem
                         key={user.id}
