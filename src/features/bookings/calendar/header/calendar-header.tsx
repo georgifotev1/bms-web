@@ -7,23 +7,22 @@ import {
     CalendarRange,
 } from 'lucide-react';
 
-import { Button, buttonVariants } from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
 
 import type { Booking as IEvent } from '@/types/api';
 import { TCalendarView } from '@/types/calendar';
 import { TodayButton } from './today-button';
 import { DateNavigator } from './date-navigator';
-import { Link } from '@/components/ui/link';
 import { UserSelect } from './user-select';
 import { AddEventDialog } from '../dialogs/add-event-dialog';
-import { cn } from '@/utils/cn';
 
 interface IProps {
     view: TCalendarView;
     events: IEvent[];
+    updateView: (view: TCalendarView) => void;
 }
 
-export function CalendarHeader({ view, events }: IProps) {
+export function CalendarHeader({ view, events, updateView }: IProps) {
     return (
         <div className='flex flex-col gap-4 border-b p-4 lg:flex-row lg:items-center lg:justify-between'>
             <div className='flex items-center gap-3'>
@@ -34,80 +33,55 @@ export function CalendarHeader({ view, events }: IProps) {
             <div className='flex flex-col items-center gap-1.5 sm:flex-row sm:justify-between'>
                 <div className='flex w-full items-center gap-1.5'>
                     <div className='inline-flex first:rounded-r-none last:rounded-l-none [&:not(:first-child):not(:last-child)]:rounded-none'>
-                        <Link
-                            className={cn(
-                                buttonVariants({
-                                    variant: `${
-                                        view === 'day' ? 'default' : 'outline'
-                                    }`,
-                                    size: 'icon',
-                                }),
-                                'rounded-r-none [&_svg]:size-5'
-                            )}
-                            to='/day-view'
+                        <Button
+                            aria-label='View by day'
+                            size='icon'
+                            variant={view === 'day' ? 'default' : 'outline'}
+                            className='rounded-r-none [&_svg]:size-5'
+                            onClick={() => updateView('day')}
                         >
                             <List strokeWidth={1.8} />
-                        </Link>
+                        </Button>
 
-                        <Link
-                            className={cn(
-                                buttonVariants({
-                                    variant: `${
-                                        view === 'day' ? 'default' : 'outline'
-                                    }`,
-                                    size: 'icon',
-                                }),
-                                'rounded-r-none [&_svg]:size-5'
-                            )}
-                            to='/week-view'
+                        <Button
+                            aria-label='View by week'
+                            size='icon'
+                            variant={view === 'week' ? 'default' : 'outline'}
+                            className='-ml-px rounded-none [&_svg]:size-5'
+                            onClick={() => updateView('week')}
                         >
                             <Columns strokeWidth={1.8} />
-                        </Link>
+                        </Button>
 
-                        <Link
-                            className={cn(
-                                buttonVariants({
-                                    variant: `${
-                                        view === 'day' ? 'default' : 'outline'
-                                    }`,
-                                    size: 'icon',
-                                }),
-                                'rounded-r-none [&_svg]:size-5'
-                            )}
-                            to='/month-view'
+                        <Button
+                            aria-label='View by month'
+                            size='icon'
+                            variant={view === 'month' ? 'default' : 'outline'}
+                            className='-ml-px rounded-none [&_svg]:size-5'
+                            onClick={() => updateView('month')}
                         >
                             <Grid2x2 strokeWidth={1.8} />
-                        </Link>
+                        </Button>
 
-                        <Link
-                            className={cn(
-                                buttonVariants({
-                                    variant: `${
-                                        view === 'day' ? 'default' : 'outline'
-                                    }`,
-                                    size: 'icon',
-                                }),
-                                'rounded-r-none [&_svg]:size-5'
-                            )}
-                            to='/year-view'
+                        <Button
+                            aria-label='View by year'
+                            size='icon'
+                            variant={view === 'year' ? 'default' : 'outline'}
+                            className='-ml-px rounded-none [&_svg]:size-5'
+                            onClick={() => updateView('year')}
                         >
                             <Grid3x3 strokeWidth={1.8} />
-                        </Link>
+                        </Button>
 
-                        <Link
-                            className={cn(
-                                buttonVariants({
-                                    variant: `${
-                                        view === 'day' ? 'default' : 'outline'
-                                    }`,
-                                    size: 'icon',
-                                }),
-                                'rounded-r-none [&_svg]:size-5'
-                            )}
-                            to='/agenda-view'
+                        <Button
+                            aria-label='View by agenda'
+                            size='icon'
+                            variant={view === 'agenda' ? 'default' : 'outline'}
+                            className='-ml-px rounded-l-none [&_svg]:size-5'
+                            onClick={() => updateView('agenda')}
                         >
                             <CalendarRange strokeWidth={1.8} />
-                        </Link>
+                        </Button>
                     </div>
 
                     <UserSelect />

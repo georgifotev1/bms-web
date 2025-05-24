@@ -1,7 +1,6 @@
 import { useMemo } from 'react';
 import { isSameDay, parseISO } from 'date-fns';
 
-import { useCalendar } from '../../context';
 import { TCalendarView } from '@/types/calendar';
 import { CalendarHeader } from './header/calendar-header';
 import { CalendarDayView } from './week-and-day-view/calendar-day-view';
@@ -9,12 +8,14 @@ import { CalendarMonthView } from './month-view/calendar-month-view';
 import { CalendarWeekView } from './week-and-day-view/calendar-week-view';
 import { CalendarYearView } from './year-view/calendar-year-view';
 import { CalendarAgendaView } from './agenda-view/calendar-agenda-view';
+import { useCalendar } from './context';
 
 interface IProps {
     view: TCalendarView;
+    updateView: (view: TCalendarView) => void;
 }
 
-export function ClientContainer({ view }: IProps) {
+export function ClientContainer({ view, updateView }: IProps) {
     const { selectedDate, selectedUserId, events } = useCalendar();
 
     const filteredEvents = useMemo(() => {
@@ -141,7 +142,11 @@ export function ClientContainer({ view }: IProps) {
         return;
     return (
         <div className='overflow-hidden rounded-xl border'>
-            <CalendarHeader view={view} events={filteredEvents} />
+            <CalendarHeader
+                view={view}
+                events={filteredEvents}
+                updateView={updateView}
+            />
 
             {view === 'day' && (
                 <CalendarDayView
