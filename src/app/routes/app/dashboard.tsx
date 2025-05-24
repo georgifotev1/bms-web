@@ -23,10 +23,13 @@ export const DashboardRoute = () => {
     if (bookings.isLoading || users.isLoading) {
         return <Skeleton />;
     }
-    if (!bookings.data || !users.data) return;
+
     return (
         <ContentLayout title='Dashboard'>
-            <CalendarProvider users={users.data} events={bookings.data}>
+            <CalendarProvider
+                users={users.data ?? []}
+                events={bookings.data ?? []}
+            >
                 <div className='mx-auto flex w-full flex-col gap-4'>
                     <ClientContainer view={view} updateView={updateView} />
                 </div>
