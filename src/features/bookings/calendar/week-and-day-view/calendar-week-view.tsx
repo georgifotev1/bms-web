@@ -41,6 +41,12 @@ export function CalendarWeekView({ singleDayEvents, multiDayEvents }: IProps) {
     const weekStart = startOfWeek(selectedDate, { weekStartsOn: 1 });
     const weekDays = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
 
+    const formatTimeSlot = (hour: number, minute: number) => {
+        const date = new Date();
+        date.setHours(hour, minute, 0, 0);
+        return format(date, 'HH:mm');
+    };
+
     return (
         <>
             <div className='flex flex-col items-center justify-center border-b py-4 text-sm text-muted-foreground sm:hidden'>
@@ -170,7 +176,20 @@ export function CalendarWeekView({ singleDayEvents, multiDayEvents }: IProps) {
                                                                 minute: 0,
                                                             }}
                                                         >
-                                                            <div className='absolute inset-x-0 top-0 h-[24px] cursor-pointer transition-colors hover:bg-accent' />
+                                                            <div
+                                                                className='absolute inset-x-0 top-0 h-[24px] cursor-pointer group'
+                                                                title={formatTimeSlot(
+                                                                    hour,
+                                                                    0
+                                                                )}
+                                                            >
+                                                                <div className='absolute left-0 top-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-100 text-xs font-medium text-primary bg-background px-1 py-0.5 rounded shadow-sm border border-primary'>
+                                                                    {formatTimeSlot(
+                                                                        hour,
+                                                                        0
+                                                                    )}
+                                                                </div>
+                                                            </div>
                                                         </AddEventDialog>
 
                                                         <AddEventDialog
@@ -180,7 +199,20 @@ export function CalendarWeekView({ singleDayEvents, multiDayEvents }: IProps) {
                                                                 minute: 15,
                                                             }}
                                                         >
-                                                            <div className='absolute inset-x-0 top-[24px] h-[24px] cursor-pointer transition-colors hover:bg-accent' />
+                                                            <div
+                                                                className='absolute inset-x-0 top-[24px] h-[24px] cursor-pointer group'
+                                                                title={formatTimeSlot(
+                                                                    hour,
+                                                                    15
+                                                                )}
+                                                            >
+                                                                <div className='absolute left-0 top-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-100 text-xs font-medium text-primary bg-background px-1 py-0.5 rounded shadow-sm border border-primary'>
+                                                                    {formatTimeSlot(
+                                                                        hour,
+                                                                        15
+                                                                    )}
+                                                                </div>
+                                                            </div>
                                                         </AddEventDialog>
 
                                                         <AddEventDialog
@@ -190,7 +222,20 @@ export function CalendarWeekView({ singleDayEvents, multiDayEvents }: IProps) {
                                                                 minute: 30,
                                                             }}
                                                         >
-                                                            <div className='absolute inset-x-0 top-[48px] h-[24px] cursor-pointer transition-colors hover:bg-accent' />
+                                                            <div
+                                                                className='absolute inset-x-0 top-[48px] h-[24px] cursor-pointer group'
+                                                                title={formatTimeSlot(
+                                                                    hour,
+                                                                    30
+                                                                )}
+                                                            >
+                                                                <div className='absolute left-0 top-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-100 text-xs font-medium text-primary bg-background px-1 py-0.5 rounded shadow-sm border border-primary'>
+                                                                    {formatTimeSlot(
+                                                                        hour,
+                                                                        30
+                                                                    )}
+                                                                </div>
+                                                            </div>
                                                         </AddEventDialog>
 
                                                         <AddEventDialog
@@ -200,7 +245,20 @@ export function CalendarWeekView({ singleDayEvents, multiDayEvents }: IProps) {
                                                                 minute: 45,
                                                             }}
                                                         >
-                                                            <div className='absolute inset-x-0 top-[72px] h-[24px] cursor-pointer transition-colors hover:bg-accent' />
+                                                            <div
+                                                                className='absolute inset-x-0 top-[72px] h-[24px] cursor-pointer group'
+                                                                title={formatTimeSlot(
+                                                                    hour,
+                                                                    45
+                                                                )}
+                                                            >
+                                                                <div className='absolute left-0 top-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-100 text-xs font-medium text-primary bg-background px-1 py-0.5 rounded shadow-sm border border-primary'>
+                                                                    {formatTimeSlot(
+                                                                        hour,
+                                                                        45
+                                                                    )}
+                                                                </div>
+                                                            </div>
                                                         </AddEventDialog>
                                                     </div>
                                                 );
