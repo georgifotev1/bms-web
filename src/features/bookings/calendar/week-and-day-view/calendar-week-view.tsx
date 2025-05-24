@@ -5,6 +5,7 @@ import {
     parseISO,
     isSameDay,
     areIntervalsOverlapping,
+    isToday,
 } from 'date-fns';
 
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -58,17 +59,36 @@ export function CalendarWeekView({ singleDayEvents, multiDayEvents }: IProps) {
                     <div className='relative z-20 flex border-b'>
                         <div className='w-18'></div>
                         <div className='grid flex-1 grid-cols-7 divide-x border-l'>
-                            {weekDays.map((day, index) => (
-                                <span
-                                    key={index}
-                                    className='py-2 text-center text-xs font-medium text-muted-foreground'
-                                >
-                                    {format(day, 'EE')}{' '}
-                                    <span className='ml-1 font-semibold text-foreground'>
-                                        {format(day, 'd')}
-                                    </span>
-                                </span>
-                            ))}
+                            {weekDays.map((day, index) => {
+                                const isDayToday = isToday(day);
+
+                                return (
+                                    <div
+                                        key={index}
+                                        className={cn(
+                                            'py-2 text-center text-xs font-medium transition-colors relative',
+                                            isDayToday
+                                                ? 'bg-primary/10 text-primary border-primary border-b-2'
+                                                : 'text-muted-foreground'
+                                        )}
+                                    >
+                                        <span
+                                            className={cn(
+                                                isDayToday && 'font-bold'
+                                            )}
+                                        >
+                                            {format(day, 'EE')}
+                                        </span>{' '}
+                                        <span
+                                            className={cn(
+                                                'ml-1 font-semibold text-foreground'
+                                            )}
+                                        >
+                                            {format(day, 'd')}
+                                        </span>
+                                    </div>
+                                );
+                            })}
                         </div>
                     </div>
                 </div>
@@ -162,8 +182,6 @@ export function CalendarWeekView({ singleDayEvents, multiDayEvents }: IProps) {
                                                         >
                                                             <div className='absolute inset-x-0 top-[24px] h-[24px] cursor-pointer transition-colors hover:bg-accent' />
                                                         </AddEventDialog>
-
-                                                        <div className='pointer-events-none absolute inset-x-0 top-1/2 border-b border-dashed'></div>
 
                                                         <AddEventDialog
                                                             startDate={day}
