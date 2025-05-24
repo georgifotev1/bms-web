@@ -1,11 +1,11 @@
 import { useMemo } from 'react';
 
 import type { Booking as IEvent } from '@/types/api';
-import { useCalendar } from '@/features/bookings/context';
+import { useCalendar } from '@/features/bookings/calendar/context';
 import {
     calculateMonthEventPositions,
     getCalendarCells,
-} from '@/features/bookings/helpers';
+} from '@/features/bookings/calendar/helpers';
 import { DayCell } from './day-cell';
 
 interface IProps {

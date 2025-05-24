@@ -12,13 +12,13 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/utils/cn';
 
 import type { Booking as IEvent } from '@/types/api';
-import { useCalendar } from '@/features/bookings/context';
+import { useCalendar } from '@/features/bookings/calendar/context';
 import {
     getEventBlockStyle,
     getVisibleHours,
     groupEvents,
     isWorkingHour,
-} from '@/features/bookings/helpers';
+} from '@/features/bookings/calendar/helpers';
 import { WeekViewMultiDayEventsRow } from './week-view-multi-day-events-row';
 import { AddEventDialog } from '../dialogs/add-event-dialog';
 import { EventBlock } from './event-block';

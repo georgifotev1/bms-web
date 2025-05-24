@@ -1,4 +1,4 @@
-import { useCalendar } from '@/features/bookings/context';
+import { useCalendar } from '@/features/bookings/calendar/context';
 import { formatDate } from 'date-fns';
 
 export function TodayButton() {

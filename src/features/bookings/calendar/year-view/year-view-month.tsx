@@ -8,7 +8,7 @@ import {
 } from 'date-fns';
 
 import type { Booking as IEvent } from '@/types/api';
-import { useCalendar } from '@/features/bookings/context';
+import { useCalendar } from '@/features/bookings/calendar/context';
 import { useNavigate } from 'react-router';
 import { YearViewDayCell } from './year-view-day-cell';
 

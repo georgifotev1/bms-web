@@ -3,7 +3,7 @@ import { addMonths, startOfYear } from 'date-fns';
 
 import type { Booking as IEvent } from '@/types/api';
 import { YearViewMonth } from './year-view-month';
-import { useCalendar } from '@/features/bookings/context';
+import { useCalendar } from '@/features/bookings/calendar/context';
 
 interface IProps {
     allEvents: IEvent[];

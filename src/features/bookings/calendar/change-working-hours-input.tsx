@@ -11,7 +11,7 @@ import type { TimeValue } from 'react-aria-components';
 import { TooltipContent } from '@/components/ui/tooltip';
 import { Tooltip, TooltipTrigger } from '@/components/ui/tooltip';
 import { TooltipProvider } from '@/components/ui/tooltip';
-import { useCalendar } from '../../context';
+import { useCalendar } from './context';
 
 const DAYS_OF_WEEK = [
     { index: 0, name: 'Sunday' },

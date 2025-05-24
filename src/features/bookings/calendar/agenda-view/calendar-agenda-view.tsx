@@ -5,7 +5,7 @@ import { parseISO, format, endOfDay, startOfDay, isSameMonth } from 'date-fns';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
 import type { Booking as IEvent } from '@/types/api';
-import { useCalendar } from '@/features/bookings/context';
+import { useCalendar } from '@/features/bookings/calendar/context';
 import { AgendaDayGroup } from './agenda-day-group';
 
 interface IProps {

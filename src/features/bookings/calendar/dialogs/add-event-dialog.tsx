@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/dialog';
 
 import { createBookingSchema } from '@/features/bookings/api/create-bookings';
-import { useCalendar } from '@/features/bookings/context';
+import { useCalendar } from '@/features/bookings/calendar/context';
 import { Select } from '@/components/ui/form/select';
 
 interface IProps {

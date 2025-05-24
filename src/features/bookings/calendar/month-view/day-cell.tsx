@@ -3,7 +3,7 @@ import { isToday, startOfDay } from 'date-fns';
 
 import type { Booking as IEvent } from '@/types/api';
 import { ICalendarCell } from '@/types/calendar';
-import { getMonthCellEvents } from '@/features/bookings/helpers';
+import { getMonthCellEvents } from '@/features/bookings/calendar/helpers';
 import { cn } from '@/utils/cn';
 import { EventBullet } from './event-bullet';
 import { MonthEventBadge } from './month-event-badge';

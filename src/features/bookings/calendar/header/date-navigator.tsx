@@ -7,12 +7,12 @@ import { Button } from '@/components/ui/button';
 
 import type { Booking as IEvent } from '@/types/api';
 import { TCalendarView } from '@/types/calendar';
-import { useCalendar } from '@/features/bookings/context';
+import { useCalendar } from '@/features/bookings/calendar/context';
 import {
     getEventsCount,
     navigateDate,
     rangeText,
-} from '@/features/bookings/helpers';
+} from '@/features/bookings/calendar/helpers';
 
 interface IProps {
     view: TCalendarView;

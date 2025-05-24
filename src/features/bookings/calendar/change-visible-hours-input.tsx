@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/tooltip';
 
 import type { TimeValue } from 'react-aria-components';
-import { useCalendar } from '../../context';
+import { useCalendar } from './context';
 
 export function ChangeVisibleHoursInput() {
     const { visibleHours, setVisibleHours } = useCalendar();

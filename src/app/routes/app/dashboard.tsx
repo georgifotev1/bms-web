@@ -2,7 +2,7 @@ import { ContentLayout } from '@/components/layouts/content';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useBookings } from '@/features/bookings/api/get-bookings';
 import { ClientContainer } from '@/features/bookings/components/calendar/client-container';
-import { CalendarProvider } from '@/features/bookings/context';
+import { CalendarProvider } from '@/features/bookings/calendar/context';
 import { useUsers } from '@/features/users/api/get-users';
 
 export const DashboardRoute = () => {

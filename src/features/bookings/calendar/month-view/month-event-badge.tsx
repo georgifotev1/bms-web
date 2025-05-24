@@ -6,7 +6,7 @@ import { cn } from '@/utils/cn';
 import type { Booking as IEvent } from '@/types/api';
 
 import type { VariantProps } from 'class-variance-authority';
-import { useCalendar } from '@/features/bookings/context';
+import { useCalendar } from '@/features/bookings/calendar/context';
 import { EventDetailsDialog } from '../dialogs/event-details-dialog';
 
 const eventBadgeVariants = cva(

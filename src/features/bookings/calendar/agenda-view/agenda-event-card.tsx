@@ -6,7 +6,7 @@ import { Clock, Text, User } from 'lucide-react';
 
 import type { Booking as IEvent } from '@/types/api';
 
-import { useCalendar } from '@/features/bookings/context';
+import { useCalendar } from '@/features/bookings/calendar/context';
 import { EventDetailsDialog } from '../dialogs/event-details-dialog';
 
 // const agendaEventCardVariants = cva(

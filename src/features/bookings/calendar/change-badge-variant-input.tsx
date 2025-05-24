@@ -5,7 +5,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import { useCalendar } from '../../context';
+import { useCalendar } from './context';
 
 export function ChangeBadgeVariantInput() {
     const { badgeVariant, setBadgeVariant } = useCalendar();

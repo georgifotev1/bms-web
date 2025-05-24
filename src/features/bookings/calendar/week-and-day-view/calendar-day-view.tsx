@@ -2,14 +2,14 @@ import { Calendar, Clock, User } from 'lucide-react';
 import { parseISO, areIntervalsOverlapping, format } from 'date-fns';
 
 import type { Booking as IEvent } from '@/types/api';
-import { useCalendar } from '@/features/bookings/context';
+import { useCalendar } from '@/features/bookings/calendar/context';
 import {
     getCurrentEvents,
     getEventBlockStyle,
     getVisibleHours,
     groupEvents,
     isWorkingHour,
-} from '@/features/bookings/helpers';
+} from '@/features/bookings/calendar/helpers';
 import { DayViewMultiDayEventsRow } from './day-view-multi-day-events-row';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { AddEventDialog } from '../dialogs/add-event-dialog';
