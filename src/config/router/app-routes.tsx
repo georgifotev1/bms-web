@@ -49,4 +49,11 @@ export const appRoutes: RouteObject[] = [
             },
         ],
     },
+    {
+        path: '*',
+        lazy: () =>
+            import('@/app/routes/not-found').then(({ NotFoundRoute }) => ({
+                Component: () => <NotFoundRoute />,
+            })),
+    },
 ];

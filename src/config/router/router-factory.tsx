@@ -18,7 +18,12 @@ export const createRoutesForContext = (
             return [
                 {
                     path: '*',
-                    element: <div>Page not found</div>,
+                    lazy: () =>
+                        import('@/app/routes/not-found').then(
+                            ({ NotFoundRoute }) => ({
+                                Component: () => <NotFoundRoute />,
+                            })
+                        ),
                 },
             ];
     }

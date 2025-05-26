@@ -9,4 +9,11 @@ export const landingRoutes: RouteObject[] = [
                 Component: LandinRoute,
             })),
     },
+    {
+        path: '*',
+        lazy: () =>
+            import('@/app/routes/not-found').then(({ NotFoundRoute }) => ({
+                Component: () => <NotFoundRoute />,
+            })),
+    },
 ];

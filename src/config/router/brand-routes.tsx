@@ -8,4 +8,11 @@ export const brandRoutes: RouteObject[] = [
                 Component: () => <MainRoute />,
             })),
     },
+    {
+        path: '*',
+        lazy: () =>
+            import('@/app/routes/not-found').then(({ NotFoundRoute }) => ({
+                Component: () => <NotFoundRoute />,
+            })),
+    },
 ];
