@@ -2,11 +2,11 @@ import { z } from 'zod';
 
 export const createBookingSchema = z
     .object({
-        customerId: z
+        customerId: z.coerce
             .number({ required_error: 'Customer ID is required' })
             .min(0, 'Customer ID must be at least 0'),
         serviceId: z.string({ required_error: 'Service ID is required' }),
-        userId: z
+        userId: z.coerce
             .number({ required_error: 'User ID is required' })
             .min(0, 'User ID must be at least 0'),
         startTime: z

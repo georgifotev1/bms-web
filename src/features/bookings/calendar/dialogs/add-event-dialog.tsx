@@ -14,7 +14,7 @@ import {
 
 import { createBookingSchema } from '@/features/bookings/api/create-bookings';
 import { useCalendar } from '@/features/bookings/calendar/context';
-import { Select } from '@/components/ui/form/select';
+import { SelectField } from '@/components/ui/form/select-field';
 
 interface IProps {
     children: React.ReactNode;
@@ -40,6 +40,7 @@ export function AddEventDialog({ children }: IProps) {
                 </DialogHeader>
 
                 <Form
+                    id='event-form'
                     onSubmit={(values) => {
                         console.log(values);
                     }}
@@ -47,16 +48,7 @@ export function AddEventDialog({ children }: IProps) {
                 >
                     {({ register, formState }) => (
                         <>
-                            <Select
-                                label='Customer'
-                                error={formState.errors['customerId']}
-                                options={users.map((user) => ({
-                                    label: user.name,
-                                    value: user.id,
-                                }))}
-                                registration={register('customerId')}
-                            />
-                            <Select
+                            <SelectField
                                 label='User'
                                 error={formState.errors['userId']}
                                 options={users.map((user) => ({
@@ -64,16 +56,6 @@ export function AddEventDialog({ children }: IProps) {
                                     value: user.id,
                                 }))}
                                 registration={register('userId')}
-                            />
-                            <Select
-                                label='Service'
-                                error={formState.errors['serviceId']}
-                                options={users.map((user) => ({
-                                    // TODO !!
-                                    label: user.name,
-                                    value: user.id,
-                                }))}
-                                registration={register('serviceId')}
                             />
                         </>
                     )}

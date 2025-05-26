@@ -114,7 +114,7 @@ export function CalendarWeekView({ singleDayEvents, multiDayEvents }: IProps) {
                                             <span className='text-xs text-muted-foreground'>
                                                 {format(
                                                     new Date().setHours(hour),
-                                                    'hh a'
+                                                    'HH:00'
                                                 )}
                                             </span>
                                         )}
