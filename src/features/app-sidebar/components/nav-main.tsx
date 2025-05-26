@@ -7,9 +7,10 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { Link } from '../../../components/ui/link';
+import { useNavigate } from 'react-router';
 
 export function NavMain() {
+    const navigate = useNavigate();
     const items = [
         {
             title: 'Calendar',
@@ -58,11 +59,12 @@ export function NavMain() {
                 {items.map((item) => (
                     <SidebarMenuItem key={item.title}>
                         <SidebarMenuButton
-                            isActive={item.url == window.location.pathname}
+                            isActive={item.url === window.location.pathname}
                             tooltip={item.title}
+                            onClick={() => navigate(item.url)}
                         >
                             {item.icon && <item.icon />}
-                            <Link to={item.url}>{item.title}</Link>
+                            {item.title}
                         </SidebarMenuButton>
                     </SidebarMenuItem>
                 ))}
