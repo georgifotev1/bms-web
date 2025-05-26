@@ -13,23 +13,22 @@ export function NavMain() {
     const items = [
         {
             title: 'Calendar',
-            url: '#',
+            url: '/',
             icon: Calendar,
-            isActive: true,
         },
         {
             title: 'Services',
-            url: '#',
+            url: '/services',
             icon: ListTree,
         },
         {
             title: 'Customers',
-            url: '#',
+            url: '/customers',
             icon: Smile,
         },
         {
             title: 'Settings',
-            url: '#',
+            url: '/settings',
             icon: Settings2,
             items: [
                 {
@@ -58,7 +57,10 @@ export function NavMain() {
             <SidebarMenu>
                 {items.map((item) => (
                     <SidebarMenuItem key={item.title}>
-                        <SidebarMenuButton tooltip={item.title}>
+                        <SidebarMenuButton
+                            isActive={item.url == window.location.pathname}
+                            tooltip={item.title}
+                        >
                             {item.icon && <item.icon />}
                             <Link to={item.url}>{item.title}</Link>
                         </SidebarMenuButton>
