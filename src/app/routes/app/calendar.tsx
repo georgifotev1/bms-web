@@ -1,15 +1,15 @@
 import * as React from 'react';
 import { ContentLayout } from '@/components/layouts/content';
-import { Skeleton } from '@/components/ui/skeleton';
 import { useBookings } from '@/features/bookings/api/get-bookings';
 import { ClientContainer } from '@/features/bookings/calendar/client-container';
 import { CalendarProvider } from '@/features/bookings/calendar/context';
 import { useUsers } from '@/features/users/api/get-users';
 import { TCalendarView } from '@/types/calendar';
+import { CalendarSkeleton } from '@/features/bookings/calendar/calendar-skeleton';
 
 const calendarViewKey = 'calendarViewKey';
 
-export const DashboardRoute = () => {
+export const CalendarRoute = () => {
     const users = useUsers();
     const bookings = useBookings();
     const [view, setView] = React.useState<TCalendarView>(
@@ -21,7 +21,7 @@ export const DashboardRoute = () => {
     };
 
     if (bookings.isLoading || users.isLoading) {
-        return <Skeleton />;
+        return <CalendarSkeleton />;
     }
 
     return (

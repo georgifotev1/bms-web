@@ -41,9 +41,9 @@ export const appRoutes: RouteObject[] = [
             {
                 path: paths.app.root,
                 lazy: () =>
-                    import('@/app/routes/app/dashboard').then(
-                        ({ DashboardRoute }) => ({
-                            Component: DashboardRoute,
+                    import('@/app/routes/app/calendar').then(
+                        ({ CalendarRoute }) => ({
+                            Component: CalendarRoute,
                         })
                     ),
             },
