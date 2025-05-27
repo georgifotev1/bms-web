@@ -75,3 +75,18 @@ export type Booking = {
     createdAt: string;
     updatedAt: string;
 };
+
+export type Service = {
+    id: string;
+    title: string;
+    description: string;
+    duration: number;
+    bufferTime: number;
+    cost: string;
+    isVisible: boolean;
+    imageUrl: string;
+    brandId: number;
+    providers: number[];
+    createdAt: string;
+    updatedAt: string;
+};
