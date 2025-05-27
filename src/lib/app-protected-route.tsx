@@ -3,7 +3,7 @@ import { paths } from '@/config/paths';
 import { Navigate, useLocation } from 'react-router';
 import { useUser } from './auth';
 import { useBrand } from '../features/brand/api/get-brand';
-import { BrandContext } from '../features/brand/context';
+import { BrandContext } from '@/context/brand';
 
 export const AppProtectedRoute = ({
     children,

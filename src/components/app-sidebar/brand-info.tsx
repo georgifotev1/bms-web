@@ -4,7 +4,7 @@ import {
     SidebarTrigger,
     useSidebar,
 } from '@/components/ui/sidebar';
-import { useBrandContext } from '@/features/brand/context';
+import { useBrandContext } from '@/context/brand';
 import { Smile } from 'lucide-react';
 
 export function BrandInfo() {
