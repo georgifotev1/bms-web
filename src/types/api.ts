@@ -90,3 +90,14 @@ export type Service = {
     createdAt: string;
     updatedAt: string;
 };
+
+export type Customer = {
+    id: number;
+    name: string;
+    email: string;
+    brandId: number;
+    phoneNumber: string;
+    token: string;
+    createdAt: string;
+    updatedAt: string;
+};

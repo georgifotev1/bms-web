@@ -7,7 +7,7 @@ const getServices = async (brandId: number): Promise<Service[]> => {
 };
 export const useServices = (brandId: number) => {
     return useQuery({
-        queryKey: ['brand', brandId],
+        queryKey: ['services', brandId],
         queryFn: () => getServices(brandId),
     });
 };
