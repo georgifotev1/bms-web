@@ -20,7 +20,7 @@ export const AuthLayout = ({ children, title }: LayoutProps) => {
     if (user.isLoading) return <LoadingScreen />;
 
     if (user.data) {
-        return <Navigate to={redirectTo ? redirectTo : paths.app.root} />;
+        return <Navigate to={redirectTo ? redirectTo : paths.app.root.path} />;
     }
     return (
         <>

@@ -13,7 +13,7 @@ export const CreateBrandLayout = ({
 
     if (user.isLoading) return <LoadingScreen />;
     if (user.data?.brandId && user.data.brandId > 0)
-        return <Navigate to={paths.app.root} />;
+        return <Navigate to={paths.app.root.path} />;
     return (
         <>
             <Head title={'Create your brand'} />

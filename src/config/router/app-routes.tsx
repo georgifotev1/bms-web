@@ -30,7 +30,7 @@ export const appRoutes: RouteObject[] = [
             ),
     },
     {
-        path: paths.app.root,
+        path: paths.app.root.path,
         element: (
             <AppProtectedRoute>
                 <AppRoot />
@@ -39,11 +39,20 @@ export const appRoutes: RouteObject[] = [
         ErrorBoundary: ErrorBoundary,
         children: [
             {
-                path: paths.app.root,
+                path: paths.app.root.path,
                 lazy: () =>
                     import('@/app/routes/app/calendar').then(
                         ({ CalendarRoute }) => ({
                             Component: CalendarRoute,
+                        })
+                    ),
+            },
+            {
+                path: paths.app.root.services,
+                lazy: () =>
+                    import('@/app/routes/app/services').then(
+                        ({ ServicesRoute }) => ({
+                            Component: ServicesRoute,
                         })
                     ),
             },

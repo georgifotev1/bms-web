@@ -19,7 +19,7 @@ export const CreateBrandForm = () => {
                         await queryClient.invalidateQueries({
                             queryKey: ['user'],
                         });
-                        navigate(paths.app.root, { replace: true });
+                        navigate(paths.app.root.path, { replace: true });
                     },
                 });
             }}

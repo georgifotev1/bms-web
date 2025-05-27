@@ -17,7 +17,9 @@ export const LoginForm = () => {
                 onSubmit={(values) => {
                     login.mutate(values, {
                         onSuccess: () =>
-                            navigate(redirectTo ? redirectTo : paths.app.root),
+                            navigate(
+                                redirectTo ? redirectTo : paths.app.root.path
+                            ),
                     });
                 }}
                 schema={loginInputSchema}
