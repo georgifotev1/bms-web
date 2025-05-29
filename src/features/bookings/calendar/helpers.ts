@@ -24,6 +24,8 @@ import {
     addYears,
     isSameYear,
     isWithinInterval,
+    set,
+    formatISO,
 } from 'date-fns';
 
 import type { Booking as IEvent } from '@/types/api';
@@ -352,3 +354,44 @@ export function getMonthCellEvents(
             return a.position - b.position;
         });
 }
+
+type TimeString = string;
+
+type ParsedDateTime = {
+    date: Date;
+    time: TimeString;
+};
+
+export const combineDateAndTime = (date: Date, time: TimeString): string => {
+    const [hours, minutes] = time.split(':').map(Number);
+
+    const combinedDate = set(date, {
+        hours,
+        minutes,
+        seconds: 0,
+        milliseconds: 0,
+    });
+
+    return formatISO(combinedDate);
+};
+
+export const createApiDateTime = (
+    date: Date,
+    timeString: TimeString
+): string => {
+    if (!date || !timeString) {
+        throw new Error('Both date and time are required');
+    }
+
+    const dateString = parseISO(date.toISOString());
+    return combineDateAndTime(dateString, timeString);
+};
+
+export const parseApiDateTime = (apiDateTime: string): ParsedDateTime => {
+    const date = parseISO(apiDateTime);
+
+    return {
+        date: date,
+        time: format(date, 'HH:mm') as TimeString,
+    };
+};
