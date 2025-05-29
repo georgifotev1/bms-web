@@ -74,7 +74,7 @@ export function CalendarWeekView({ singleDayEvents, multiDayEvents }: IProps) {
                                         className={cn(
                                             'py-2 text-center text-xs font-medium transition-colors relative',
                                             isDayToday
-                                                ? 'bg-primary/10 text-primary border-primary border-b-2'
+                                                ? 'bg-primary/10 text-primary border border-b-primary'
                                                 : 'text-muted-foreground'
                                         )}
                                     >

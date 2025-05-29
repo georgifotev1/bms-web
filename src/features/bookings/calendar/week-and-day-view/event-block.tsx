@@ -11,7 +11,7 @@ import { useCalendar } from '@/features/bookings/calendar/context';
 import { EventDetailsDialog } from '../dialogs/event-details-dialog';
 
 const calendarWeekEventCardVariants = cva(
-    'flex select-none flex-col gap-0.5 truncate whitespace-nowrap rounded-md border px-2 py-1.5 text-xs focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring',
+    'flex select-none flex-col gap-0.5 truncate whitespace-nowrap rounded-md border px-2 py-1.5 text-xs cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring',
     {
         variants: {
             color: {
@@ -42,7 +42,7 @@ const calendarWeekEventCardVariants = cva(
             },
         },
         defaultVariants: {
-            color: 'blue-dot',
+            color: 'gray-dot',
         },
     }
 );
@@ -62,7 +62,7 @@ export function EventBlock({ event, className }: IProps) {
     const heightInPixels = (durationInMinutes / 60) * 96 - 8;
 
     const color = (
-        badgeVariant === 'dot' ? `blue-dot` : 'blue'
+        badgeVariant === 'dot' ? `gray-dot` : 'gray'
     ) as VariantProps<typeof calendarWeekEventCardVariants>['color'];
 
     const calendarWeekEventCardClasses = cn(
