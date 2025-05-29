@@ -26,6 +26,13 @@ import {
     isWithinInterval,
     set,
     formatISO,
+    setMilliseconds,
+    setSeconds,
+    setMinutes,
+    addMinutes,
+    isAfter,
+    isBefore,
+    parse,
 } from 'date-fns';
 
 import type { Booking as IEvent } from '@/types/api';
@@ -393,3 +400,41 @@ export const parseApiDateTime = (apiDateTime: string): ParsedDateTime => {
         time: format(date, 'HH:mm') as TimeString,
     };
 };
+
+export function getNextAvailableTimeSlot(
+    interval = 15,
+    businessStartTime = '09:00',
+    businessEndTime = '18:00'
+) {
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+    const businessStart = parse(businessStartTime, 'HH:mm', today);
+    const businessEnd = parse(businessEndTime, 'HH:mm', today);
+
+    if (isBefore(now, businessStart)) {
+        return businessStartTime;
+    }
+
+    if (!isBefore(now, businessEnd)) {
+        return undefined;
+    }
+
+    const currentMinutes = now.getMinutes();
+
+    const nextSlotMinutes = Math.ceil(currentMinutes / interval) * interval;
+
+    let nextSlot = setSeconds(setMilliseconds(now, 0), 0); // Clear seconds and milliseconds
+
+    if (nextSlotMinutes >= 60) {
+        nextSlot = addMinutes(setMinutes(nextSlot, 0), nextSlotMinutes);
+    } else {
+        nextSlot = setMinutes(nextSlot, nextSlotMinutes);
+    }
+
+    if (isAfter(nextSlot, businessEnd)) {
+        return undefined;
+    }
+
+    return format(nextSlot, 'HH:mm');
+}

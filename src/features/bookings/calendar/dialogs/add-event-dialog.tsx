@@ -20,7 +20,7 @@ import { SelectField } from '@/components/ui/form/select-field';
 import { useDashboardData } from '@/context/dashboard';
 import { useBrandContext } from '@/context/brand';
 import { TimePickerField } from '@/components/ui/form/time-picker-field';
-import { createApiDateTime } from '../helpers';
+import { createApiDateTime, getNextAvailableTimeSlot } from '../helpers';
 import { Textarea } from '@/components/ui/form/textarea';
 import { DatePickerFieldV2 } from '@/components/ui/form/date-picker-field-v2';
 
@@ -124,7 +124,7 @@ export function AddEventDialog({ children }: IProps) {
                                     error={formState.errors['bookingDate']}
                                     registration={register('bookingDate')}
                                 />
-
+                                {console.log(getNextAvailableTimeSlot(15))}
                                 <TimePickerField
                                     label='Start Time'
                                     error={formState.errors['startTime']}
@@ -133,6 +133,7 @@ export function AddEventDialog({ children }: IProps) {
                                     startTime='09:00'
                                     endTime='18:00'
                                     interval={15}
+                                    minTime={getNextAvailableTimeSlot()}
                                 />
 
                                 <TimePickerField
