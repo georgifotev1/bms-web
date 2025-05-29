@@ -22,7 +22,7 @@ import { useBrandContext } from '@/context/brand';
 import { TimePickerField } from '@/components/ui/form/time-picker-field';
 import { createApiDateTime } from '../helpers';
 import { Textarea } from '@/components/ui/form/textarea';
-import { DatePickerField } from '@/components/ui/form/date-picker-field';
+import { DatePickerFieldV2 } from '@/components/ui/form/date-picker-field-v2';
 
 interface IProps {
     children: React.ReactNode;
@@ -76,74 +76,83 @@ export function AddEventDialog({ children }: IProps) {
                     }}
                     schema={bookingFormSchema}
                 >
-                    {({ register, formState, control }) => (
-                        <>
-                            <SelectField
-                                label='User'
-                                error={formState.errors['userId']}
-                                options={
-                                    users.data?.map((user) => ({
-                                        label: user.name,
-                                        value: user.id,
-                                    })) ?? []
-                                }
-                                registration={register('userId')}
-                            />
-                            <SelectField
-                                label='Customer'
-                                error={formState.errors['customerId']}
-                                options={
-                                    customers?.data?.map((customer) => ({
-                                        label: customer.name,
-                                        value: customer.id,
-                                    })) ?? []
-                                }
-                                registration={register('customerId')}
-                            />
-                            <SelectField
-                                label='Service'
-                                error={formState.errors['serviceId']}
-                                options={
-                                    services?.data?.map((service) => ({
-                                        label: service.title,
-                                        value: service.id,
-                                    })) ?? []
-                                }
-                                registration={register('serviceId')}
-                            />
-                            <DatePickerField
+                    {({ register, formState, watch }) => {
+                        const startTimeValue = watch('startTime');
+                        return (
+                            <>
+                                <SelectField
+                                    label='User'
+                                    error={formState.errors['userId']}
+                                    options={
+                                        users.data?.map((user) => ({
+                                            label: user.name,
+                                            value: user.id,
+                                        })) ?? []
+                                    }
+                                    registration={register('userId')}
+                                />
+                                <SelectField
+                                    label='Customer'
+                                    error={formState.errors['customerId']}
+                                    options={
+                                        customers?.data?.map((customer) => ({
+                                            label: customer.name,
+                                            value: customer.id,
+                                        })) ?? []
+                                    }
+                                    registration={register('customerId')}
+                                />
+                                <SelectField
+                                    label='Service'
+                                    error={formState.errors['serviceId']}
+                                    options={
+                                        services?.data?.map((service) => ({
+                                            label: service.title,
+                                            value: service.id,
+                                        })) ?? []
+                                    }
+                                    registration={register('serviceId')}
+                                />
+                                {/* <DatePickerField
                                 label='Booking Date'
                                 error={formState.errors['bookingDate']}
                                 control={control}
                                 name='bookingDate'
-                            />
+                            /> */}
+                                <DatePickerFieldV2
+                                    label='Booking Date'
+                                    error={formState.errors['bookingDate']}
+                                    registration={register('bookingDate')}
+                                />
 
-                            <TimePickerField
-                                label='Start Time'
-                                error={formState.errors['startTime']}
-                                registration={register('startTime')}
-                                placeholder='Select start time'
-                                startTime='09:00'
-                                endTime='18:00'
-                                interval={15}
-                            />
+                                <TimePickerField
+                                    label='Start Time'
+                                    error={formState.errors['startTime']}
+                                    registration={register('startTime')}
+                                    placeholder='Select start time'
+                                    startTime='09:00'
+                                    endTime='18:00'
+                                    interval={15}
+                                />
 
-                            <TimePickerField
-                                label='End Time'
-                                error={formState.errors['endTime']}
-                                registration={register('endTime')}
-                                placeholder='Select end time'
-                                startTime='09:00'
-                                endTime='18:00'
-                                interval={15}
-                            />
-                            <Textarea
-                                label='Leave a message'
-                                error={formState.errors['comment']}
-                                registration={register('comment')}
-                            />
-                        </>
-                    )}
+                                <TimePickerField
+                                    label='End Time'
+                                    error={formState.errors['endTime']}
+                                    registration={register('endTime')}
+                                    placeholder='Select end time'
+                                    startTime='09:00'
+                                    endTime='18:00'
+                                    interval={15}
+                                    minTime={startTimeValue}
+                                />
+                                <Textarea
+                                    label='Leave a message'
+                                    error={formState.errors['comment']}
+                                    registration={register('comment')}
+                                />
+                            </>
+                        );
+                    }}
                 </Form>
 
                 <DialogFooter>

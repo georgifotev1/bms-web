@@ -19,6 +19,7 @@ type TimePickerFieldProps = FieldWrapperPassThroughProps & {
     startTime?: string; // Default: "00:00"
     endTime?: string; // Default: "23:45"
     interval?: number; // Default: 15 (minutes)
+    minTime?: string; // Minimum selectable time (e.g., for end time based on start time)
     registration: Partial<UseFormRegisterReturn>;
 };
 
@@ -32,6 +33,7 @@ export const TimePickerField = (props: TimePickerFieldProps) => {
         startTime = '00:00',
         endTime = '23:45',
         interval = 15,
+        minTime,
         registration,
     } = props;
 
@@ -48,8 +50,17 @@ export const TimePickerField = (props: TimePickerFieldProps) => {
         const startTotalMinutes = startHour * 60 + startMinute;
         const endTotalMinutes = endHour * 60 + endMinute;
 
+        let minTotalMinutes = startTotalMinutes;
+        if (minTime) {
+            const [minHour, minMinute] = minTime.split(':').map(Number);
+            minTotalMinutes = Math.max(
+                minHour * 60 + minMinute,
+                startTotalMinutes
+            );
+        }
+
         for (
-            let totalMinutes = startTotalMinutes;
+            let totalMinutes = Math.max(startTotalMinutes, minTotalMinutes);
             totalMinutes <= endTotalMinutes;
             totalMinutes += interval
         ) {
@@ -66,7 +77,7 @@ export const TimePickerField = (props: TimePickerFieldProps) => {
         }
 
         return options;
-    }, [startTime, endTime, interval]);
+    }, [startTime, endTime, interval, minTime]);
 
     const handleTimeChange = (time: string) => {
         setSelectedTime(time);
@@ -82,6 +93,32 @@ export const TimePickerField = (props: TimePickerFieldProps) => {
             registration.onChange(syntheticEvent);
         }
     };
+
+    React.useEffect(() => {
+        if (selectedTime && minTime) {
+            const [selectedHour, selectedMinute] = selectedTime
+                .split(':')
+                .map(Number);
+            const [minHour, minMinute] = minTime.split(':').map(Number);
+
+            const selectedTotalMinutes = selectedHour * 60 + selectedMinute;
+            const minTotalMinutes = minHour * 60 + minMinute;
+
+            if (selectedTotalMinutes < minTotalMinutes) {
+                setSelectedTime('');
+                const syntheticEvent = {
+                    target: {
+                        name: registration.name,
+                        value: '',
+                    },
+                } as React.ChangeEvent<HTMLInputElement>;
+
+                if (registration.onChange) {
+                    registration.onChange(syntheticEvent);
+                }
+            }
+        }
+    }, [minTime, selectedTime, registration]);
 
     return (
         <FieldWrapper label={label} error={error}>
