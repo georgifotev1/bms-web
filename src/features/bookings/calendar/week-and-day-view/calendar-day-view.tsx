@@ -1,4 +1,5 @@
-import { Calendar, Clock, User } from 'lucide-react';
+import { Clock, User } from 'lucide-react';
+import { Calendar } from '@/components/ui/calendar';
 import { parseISO, areIntervalsOverlapping, format } from 'date-fns';
 
 import type { Booking as IEvent } from '@/types/api';
@@ -15,7 +16,6 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { AddEventDialog } from '../dialogs/add-event-dialog';
 import { EventBlock } from './event-block';
 import { CalendarTimeline } from './calendar-time-line';
-import { SingleCalendar } from '../single-calendar';
 import { cn } from '@/utils/cn';
 
 interface IProps {
@@ -226,12 +226,11 @@ export function CalendarDayView({ singleDayEvents, multiDayEvents }: IProps) {
             </div>
 
             <div className='hidden w-64 divide-y border-l md:block'>
-                <SingleCalendar
-                    className='mx-auto w-fit'
+                <Calendar
+                    className='mx-auto w-fit px-0'
                     mode='single'
                     selected={selectedDate}
                     onSelect={setSelectedDate}
-                    initialFocus
                 />
 
                 <div className='flex-1 space-y-3'>
@@ -257,8 +256,7 @@ export function CalendarDayView({ singleDayEvents, multiDayEvents }: IProps) {
                             <div className='space-y-6 pb-4'>
                                 {currentEvents.map((event) => {
                                     const user = users.find(
-                                        (user) =>
-                                            user.id === String(event.userId)
+                                        (user) => user.id === event.userId
                                     );
 
                                     return (
