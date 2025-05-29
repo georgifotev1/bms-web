@@ -124,7 +124,6 @@ export function AddEventDialog({ children }: IProps) {
                                     error={formState.errors['bookingDate']}
                                     registration={register('bookingDate')}
                                 />
-                                {console.log(getNextAvailableTimeSlot(15))}
                                 <TimePickerField
                                     label='Start Time'
                                     error={formState.errors['startTime']}
