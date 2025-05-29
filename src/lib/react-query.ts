@@ -25,3 +25,12 @@ export type MutationConfig<
     Error,
     Parameters<MutationFnType>[0]
 >;
+
+export const queryKeys = {
+    bookings: 'bookings',
+    brand: 'brand',
+    user: 'user',
+    users: 'users',
+    customers: 'customers',
+    services: 'services',
+};

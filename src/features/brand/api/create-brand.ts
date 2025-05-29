@@ -1,4 +1,5 @@
 import { api } from '@/lib/api-client';
+import { queryKeys } from '@/lib/react-query';
 import { BrandProfile } from '@/types/api';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { z } from 'zod';
@@ -18,7 +19,7 @@ export const useCreateBrand = () => {
     return useMutation({
         mutationFn: createBrand,
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['brand'] });
+            queryClient.invalidateQueries({ queryKey: [queryKeys.brand] });
         },
     });
 };

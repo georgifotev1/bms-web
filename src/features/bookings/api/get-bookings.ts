@@ -1,4 +1,5 @@
 import { api } from '@/lib/api-client';
+import { queryKeys } from '@/lib/react-query';
 import { Booking } from '@/types/api';
 import { useQuery } from '@tanstack/react-query';
 import { z } from 'zod';
@@ -72,7 +73,7 @@ export const useBookings = (startDate?: string, endDate?: string) => {
 
     return useQuery({
         queryKey: [
-            'bookings',
+            queryKeys.bookings,
             startDate || defaultDates.startDate,
             endDate || defaultDates.endDate,
         ],

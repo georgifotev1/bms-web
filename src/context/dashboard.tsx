@@ -2,6 +2,7 @@ import React, { createContext, useContext, ReactNode } from 'react';
 import { useQueries } from '@tanstack/react-query';
 import { Customer, Service, User } from '@/types/api';
 import { api } from '@/lib/api-client';
+import { queryKeys } from '@/lib/react-query';
 
 const getCustomers = (): Promise<Customer[]> => {
     return api.get('/customers');
@@ -61,15 +62,15 @@ export const DashboardProvider: React.FC<DashboardProviderProps> = ({
     const queries = useQueries({
         queries: [
             {
-                queryKey: ['users'],
+                queryKey: [queryKeys.users],
                 queryFn: () => getUsers(),
             },
             {
-                queryKey: ['customers'],
+                queryKey: [queryKeys.customers],
                 queryFn: () => getCustomers(),
             },
             {
-                queryKey: ['services', brandId],
+                queryKey: [queryKeys.services, brandId],
                 queryFn: () => getServices(brandId),
                 enabled: !!brandId,
             },
