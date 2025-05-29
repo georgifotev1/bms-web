@@ -33,8 +33,8 @@ export const DatePickerFieldV2 = (props: DatePickerFieldProps) => {
         registration,
     } = props;
 
-    const [selectedValue, setSelectedValue] = React.useState<Date>(
-        defaultValue || new Date()
+    const [selectedValue, setSelectedValue] = React.useState<Date | undefined>(
+        defaultValue
     );
     const [isOpen, setIsOpen] = React.useState(false);
 

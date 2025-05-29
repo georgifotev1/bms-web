@@ -210,8 +210,6 @@ export function getVisibleHours(
     return { hours, earliestEventHour, latestEventHour };
 }
 
-// ================ Month view helper functions ================ //
-
 export function getCalendarCells(selectedDate: Date): ICalendarCell[] {
     const currentYear = selectedDate.getFullYear();
     const currentMonth = selectedDate.getMonth();
