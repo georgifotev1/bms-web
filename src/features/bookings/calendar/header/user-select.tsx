@@ -13,13 +13,16 @@ export function UserSelect() {
     const { users, selectedUserId, updateSelectedUserId } = useCalendar();
 
     return (
-        <Select value={selectedUserId} onValueChange={updateSelectedUserId}>
+        <Select
+            value={String(selectedUserId)}
+            onValueChange={(val) => updateSelectedUserId(Number(val))}
+        >
             <SelectTrigger className='flex-1 md:w-48'>
                 <SelectValue />
             </SelectTrigger>
 
             <SelectContent align='end'>
-                <SelectItem value={-1}>
+                <SelectItem value='-1'>
                     <div className='flex items-center gap-1'>
                         <AvatarGroup max={2}>
                             {users.map((user) => (
@@ -44,7 +47,7 @@ export function UserSelect() {
                 {users.map((user) => (
                     <SelectItem
                         key={user.id}
-                        value={user.id}
+                        value={String(user.id)}
                         className='flex-1'
                     >
                         <div className='flex items-center gap-2'>
