@@ -303,33 +303,6 @@ export function CalendarDayView({ singleDayEvents, multiDayEvents }: IProps) {
                                                     </span>
                                                 </div>
                                             )}
-
-                                            <div className='flex items-center gap-1.5 text-muted-foreground'>
-                                                <Calendar className='size-3.5' />
-                                                <span className='text-sm'>
-                                                    {format(
-                                                        new Date(),
-                                                        'MMM d, yyyy'
-                                                    )}
-                                                </span>
-                                            </div>
-
-                                            <div className='flex items-center gap-1.5 text-muted-foreground'>
-                                                <Clock className='size-3.5' />
-                                                <span className='text-sm'>
-                                                    {format(
-                                                        parseISO(
-                                                            event.startTime
-                                                        ),
-                                                        'h:mm a'
-                                                    )}{' '}
-                                                    -{' '}
-                                                    {format(
-                                                        parseISO(event.endTime),
-                                                        'h:mm a'
-                                                    )}
-                                                </span>
-                                            </div>
                                         </div>
                                     );
                                 })}
