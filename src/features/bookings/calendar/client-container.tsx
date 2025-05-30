@@ -1,21 +1,25 @@
 import { useMemo } from 'react';
 import { isSameDay, parseISO } from 'date-fns';
 
-import { TCalendarView } from '@/types/calendar';
 import { CalendarHeader } from './header/calendar-header';
 import { CalendarDayView } from './week-and-day-view/calendar-day-view';
 import { CalendarMonthView } from './month-view/calendar-month-view';
 import { CalendarWeekView } from './week-and-day-view/calendar-week-view';
 import { CalendarAgendaView } from './agenda-view/calendar-agenda-view';
 import { useCalendar } from './context';
+import { TCalendarView } from '@/types/calendar';
+import { Booking } from '@/types/api';
+import { LoadingScreen } from '@/components/ui/spinner/loading-screen';
 
-interface IProps {
-    view: TCalendarView;
-    updateView: (view: TCalendarView) => void;
-}
-
-export function ClientContainer({ view, updateView }: IProps) {
-    const { selectedDate, selectedUserId, events } = useCalendar();
+export function ClientContainer() {
+    const {
+        selectedDate,
+        selectedUserId,
+        events,
+        currentView,
+        setCurrentView,
+        isLoading,
+    } = useCalendar();
 
     const filteredEvents = useMemo(() => {
         if (!events) return;
@@ -23,7 +27,7 @@ export function ClientContainer({ view, updateView }: IProps) {
             const eventStartDate = parseISO(event.startTime);
             const eventEndDate = parseISO(event.endTime);
 
-            if (view === 'month' || view === 'agenda') {
+            if (currentView === 'month' || currentView === 'agenda') {
                 const monthStart = new Date(
                     selectedDate.getFullYear(),
                     selectedDate.getMonth(),
@@ -45,7 +49,7 @@ export function ClientContainer({ view, updateView }: IProps) {
                 return isInSelectedMonth && isUserMatch;
             }
 
-            if (view === 'week') {
+            if (currentView === 'week') {
                 const dayOfWeek = selectedDate.getDay();
 
                 const weekStart = new Date(selectedDate);
@@ -63,7 +67,7 @@ export function ClientContainer({ view, updateView }: IProps) {
                 return isInSelectedWeek && isUserMatch;
             }
 
-            if (view === 'day') {
+            if (currentView === 'day') {
                 const dayStart = new Date(
                     selectedDate.getFullYear(),
                     selectedDate.getMonth(),
@@ -87,7 +91,7 @@ export function ClientContainer({ view, updateView }: IProps) {
                 return isInSelectedDay && isUserMatch;
             }
         });
-    }, [selectedDate, selectedUserId, events, view]);
+    }, [selectedDate, selectedUserId, events, currentView]);
 
     const singleDayEvents = filteredEvents?.filter((event) => {
         const startDate = parseISO(event.startTime);
@@ -115,37 +119,42 @@ export function ClientContainer({ view, updateView }: IProps) {
     )
         return;
     return (
-        <div className=''>
+        <>
             <CalendarHeader
-                view={view}
+                view={currentView}
                 events={filteredEvents}
-                updateView={updateView}
+                updateView={setCurrentView}
             />
-
-            {view === 'day' && (
-                <CalendarDayView
+            {isLoading ? (
+                <LoadingScreen />
+            ) : (
+                <CalendarView
+                    view={currentView}
                     singleDayEvents={singleDayEvents}
                     multiDayEvents={multiDayEvents}
                 />
             )}
-            {view === 'month' && (
-                <CalendarMonthView
-                    singleDayEvents={singleDayEvents}
-                    multiDayEvents={multiDayEvents}
-                />
-            )}
-            {view === 'week' && (
-                <CalendarWeekView
-                    singleDayEvents={singleDayEvents}
-                    multiDayEvents={multiDayEvents}
-                />
-            )}
-            {view === 'agenda' && (
-                <CalendarAgendaView
-                    singleDayEvents={singleDayEvents}
-                    multiDayEvents={multiDayEvents}
-                />
-            )}
-        </div>
+        </>
     );
 }
+
+type CalendarViewProps = {
+    view: TCalendarView;
+    singleDayEvents: Booking[];
+    multiDayEvents: Booking[];
+};
+
+const CalendarView = ({ view, ...props }: CalendarViewProps) => {
+    switch (view) {
+        case 'day':
+            return <CalendarDayView {...props} />;
+        case 'week':
+            return <CalendarWeekView {...props} />;
+        case 'month':
+            return <CalendarMonthView {...props} />;
+        case 'agenda':
+            return <CalendarAgendaView {...props} />;
+        default:
+            return null;
+    }
+};

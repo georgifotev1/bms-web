@@ -1,6 +1,7 @@
 'use client';
 
 import { createContext, useContext, useState } from 'react';
+import { useBookingsForView } from '@/features/bookings/api/get-bookings';
 
 import type { Dispatch, SetStateAction } from 'react';
 import type { Booking as IEvent, User as IUser } from '@/types/api';
@@ -8,21 +9,26 @@ import type {
     TBadgeVariant,
     TVisibleHours,
     TWorkingHours,
+    TCalendarView,
 } from '@/types/calendar';
 
 interface ICalendarContext {
     selectedDate: Date;
     setSelectedDate: (date: Date | undefined) => void;
+    currentView: TCalendarView;
+    setCurrentView: (view: TCalendarView) => void;
     selectedUserId: IUser['id'] | -1;
     updateSelectedUserId: (userId: IUser['id'] | -1) => void;
     badgeVariant: TBadgeVariant;
     setBadgeVariant: (variant: TBadgeVariant) => void;
-    users: IUser[];
     workingHours: TWorkingHours;
     setWorkingHours: Dispatch<SetStateAction<TWorkingHours>>;
     visibleHours: TVisibleHours;
     setVisibleHours: Dispatch<SetStateAction<TVisibleHours>>;
+    users: IUser[];
     events: IEvent[];
+    isLoading: boolean;
+    error: Error | null;
 }
 
 const CalendarContext = createContext({} as ICalendarContext);
@@ -39,15 +45,14 @@ const WORKING_HOURS = {
 
 const VISIBLE_HOURS = { from: 7, to: 20 };
 const calendarUserKey = 'calendarUserKey';
+const calendarViewKey = 'calendarViewKey';
 
 export function CalendarProvider({
     children,
     users,
-    events,
 }: {
     children: React.ReactNode;
     users: IUser[];
-    events: IEvent[];
 }) {
     const [badgeVariant, setBadgeVariant] = useState<TBadgeVariant>('colored');
     const [visibleHours, setVisibleHours] =
@@ -56,6 +61,10 @@ export function CalendarProvider({
         useState<TWorkingHours>(WORKING_HOURS);
 
     const [selectedDate, setSelectedDate] = useState(new Date());
+    const [currentView, setCurrentView] = useState<TCalendarView>(
+        () => (localStorage.getItem(calendarViewKey) as TCalendarView) ?? 'week'
+    );
+
     const [selectedUserId, setSelectedUserId] = useState<IUser['id'] | -1>(
         () => {
             const option = Number(localStorage.getItem(calendarUserKey));
@@ -64,14 +73,25 @@ export function CalendarProvider({
         }
     );
 
-    const updateSelectedUserId = (option: IUser['id'] | -1) => {
-        localStorage.setItem(calendarUserKey, option.toString());
-        setSelectedUserId(option);
-    };
+    const {
+        data: events = [],
+        isLoading,
+        error,
+    } = useBookingsForView(currentView, selectedDate);
 
     const handleSelectDate = (date: Date | undefined) => {
         if (!date) return;
         setSelectedDate(date);
+    };
+
+    const handleViewChange = (view: TCalendarView) => {
+        localStorage.setItem(calendarViewKey, view);
+        setCurrentView(view);
+    };
+
+    const updateSelectedUserId = (option: IUser['id'] | -1) => {
+        localStorage.setItem(calendarUserKey, option.toString());
+        setSelectedUserId(option);
     };
 
     return (
@@ -79,16 +99,20 @@ export function CalendarProvider({
             value={{
                 selectedDate,
                 setSelectedDate: handleSelectDate,
+                currentView,
+                setCurrentView: handleViewChange,
                 selectedUserId,
                 updateSelectedUserId,
                 badgeVariant,
                 setBadgeVariant,
-                users,
-                visibleHours,
-                setVisibleHours,
                 workingHours,
                 setWorkingHours,
+                visibleHours,
+                setVisibleHours,
+                users,
                 events,
+                isLoading,
+                error,
             }}
         >
             {children}

@@ -1,8 +1,14 @@
 import { api } from '@/lib/api-client';
 import { queryKeys } from '@/lib/react-query';
 import { Booking } from '@/types/api';
+import { TCalendarView } from '@/types/calendar';
 import { useQuery } from '@tanstack/react-query';
 import { z } from 'zod';
+import {
+    getCurrentDayDates,
+    getCurrentMonthDates,
+    getCurrentWeekDates,
+} from '../calendar/helpers';
 
 const bookingParamsSchema = z.object({
     startDate: z
@@ -21,19 +27,22 @@ const bookingParamsSchema = z.object({
         ),
 });
 
-const getCurrentWeekDates = () => {
-    const today = new Date();
-    const monday = new Date(today);
-    const dayOfWeek = today.getDay() || 7;
-    monday.setDate(today.getDate() - dayOfWeek + 1);
-
-    const sunday = new Date(monday);
-    sunday.setDate(monday.getDate() + 6);
-
-    return {
-        startDate: monday.toISOString().split('T')[0],
-        endDate: sunday.toISOString().split('T')[0],
-    };
+const getDateRangeForView = (
+    view: TCalendarView,
+    currentDate: Date = new Date()
+) => {
+    switch (view) {
+        case 'day':
+            return getCurrentDayDates(currentDate);
+        case 'week':
+            return getCurrentWeekDates(currentDate);
+        case 'month':
+            return getCurrentMonthDates(currentDate);
+        case 'agenda':
+            return getCurrentMonthDates(currentDate);
+        default:
+            return getCurrentWeekDates(currentDate);
+    }
 };
 
 interface BookingParams {
@@ -78,5 +87,27 @@ export const useBookings = (startDate?: string, endDate?: string) => {
             endDate || defaultDates.endDate,
         ],
         queryFn: () => getBookings({ startDate, endDate }),
+    });
+};
+
+export const useBookingsForView = (
+    view: TCalendarView,
+    currentDate: Date = new Date()
+) => {
+    const dateRange = getDateRangeForView(view, currentDate);
+
+    return useQuery({
+        queryKey: [
+            queryKeys.bookings,
+            view,
+            currentDate.toISOString().split('T')[0],
+        ],
+        queryFn: () =>
+            getBookings({
+                startDate: dateRange.startDate,
+                endDate: dateRange.endDate,
+            }),
+        staleTime: 5 * 60 * 1000,
+        gcTime: 10 * 60 * 1000,
     });
 };

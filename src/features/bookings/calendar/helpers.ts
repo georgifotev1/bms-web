@@ -438,3 +438,47 @@ export const formatTimeSlot = (hour: number, minute: number) => {
     date.setHours(hour, minute, 0, 0);
     return format(date, 'HH:mm');
 };
+
+export const getCurrentWeekDates = (date: Date = new Date()) => {
+    const targetDate = new Date(date);
+    const dayOfWeek = targetDate.getDay() || 7;
+    const monday = new Date(targetDate);
+    monday.setDate(targetDate.getDate() - dayOfWeek + 1);
+
+    const sunday = new Date(monday);
+    sunday.setDate(monday.getDate() + 6);
+
+    return {
+        startDate: monday.toISOString().split('T')[0],
+        endDate: sunday.toISOString().split('T')[0],
+    };
+};
+
+export const getCurrentDayDates = (date: Date = new Date()) => {
+    const targetDate = new Date(date);
+    const dateStr = targetDate.toISOString().split('T')[0];
+
+    return {
+        startDate: dateStr,
+        endDate: dateStr,
+    };
+};
+
+export const getCurrentMonthDates = (date: Date = new Date()) => {
+    const targetDate = new Date(date);
+    const firstDay = new Date(
+        targetDate.getFullYear(),
+        targetDate.getMonth(),
+        1
+    );
+    const lastDay = new Date(
+        targetDate.getFullYear(),
+        targetDate.getMonth() + 1,
+        0
+    );
+
+    return {
+        startDate: firstDay.toISOString().split('T')[0],
+        endDate: lastDay.toISOString().split('T')[0],
+    };
+};
