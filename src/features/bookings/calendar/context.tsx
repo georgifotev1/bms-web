@@ -13,8 +13,8 @@ import type {
 interface ICalendarContext {
     selectedDate: Date;
     setSelectedDate: (date: Date | undefined) => void;
-    selectedUserId: IUser['id'] | 'all';
-    setSelectedUserId: (userId: IUser['id'] | 'all') => void;
+    selectedUserId: IUser['id'] | -1;
+    updateSelectedUserId: (userId: IUser['id'] | -1) => void;
     badgeVariant: TBadgeVariant;
     setBadgeVariant: (variant: TBadgeVariant) => void;
     users: IUser[];
@@ -38,6 +38,7 @@ const WORKING_HOURS = {
 };
 
 const VISIBLE_HOURS = { from: 7, to: 20 };
+const calendarUserKey = 'calendarUserKey';
 
 export function CalendarProvider({
     children,
@@ -55,9 +56,18 @@ export function CalendarProvider({
         useState<TWorkingHours>(WORKING_HOURS);
 
     const [selectedDate, setSelectedDate] = useState(new Date());
-    const [selectedUserId, setSelectedUserId] = useState<IUser['id'] | 'all'>(
-        'all'
+    const [selectedUserId, setSelectedUserId] = useState<IUser['id'] | -1>(
+        () => {
+            const option = Number(localStorage.getItem(calendarUserKey));
+            if (isNaN(option)) return -1;
+            return option;
+        }
     );
+
+    const updateSelectedUserId = (option: IUser['id'] | -1) => {
+        localStorage.setItem(calendarUserKey, option.toString());
+        setSelectedUserId(option);
+    };
 
     const handleSelectDate = (date: Date | undefined) => {
         if (!date) return;
@@ -70,7 +80,7 @@ export function CalendarProvider({
                 selectedDate,
                 setSelectedDate: handleSelectDate,
                 selectedUserId,
-                setSelectedUserId,
+                updateSelectedUserId,
                 badgeVariant,
                 setBadgeVariant,
                 users,

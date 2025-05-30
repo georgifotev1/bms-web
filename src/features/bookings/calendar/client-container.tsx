@@ -41,7 +41,7 @@ export function ClientContainer({ view, updateView }: IProps) {
                 const isInSelectedMonth =
                     eventStartDate <= monthEnd && eventEndDate >= monthStart;
                 const isUserMatch =
-                    selectedUserId === 'all' || event.userId === selectedUserId;
+                    selectedUserId === -1 || event.userId === selectedUserId;
                 return isInSelectedMonth && isUserMatch;
             }
 
@@ -59,7 +59,7 @@ export function ClientContainer({ view, updateView }: IProps) {
                 const isInSelectedWeek =
                     eventStartDate <= weekEnd && eventEndDate >= weekStart;
                 const isUserMatch =
-                    selectedUserId === 'all' || event.userId === selectedUserId;
+                    selectedUserId === -1 || event.userId === selectedUserId;
                 return isInSelectedWeek && isUserMatch;
             }
 
@@ -83,7 +83,7 @@ export function ClientContainer({ view, updateView }: IProps) {
                 const isInSelectedDay =
                     eventStartDate <= dayEnd && eventEndDate >= dayStart;
                 const isUserMatch =
-                    selectedUserId === 'all' || event.userId === selectedUserId;
+                    selectedUserId === -1 || event.userId === selectedUserId;
                 return isInSelectedDay && isUserMatch;
             }
         });

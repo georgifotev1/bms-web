@@ -10,16 +10,16 @@ import {
 import { useCalendar } from '@/features/bookings/calendar/context';
 
 export function UserSelect() {
-    const { users, selectedUserId, setSelectedUserId } = useCalendar();
+    const { users, selectedUserId, updateSelectedUserId } = useCalendar();
 
     return (
-        <Select value={selectedUserId} onValueChange={setSelectedUserId}>
+        <Select value={selectedUserId} onValueChange={updateSelectedUserId}>
             <SelectTrigger className='flex-1 md:w-48'>
                 <SelectValue />
             </SelectTrigger>
 
             <SelectContent align='end'>
-                <SelectItem value='all'>
+                <SelectItem value={-1}>
                     <div className='flex items-center gap-1'>
                         <AvatarGroup max={2}>
                             {users.map((user) => (
