@@ -18,8 +18,6 @@ import {
     eachDayOfInterval,
     startOfDay,
     differenceInDays,
-    endOfYear,
-    startOfYear,
     subYears,
     addYears,
     isSameYear,
@@ -54,10 +52,6 @@ export function rangeText(view: TCalendarView, date: Date) {
         case 'agenda':
             start = startOfMonth(date);
             end = endOfMonth(date);
-            break;
-        case 'year':
-            start = startOfYear(date);
-            end = endOfYear(date);
             break;
         case 'month':
             start = startOfMonth(date);
@@ -438,3 +432,9 @@ export function getNextAvailableTimeSlot(
 
     return format(nextSlot, 'HH:mm');
 }
+
+export const formatTimeSlot = (hour: number, minute: number) => {
+    const date = new Date();
+    date.setHours(hour, minute, 0, 0);
+    return format(date, 'HH:mm');
+};

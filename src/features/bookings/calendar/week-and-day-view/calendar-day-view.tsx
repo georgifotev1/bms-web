@@ -5,6 +5,7 @@ import { parseISO, areIntervalsOverlapping, format } from 'date-fns';
 import type { Booking as IEvent } from '@/types/api';
 import { useCalendar } from '@/features/bookings/calendar/context';
 import {
+    formatTimeSlot,
     getCurrentEvents,
     getEventBlockStyle,
     getVisibleHours,
@@ -81,7 +82,7 @@ export function CalendarDayView({ singleDayEvents, multiDayEvents }: IProps) {
                                             <span className='text-xs text-muted-foreground'>
                                                 {format(
                                                     new Date().setHours(hour),
-                                                    'hh a'
+                                                    'HH:00'
                                                 )}
                                             </span>
                                         )}
@@ -121,7 +122,14 @@ export function CalendarDayView({ singleDayEvents, multiDayEvents }: IProps) {
                                                     minute: 0,
                                                 }}
                                             >
-                                                <div className='absolute inset-x-0 top-0 h-[24px] cursor-pointer transition-colors hover:bg-accent' />
+                                                <div className='absolute inset-x-0 top-0 h-[24px] cursor-pointer group'>
+                                                    <div className='absolute left-0 top-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-100 text-xs font-medium text-primary bg-background px-1 py-0.5 rounded shadow-sm border border-primary'>
+                                                        {formatTimeSlot(
+                                                            hour,
+                                                            0
+                                                        )}
+                                                    </div>
+                                                </div>
                                             </AddEventDialog>
 
                                             <AddEventDialog
@@ -131,10 +139,15 @@ export function CalendarDayView({ singleDayEvents, multiDayEvents }: IProps) {
                                                     minute: 15,
                                                 }}
                                             >
-                                                <div className='absolute inset-x-0 top-[24px] h-[24px] cursor-pointer transition-colors hover:bg-accent' />
+                                                <div className='absolute inset-x-0 top-[24px] h-[24px] cursor-pointer group'>
+                                                    <div className='absolute left-0 top-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-100 text-xs font-medium text-primary bg-background px-1 py-0.5 rounded shadow-sm border border-primary'>
+                                                        {formatTimeSlot(
+                                                            hour,
+                                                            15
+                                                        )}
+                                                    </div>
+                                                </div>
                                             </AddEventDialog>
-
-                                            <div className='pointer-events-none absolute inset-x-0 top-1/2 border-b border-dashed'></div>
 
                                             <AddEventDialog
                                                 startDate={selectedDate}
@@ -143,7 +156,14 @@ export function CalendarDayView({ singleDayEvents, multiDayEvents }: IProps) {
                                                     minute: 30,
                                                 }}
                                             >
-                                                <div className='absolute inset-x-0 top-[48px] h-[24px] cursor-pointer transition-colors hover:bg-accent' />
+                                                <div className='absolute inset-x-0 top-[48px] h-[24px] cursor-pointer group'>
+                                                    <div className='absolute left-0 top-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-100 text-xs font-medium text-primary bg-background px-1 py-0.5 rounded shadow-sm border border-primary'>
+                                                        {formatTimeSlot(
+                                                            hour,
+                                                            30
+                                                        )}
+                                                    </div>
+                                                </div>
                                             </AddEventDialog>
 
                                             <AddEventDialog
@@ -153,7 +173,14 @@ export function CalendarDayView({ singleDayEvents, multiDayEvents }: IProps) {
                                                     minute: 45,
                                                 }}
                                             >
-                                                <div className='absolute inset-x-0 top-[72px] h-[24px] cursor-pointer transition-colors hover:bg-accent' />
+                                                <div className='absolute inset-x-0 top-[72px] h-[24px] cursor-pointer group'>
+                                                    <div className='absolute left-0 top-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-100 text-xs font-medium text-primary bg-background px-1 py-0.5 rounded shadow-sm border border-primary'>
+                                                        {formatTimeSlot(
+                                                            hour,
+                                                            45
+                                                        )}
+                                                    </div>
+                                                </div>
                                             </AddEventDialog>
                                         </div>
                                     );

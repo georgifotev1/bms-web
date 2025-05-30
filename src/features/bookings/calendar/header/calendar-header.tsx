@@ -1,11 +1,4 @@
-import {
-    Columns,
-    Grid3x3,
-    List,
-    Plus,
-    Grid2x2,
-    CalendarRange,
-} from 'lucide-react';
+import { Columns, List, Plus, Grid2x2, CalendarRange } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 
@@ -61,16 +54,6 @@ export function CalendarHeader({ view, events, updateView }: IProps) {
                             onClick={() => updateView('month')}
                         >
                             <Grid2x2 strokeWidth={1.8} />
-                        </Button>
-
-                        <Button
-                            aria-label='View by year'
-                            size='icon'
-                            variant={view === 'year' ? 'default' : 'outline'}
-                            className='-ml-px rounded-none [&_svg]:size-5'
-                            onClick={() => updateView('year')}
-                        >
-                            <Grid3x3 strokeWidth={1.8} />
                         </Button>
 
                         <Button

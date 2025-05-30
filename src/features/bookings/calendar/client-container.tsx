@@ -6,7 +6,6 @@ import { CalendarHeader } from './header/calendar-header';
 import { CalendarDayView } from './week-and-day-view/calendar-day-view';
 import { CalendarMonthView } from './month-view/calendar-month-view';
 import { CalendarWeekView } from './week-and-day-view/calendar-week-view';
-import { CalendarYearView } from './year-view/calendar-year-view';
 import { CalendarAgendaView } from './agenda-view/calendar-agenda-view';
 import { useCalendar } from './context';
 
@@ -23,24 +22,6 @@ export function ClientContainer({ view, updateView }: IProps) {
         return events.filter((event) => {
             const eventStartDate = parseISO(event.startTime);
             const eventEndDate = parseISO(event.endTime);
-
-            if (view === 'year') {
-                const yearStart = new Date(selectedDate.getFullYear(), 0, 1);
-                const yearEnd = new Date(
-                    selectedDate.getFullYear(),
-                    11,
-                    31,
-                    23,
-                    59,
-                    59,
-                    999
-                );
-                const isInSelectedYear =
-                    eventStartDate <= yearEnd && eventEndDate >= yearStart;
-                const isUserMatch =
-                    selectedUserId === 'all' || event.userId === selectedUserId;
-                return isInSelectedYear && isUserMatch;
-            }
 
             if (view === 'month' || view === 'agenda') {
                 const monthStart = new Date(
@@ -120,9 +101,6 @@ export function ClientContainer({ view, updateView }: IProps) {
         return !isSameDay(startDate, endDate);
     });
 
-    // For year view, we only care about the start date
-    // by using the same date for both start and end,
-    // we ensure only the start day will show a dot
     const eventStartDates = useMemo(() => {
         return filteredEvents?.map((event) => ({
             ...event,
@@ -137,7 +115,7 @@ export function ClientContainer({ view, updateView }: IProps) {
     )
         return;
     return (
-        <div className='overflow-hidden'>
+        <div className=''>
             <CalendarHeader
                 view={view}
                 events={filteredEvents}
@@ -161,9 +139,6 @@ export function ClientContainer({ view, updateView }: IProps) {
                     singleDayEvents={singleDayEvents}
                     multiDayEvents={multiDayEvents}
                 />
-            )}
-            {view === 'year' && (
-                <CalendarYearView allEvents={eventStartDates} />
             )}
             {view === 'agenda' && (
                 <CalendarAgendaView

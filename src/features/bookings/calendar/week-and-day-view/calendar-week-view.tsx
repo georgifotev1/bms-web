@@ -15,6 +15,7 @@ import { cn } from '@/utils/cn';
 import type { Booking as IEvent } from '@/types/api';
 import { useCalendar } from '@/features/bookings/calendar/context';
 import {
+    formatTimeSlot,
     getEventBlockStyle,
     getVisibleHours,
     groupEvents,
@@ -40,12 +41,6 @@ export function CalendarWeekView({ singleDayEvents, multiDayEvents }: IProps) {
 
     const weekStart = startOfWeek(selectedDate, { weekStartsOn: 1 });
     const weekDays = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
-
-    const formatTimeSlot = (hour: number, minute: number) => {
-        const date = new Date();
-        date.setHours(hour, minute, 0, 0);
-        return format(date, 'HH:mm');
-    };
 
     return (
         <>
@@ -252,7 +247,7 @@ export function CalendarWeekView({ singleDayEvents, multiDayEvents }: IProps) {
                                                                     45
                                                                 )}
                                                             >
-                                                                <div className='absolute left-0 top-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-100 text-xs font-medium text-primary bg-background px-1 py-0.5 rounded shadow-sm border border-primary'>
+                                                                <div className='absolute left-0 top-0 right-0 opacity-0 group-hover:opacity-100 text-xs font-medium text-primary bg-background px-1 py-0.5 rounded shadow-sm border border-primary'>
                                                                     {formatTimeSlot(
                                                                         hour,
                                                                         45

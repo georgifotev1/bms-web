@@ -63,7 +63,6 @@ function SingleDayPicker({
                     mode='single'
                     selected={value}
                     onSelect={handleSelect}
-                    initialFocus
                 />
             </PopoverContent>
         </Popover>
