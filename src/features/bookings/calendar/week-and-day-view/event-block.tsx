@@ -9,6 +9,7 @@ import type { Booking as IEvent } from '@/types/api';
 import type { VariantProps } from 'class-variance-authority';
 import { useCalendar } from '@/features/bookings/calendar/context';
 import { EventDetailsDialog } from '../dialogs/event-details-dialog';
+import { DraggableEvent } from '../dnd/draggable-event';
 
 const calendarWeekEventCardVariants = cva(
     'flex select-none flex-col gap-0.5 truncate whitespace-nowrap rounded-md border px-2 py-1.5 text-xs cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring',
@@ -78,37 +79,39 @@ export function EventBlock({ event, className }: IProps) {
     };
 
     return (
-        <EventDetailsDialog event={event}>
-            <div
-                role='button'
-                tabIndex={0}
-                className={calendarWeekEventCardClasses}
-                style={{ height: `${heightInPixels}px` }}
-                onKeyDown={handleKeyDown}
-            >
-                <div className='flex items-center gap-1.5 truncate'>
-                    {['mixed', 'dot'].includes(badgeVariant) && (
-                        <svg
-                            width='8'
-                            height='8'
-                            viewBox='0 0 8 8'
-                            className='event-dot shrink-0'
-                        >
-                            <circle cx='4' cy='4' r='4' />
-                        </svg>
+        <DraggableEvent event={event}>
+            <EventDetailsDialog event={event}>
+                <div
+                    role='button'
+                    tabIndex={0}
+                    className={calendarWeekEventCardClasses}
+                    style={{ height: `${heightInPixels}px` }}
+                    onKeyDown={handleKeyDown}
+                >
+                    <div className='flex items-center gap-1.5 truncate'>
+                        {['mixed', 'dot'].includes(badgeVariant) && (
+                            <svg
+                                width='8'
+                                height='8'
+                                viewBox='0 0 8 8'
+                                className='event-dot shrink-0'
+                            >
+                                <circle cx='4' cy='4' r='4' />
+                            </svg>
+                        )}
+
+                        <p className='truncate font-semibold'>
+                            {event.serviceName}
+                        </p>
+                    </div>
+
+                    {durationInMinutes > 25 && (
+                        <p>
+                            {format(start, 'h:mm a')} - {format(end, 'h:mm a')}
+                        </p>
                     )}
-
-                    <p className='truncate font-semibold'>
-                        {event.serviceName}
-                    </p>
                 </div>
-
-                {durationInMinutes > 25 && (
-                    <p>
-                        {format(start, 'h:mm a')} - {format(end, 'h:mm a')}
-                    </p>
-                )}
-            </div>
-        </EventDetailsDialog>
+            </EventDetailsDialog>
+        </DraggableEvent>
     );
 }

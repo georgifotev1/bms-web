@@ -25,6 +25,7 @@ import { WeekViewMultiDayEventsRow } from './week-view-multi-day-events-row';
 import { AddEventDialog } from '../dialogs/add-event-dialog';
 import { EventBlock } from './event-block';
 import { CalendarTimeline } from './calendar-time-line';
+import { DroppableTimeBlock } from '../dnd/droppable-time-block';
 
 interface IProps {
     singleDayEvents: IEvent[];
@@ -164,97 +165,118 @@ export function CalendarWeekView({ singleDayEvents, multiDayEvents }: IProps) {
                                                         {index !== 0 && (
                                                             <div className='pointer-events-none absolute inset-x-0 top-0 border-b'></div>
                                                         )}
-                                                        <AddEventDialog
-                                                            startDate={day}
-                                                            startTime={{
-                                                                hour,
-                                                                minute: 0,
-                                                            }}
+                                                        <DroppableTimeBlock
+                                                            date={day}
+                                                            hour={hour}
+                                                            minute={0}
                                                         >
-                                                            <div
-                                                                className='absolute inset-x-0 top-0 h-[24px] cursor-pointer group'
-                                                                title={formatTimeSlot(
+                                                            <AddEventDialog
+                                                                startDate={day}
+                                                                startTime={{
                                                                     hour,
-                                                                    0
-                                                                )}
+                                                                    minute: 0,
+                                                                }}
                                                             >
-                                                                <div className='absolute left-0 top-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-100 text-xs font-medium text-primary bg-background px-1 py-0.5 rounded shadow-sm border border-primary'>
-                                                                    {formatTimeSlot(
+                                                                <div
+                                                                    className='absolute inset-x-0 top-0 h-[24px] cursor-pointer group'
+                                                                    title={formatTimeSlot(
                                                                         hour,
                                                                         0
                                                                     )}
+                                                                >
+                                                                    <div className='absolute left-0 top-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-100 text-xs font-medium text-primary bg-background px-1 py-0.5 rounded shadow-sm border border-primary'>
+                                                                        {formatTimeSlot(
+                                                                            hour,
+                                                                            0
+                                                                        )}
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        </AddEventDialog>
-
-                                                        <AddEventDialog
-                                                            startDate={day}
-                                                            startTime={{
-                                                                hour,
-                                                                minute: 15,
-                                                            }}
+                                                            </AddEventDialog>
+                                                        </DroppableTimeBlock>
+                                                        <DroppableTimeBlock
+                                                            date={day}
+                                                            hour={hour}
+                                                            minute={15}
                                                         >
-                                                            <div
-                                                                className='absolute inset-x-0 top-[24px] h-[24px] cursor-pointer group'
-                                                                title={formatTimeSlot(
+                                                            <AddEventDialog
+                                                                startDate={day}
+                                                                startTime={{
                                                                     hour,
-                                                                    15
-                                                                )}
+                                                                    minute: 15,
+                                                                }}
                                                             >
-                                                                <div className='absolute left-0 top-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-100 text-xs font-medium text-primary bg-background px-1 py-0.5 rounded shadow-sm border border-primary'>
-                                                                    {formatTimeSlot(
+                                                                <div
+                                                                    className='absolute inset-x-0 top-[24px] h-[24px] cursor-pointer group'
+                                                                    title={formatTimeSlot(
                                                                         hour,
                                                                         15
                                                                     )}
+                                                                >
+                                                                    <div className='absolute left-0 top-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-100 text-xs font-medium text-primary bg-background px-1 py-0.5 rounded shadow-sm border border-primary'>
+                                                                        {formatTimeSlot(
+                                                                            hour,
+                                                                            15
+                                                                        )}
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        </AddEventDialog>
-
-                                                        <AddEventDialog
-                                                            startDate={day}
-                                                            startTime={{
-                                                                hour,
-                                                                minute: 30,
-                                                            }}
+                                                            </AddEventDialog>
+                                                        </DroppableTimeBlock>
+                                                        <DroppableTimeBlock
+                                                            date={day}
+                                                            hour={hour}
+                                                            minute={30}
                                                         >
-                                                            <div
-                                                                className='absolute inset-x-0 top-[48px] h-[24px] cursor-pointer group'
-                                                                title={formatTimeSlot(
+                                                            <AddEventDialog
+                                                                startDate={day}
+                                                                startTime={{
                                                                     hour,
-                                                                    30
-                                                                )}
+                                                                    minute: 30,
+                                                                }}
                                                             >
-                                                                <div className='absolute left-0 top-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-100 text-xs font-medium text-primary bg-background px-1 py-0.5 rounded shadow-sm border border-primary'>
-                                                                    {formatTimeSlot(
+                                                                <div
+                                                                    className='absolute inset-x-0 top-[48px] h-[24px] cursor-pointer group'
+                                                                    title={formatTimeSlot(
                                                                         hour,
                                                                         30
                                                                     )}
+                                                                >
+                                                                    <div className='absolute left-0 top-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-100 text-xs font-medium text-primary bg-background px-1 py-0.5 rounded shadow-sm border border-primary'>
+                                                                        {formatTimeSlot(
+                                                                            hour,
+                                                                            30
+                                                                        )}
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        </AddEventDialog>
-
-                                                        <AddEventDialog
-                                                            startDate={day}
-                                                            startTime={{
-                                                                hour,
-                                                                minute: 45,
-                                                            }}
+                                                            </AddEventDialog>
+                                                        </DroppableTimeBlock>
+                                                        <DroppableTimeBlock
+                                                            date={day}
+                                                            hour={hour}
+                                                            minute={45}
                                                         >
-                                                            <div
-                                                                className='absolute inset-x-0 top-[72px] h-[24px] cursor-pointer group'
-                                                                title={formatTimeSlot(
+                                                            <AddEventDialog
+                                                                startDate={day}
+                                                                startTime={{
                                                                     hour,
-                                                                    45
-                                                                )}
+                                                                    minute: 45,
+                                                                }}
                                                             >
-                                                                <div className='absolute left-0 top-0 right-0 opacity-0 group-hover:opacity-100 text-xs font-medium text-primary bg-background px-1 py-0.5 rounded shadow-sm border border-primary'>
-                                                                    {formatTimeSlot(
+                                                                <div
+                                                                    className='absolute inset-x-0 top-[72px] h-[24px] cursor-pointer group'
+                                                                    title={formatTimeSlot(
                                                                         hour,
                                                                         45
                                                                     )}
+                                                                >
+                                                                    <div className='absolute left-0 top-0 right-0 opacity-0 group-hover:opacity-100 text-xs font-medium text-primary bg-background px-1 py-0.5 rounded shadow-sm border border-primary'>
+                                                                        {formatTimeSlot(
+                                                                            hour,
+                                                                            45
+                                                                        )}
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        </AddEventDialog>
+                                                            </AddEventDialog>
+                                                        </DroppableTimeBlock>
                                                     </div>
                                                 );
                                             })}
