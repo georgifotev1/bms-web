@@ -7,6 +7,7 @@ import { getMonthCellEvents } from '@/features/bookings/calendar/helpers';
 import { cn } from '@/utils/cn';
 import { EventBullet } from './event-bullet';
 import { MonthEventBadge } from './month-event-badge';
+import { DroppableDayCell } from '../dnd/daraggable-day-cell';
 
 interface IProps {
     cell: ICalendarCell;
@@ -26,7 +27,7 @@ export function DayCell({ cell, events, eventPositions }: IProps) {
     const isSunday = date.getDay() === 0;
 
     return (
-        <>
+        <DroppableDayCell cell={cell}>
             <div
                 className={cn(
                     'flex h-full flex-col gap-1 border-l border-t py-1.5 lg:py-2',
@@ -95,6 +96,6 @@ export function DayCell({ cell, events, eventPositions }: IProps) {
                     </p>
                 )}
             </div>
-        </>
+        </DroppableDayCell>
     );
 }

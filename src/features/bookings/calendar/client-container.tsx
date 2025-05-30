@@ -10,6 +10,7 @@ import { useCalendar } from './context';
 import { TCalendarView } from '@/types/calendar';
 import { Booking } from '@/types/api';
 import { LoadingScreen } from '@/components/ui/spinner/loading-screen';
+import { DndProviderWrapper } from '@/utils/dnd-provider';
 
 export function ClientContainer() {
     const {
@@ -128,11 +129,13 @@ export function ClientContainer() {
             {isLoading ? (
                 <LoadingScreen />
             ) : (
-                <CalendarView
-                    view={currentView}
-                    singleDayEvents={singleDayEvents}
-                    multiDayEvents={multiDayEvents}
-                />
+                <DndProviderWrapper>
+                    <CalendarView
+                        view={currentView}
+                        singleDayEvents={singleDayEvents}
+                        multiDayEvents={multiDayEvents}
+                    />
+                </DndProviderWrapper>
             )}
         </>
     );
