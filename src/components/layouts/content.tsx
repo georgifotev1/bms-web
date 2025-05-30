@@ -11,9 +11,7 @@ export const ContentLayout = ({ children, title }: ContentLayoutProps) => {
     return (
         <>
             <Head title={title} />
-            <div className='absolute w-full h-screen overflow-hidden'>
-                {children}
-            </div>
+            <>{children}</>
         </>
     );
 };

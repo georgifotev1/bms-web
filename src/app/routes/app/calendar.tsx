@@ -14,9 +14,7 @@ export const CalendarRoute = () => {
     return (
         <ContentLayout title='Dashboard'>
             <CalendarProvider users={users.data ?? []}>
-                <div className='mx-auto flex w-full flex-col'>
-                    <ClientContainer />
-                </div>
+                <ClientContainer />
             </CalendarProvider>
         </ContentLayout>
     );

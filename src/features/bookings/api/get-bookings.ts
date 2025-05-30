@@ -77,19 +77,6 @@ const getBookings = ({ startDate, endDate }: BookingParams = {}): Promise<
     return api.get(`/bookings/week?${urlParams}`);
 };
 
-export const useBookings = (startDate?: string, endDate?: string) => {
-    const defaultDates = getCurrentWeekDates();
-
-    return useQuery({
-        queryKey: [
-            queryKeys.bookings,
-            startDate || defaultDates.startDate,
-            endDate || defaultDates.endDate,
-        ],
-        queryFn: () => getBookings({ startDate, endDate }),
-    });
-};
-
 export const useBookingsForView = (
     view: TCalendarView,
     currentDate: Date = new Date()

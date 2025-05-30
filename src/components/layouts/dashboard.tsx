@@ -14,7 +14,7 @@ export default function DashboardLayout({
         <SidebarProvider>
             <DashboardProvider brandId={id}>
                 <AppSidebar />
-                <main className='w-full relative'>{children}</main>
+                <main className='w-full'>{children}</main>
             </DashboardProvider>
         </SidebarProvider>
     );

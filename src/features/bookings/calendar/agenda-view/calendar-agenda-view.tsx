@@ -78,8 +78,11 @@ export function CalendarAgendaView({
         singleDayEvents.length > 0 || multiDayEvents.length > 0;
 
     return (
-        <div className='h-[800px]'>
-            <ScrollArea className='h-full' type='always'>
+        <div className='flex flex-col'>
+            <ScrollArea
+                className='h-full w-full flex-1 [&>[data-radix-scroll-area-viewport]]:max-h-[calc(100vh-100px)]'
+                type='always'
+            >
                 <div className='space-y-6 p-4'>
                     {eventsByDay.map((dayGroup) => (
                         <AgendaDayGroup
