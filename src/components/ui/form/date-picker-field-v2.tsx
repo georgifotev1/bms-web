@@ -82,6 +82,7 @@ export const DatePickerFieldV2 = (props: DatePickerFieldProps) => {
                         selected={selectedValue}
                         onSelect={handleDateSelect}
                         defaultMonth={selectedValue}
+                        disabled={{ before: new Date(), dayOfWeek: [0, 6] }}
                     />
                 </PopoverContent>
             </Popover>
