@@ -33,7 +33,7 @@ import {
     parse,
 } from 'date-fns';
 
-import type { Event as IEvent } from '@/types/api';
+import type { Event as IEvent, WorkingHour } from '@/types/api';
 import type {
     TCalendarView,
     TVisibleHours,
@@ -482,4 +482,40 @@ export const getCurrentMonthDates = (date: Date = new Date()) => {
         startDate: firstDay.toISOString().split('T')[0],
         endDate: lastDay.toISOString().split('T')[0],
     };
+};
+
+export function timeStringToDecimal(timeString: string) {
+    if (!timeString || timeString === '00:00') return 0;
+
+    const [hours, minutes] = timeString.split(':').map(Number);
+    return hours + minutes / 60;
+}
+
+export const brandWorkingHoursMapper = (workingHours: WorkingHour[]) => {
+    const apiHoursMap = workingHours.reduce<Record<number, WorkingHour>>(
+        (acc, day) => {
+            acc[day.dayOfWeek] = day;
+            return acc;
+        },
+        {}
+    );
+
+    const processedHours: TWorkingHours = {};
+    for (let dayOfWeek = 0; dayOfWeek <= 6; dayOfWeek++) {
+        const apiDay = apiHoursMap[dayOfWeek];
+
+        if (apiDay && !apiDay.isClosed) {
+            processedHours[dayOfWeek] = {
+                from: timeStringToDecimal(apiDay.openTime),
+                to: timeStringToDecimal(apiDay.closeTime),
+            };
+        } else {
+            processedHours[dayOfWeek] = {
+                from: 0,
+                to: 0,
+            };
+        }
+    }
+
+    return processedHours;
 };

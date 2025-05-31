@@ -1,5 +1,3 @@
-'use client';
-
 import { createContext, useContext, useState } from 'react';
 import { useEventsForView } from '@/features/events/api/get-evens';
 
@@ -11,6 +9,8 @@ import type {
     TWorkingHours,
     TCalendarView,
 } from '@/types/calendar';
+import { useBrandContext } from '@/context/brand';
+import { brandWorkingHoursMapper } from './helpers';
 
 interface ICalendarContext {
     selectedDate: Date;
@@ -54,11 +54,16 @@ export function CalendarProvider({
     children: React.ReactNode;
     users: IUser[];
 }) {
+    const brand = useBrandContext();
+
     const [badgeVariant, setBadgeVariant] = useState<TBadgeVariant>('colored');
+
     const [visibleHours, setVisibleHours] =
         useState<TVisibleHours>(VISIBLE_HOURS);
-    const [workingHours, setWorkingHours] =
-        useState<TWorkingHours>(WORKING_HOURS);
+    const [workingHours, setWorkingHours] = useState<TWorkingHours>(() => {
+        if (brand.workingHours.length === 0) return WORKING_HOURS;
+        return brandWorkingHoursMapper(brand.workingHours);
+    });
 
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [currentView, setCurrentView] = useState<TCalendarView>(

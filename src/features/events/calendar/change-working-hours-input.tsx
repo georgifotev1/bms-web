@@ -1,5 +1,3 @@
-'use client';
-
 import { useState } from 'react';
 import { Info, Moon } from 'lucide-react';
 

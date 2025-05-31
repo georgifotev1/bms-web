@@ -1,5 +1,3 @@
-'use client';
-
 import { format, parseISO } from 'date-fns';
 // import { cva } from 'class-variance-authority';
 import { Clock, Text, User } from 'lucide-react';
