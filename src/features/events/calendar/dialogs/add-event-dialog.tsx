@@ -120,47 +120,52 @@ export function AddEventDialog({ children }: IProps) {
                                 control={control}
                                 name='eventDate'
                             /> */}
-                                <DatePickerFieldV2
-                                    label='Event Date'
-                                    error={formState.errors['eventDate']}
-                                    registration={register('eventDate')}
-                                    disabledOptions={[
-                                        { before: new Date() },
-                                        {
-                                            dayOfWeek:
-                                                brand.workingHours
-                                                    .filter(
-                                                        (day) => day.isClosed
-                                                    )
-                                                    .map(
-                                                        (day) => day.dayOfWeek
-                                                    ) ?? [],
-                                        },
-                                    ]}
-                                />
-                                <TimePickerField
-                                    label='Start Time'
-                                    error={formState.errors['startTime']}
-                                    registration={register('startTime')}
-                                    placeholder='Select start time'
-                                    startTime='09:00'
-                                    endTime='18:00'
-                                    interval={15}
-                                    minTime={getNextAvailableTimeSlot(
-                                        selectedDate
-                                    )}
-                                />
+                                <div className='grid grid-cols-3 gap-2'>
+                                    <DatePickerFieldV2
+                                        label='Event Date'
+                                        error={formState.errors['eventDate']}
+                                        registration={register('eventDate')}
+                                        disabledOptions={[
+                                            { before: new Date() },
+                                            {
+                                                dayOfWeek:
+                                                    brand.workingHours
+                                                        .filter(
+                                                            (day) =>
+                                                                day.isClosed
+                                                        )
+                                                        .map(
+                                                            (day) =>
+                                                                day.dayOfWeek
+                                                        ) ?? [],
+                                            },
+                                        ]}
+                                    />
+                                    <TimePickerField
+                                        label='Start Time'
+                                        error={formState.errors['startTime']}
+                                        registration={register('startTime')}
+                                        placeholder='Start time'
+                                        startTime='09:00'
+                                        endTime='18:00'
+                                        interval={15}
+                                        minTime={getNextAvailableTimeSlot(
+                                            selectedDate
+                                        )}
+                                    />
 
-                                <TimePickerField
-                                    label='End Time'
-                                    error={formState.errors['endTime']}
-                                    registration={register('endTime')}
-                                    placeholder='Select end time'
-                                    startTime='09:00'
-                                    endTime='18:00'
-                                    interval={15}
-                                    minTime={startTimeValue}
-                                />
+                                    <TimePickerField
+                                        label='End Time'
+                                        error={formState.errors['endTime']}
+                                        registration={register('endTime')}
+                                        placeholder='End time'
+                                        startTime='09:00'
+                                        endTime='18:00'
+                                        interval={15}
+                                        minTime={startTimeValue}
+                                    />
+                                </div>
+
                                 <Textarea
                                     label='Leave a message'
                                     error={formState.errors['comment']}

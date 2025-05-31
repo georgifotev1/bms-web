@@ -64,12 +64,12 @@ export const DatePickerFieldV2 = (props: DatePickerFieldProps) => {
                     <Button
                         variant='outline'
                         className={cn(
-                            'justify-start text-left font-normal',
+                            'justify-start text-left font-normal w-full',
                             !selectedValue && 'text-muted-foreground',
                             className
                         )}
                         type='button'
-                        icon={<CalendarIcon className='mr-2 h-4 w-4' />}
+                        icon={<CalendarIcon />}
                     >
                         {selectedValue ? (
                             format(selectedValue, dateFormat)
