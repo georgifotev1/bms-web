@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/popover';
 
 import { FieldWrapper, FieldWrapperPassThroughProps } from './field-wrapper';
+import { Matcher } from 'react-day-picker';
 
 type DatePickerFieldProps = FieldWrapperPassThroughProps & {
     className?: string;
@@ -20,6 +21,7 @@ type DatePickerFieldProps = FieldWrapperPassThroughProps & {
     placeholder?: string;
     dateFormat?: string;
     registration: Partial<UseFormRegisterReturn>;
+    disabledOptions: Matcher | Matcher[] | undefined;
 };
 
 export const DatePickerFieldV2 = (props: DatePickerFieldProps) => {
@@ -31,6 +33,7 @@ export const DatePickerFieldV2 = (props: DatePickerFieldProps) => {
         placeholder = 'Pick a date',
         dateFormat = 'PPP',
         registration,
+        disabledOptions,
     } = props;
 
     const [selectedValue, setSelectedValue] = React.useState<Date | undefined>(
@@ -82,7 +85,7 @@ export const DatePickerFieldV2 = (props: DatePickerFieldProps) => {
                         selected={selectedValue}
                         onSelect={handleDateSelect}
                         defaultMonth={selectedValue}
-                        disabled={{ before: new Date(), dayOfWeek: [0, 6] }}
+                        disabled={disabledOptions}
                     />
                 </PopoverContent>
             </Popover>

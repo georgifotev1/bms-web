@@ -124,6 +124,19 @@ export function AddEventDialog({ children }: IProps) {
                                     label='Event Date'
                                     error={formState.errors['eventDate']}
                                     registration={register('eventDate')}
+                                    disabledOptions={[
+                                        { before: new Date() },
+                                        {
+                                            dayOfWeek:
+                                                brand.workingHours
+                                                    .filter(
+                                                        (day) => day.isClosed
+                                                    )
+                                                    .map(
+                                                        (day) => day.dayOfWeek
+                                                    ) ?? [],
+                                        },
+                                    ]}
                                 />
                                 <TimePickerField
                                     label='Start Time'
