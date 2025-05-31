@@ -60,7 +60,7 @@ export type BrandProfile = {
     workingHours: WorkingHour[];
 };
 
-export type Booking = {
+export type Event = {
     id: number;
     customerId: number;
     serviceId: UUID;

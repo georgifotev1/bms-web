@@ -1,6 +1,6 @@
 import { ContentLayout } from '@/components/layouts/content';
-import { ClientContainer } from '@/features/bookings/calendar/client-container';
-import { CalendarProvider } from '@/features/bookings/calendar/context';
+import { ClientContainer } from '@/features/events/calendar/client-container';
+import { CalendarProvider } from '@/features/events/calendar/context';
 import { useDashboardData } from '@/context/dashboard';
 import { LoadingScreen } from '@/components/ui/spinner/loading-screen';
 

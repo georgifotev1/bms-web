@@ -27,7 +27,7 @@ export type MutationConfig<
 >;
 
 export const queryKeys = {
-    bookings: 'bookings',
+    events: 'events',
     brand: 'brand',
     user: 'user',
     users: 'users',
