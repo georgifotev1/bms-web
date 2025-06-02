@@ -4,7 +4,8 @@ import { parseISO, differenceInMilliseconds } from 'date-fns';
 import { cn } from '@/utils/cn';
 import type { Event as IEvent } from '@/types/api';
 import { ItemTypes } from '@/types/dnd';
-import { useUpdateEvent } from '../../api/update-events';
+import { ConfirmEventUpdateDialog } from '../dialogs/confirm-update-dialog';
+import * as React from 'react';
 
 interface DroppableTimeBlockProps {
     date: Date;
@@ -13,13 +14,20 @@ interface DroppableTimeBlockProps {
     children: React.ReactNode;
 }
 
+export interface EventUpdateData {
+    originalEvent: IEvent;
+    newStartDate: Date;
+    newEndDate: Date;
+}
+
 export function DroppableTimeBlock({
     date,
     hour,
     minute,
     children,
 }: DroppableTimeBlockProps) {
-    const { updateEvent } = useUpdateEvent();
+    const [openModal, setOpenModal] = React.useState(false);
+    const [data, setData] = React.useState<EventUpdateData | null>(null);
 
     const [{ isOver, canDrop }, drop] = useDrop(
         () => ({
@@ -41,20 +49,20 @@ export function DroppableTimeBlock({
                     newStartDate.getTime() + eventDurationMs
                 );
 
-                updateEvent({
-                    ...droppedEvent,
-                    startTime: newStartDate.toISOString(),
-                    endTime: newEndDate.toISOString(),
+                setData({
+                    originalEvent: droppedEvent,
+                    newStartDate,
+                    newEndDate,
                 });
-
+                setOpenModal(true);
                 return { moved: true };
             },
-            collect: (monitor) => ({
+            collect: monitor => ({
                 isOver: monitor.isOver(),
                 canDrop: monitor.canDrop(),
             }),
         }),
-        [date, hour, minute, updateEvent]
+        [date, hour, minute]
     );
 
     return (
@@ -62,6 +70,16 @@ export function DroppableTimeBlock({
             ref={drop as unknown as React.RefObject<HTMLDivElement>}
             className={cn('h-[24px]', isOver && canDrop && 'bg-accent/50')}
         >
+            {data?.originalEvent && data?.newStartDate && data?.newEndDate && (
+                <ConfirmEventUpdateDialog
+                    open={openModal}
+                    setOpen={setOpenModal}
+                    event={data.originalEvent}
+                    newStartDate={data.newStartDate}
+                    newEndDate={data.newEndDate}
+                />
+            )}
+
             {children}
         </div>
     );

@@ -24,7 +24,7 @@ export function ClientContainer() {
 
     const filteredEvents = useMemo(() => {
         if (!events) return;
-        return events.filter((event) => {
+        return events.filter(event => {
             const eventStartDate = parseISO(event.startTime);
             const eventEndDate = parseISO(event.endTime);
 
@@ -94,20 +94,20 @@ export function ClientContainer() {
         });
     }, [selectedDate, selectedUserId, events, currentView]);
 
-    const singleDayEvents = filteredEvents?.filter((event) => {
+    const singleDayEvents = filteredEvents?.filter(event => {
         const startDate = parseISO(event.startTime);
         const endDate = parseISO(event.endTime);
         return isSameDay(startDate, endDate);
     });
 
-    const multiDayEvents = filteredEvents?.filter((event) => {
+    const multiDayEvents = filteredEvents?.filter(event => {
         const startDate = parseISO(event.startTime);
         const endDate = parseISO(event.endTime);
         return !isSameDay(startDate, endDate);
     });
 
     const eventStartDates = useMemo(() => {
-        return filteredEvents?.map((event) => ({
+        return filteredEvents?.map(event => ({
             ...event,
             endDate: event.startTime,
         }));

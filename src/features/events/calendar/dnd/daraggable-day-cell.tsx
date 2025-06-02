@@ -1,11 +1,13 @@
 import { useDrop } from 'react-dnd';
 import { parseISO, differenceInMilliseconds } from 'date-fns';
+import * as React from 'react';
 
 import { cn } from '@/utils/cn';
 import { ICalendarCell } from '@/types/calendar';
 import type { Event as IEvent } from '@/types/api';
 import { ItemTypes } from '@/types/dnd';
-import { useUpdateEvent } from '../../api/update-events';
+import { ConfirmEventUpdateDialog } from '../dialogs/confirm-update-dialog';
+import { EventUpdateData } from './droppable-time-block';
 
 interface DroppableDayCellProps {
     cell: ICalendarCell;
@@ -13,7 +15,8 @@ interface DroppableDayCellProps {
 }
 
 export function DroppableDayCell({ cell, children }: DroppableDayCellProps) {
-    const { updateEvent } = useUpdateEvent();
+    const [openModal, setOpenModal] = React.useState(false);
+    const [data, setData] = React.useState<EventUpdateData | null>(null);
 
     const [{ isOver, canDrop }, drop] = useDrop(
         () => ({
@@ -40,20 +43,21 @@ export function DroppableDayCell({ cell, children }: DroppableDayCellProps) {
                     newStartDate.getTime() + eventDurationMs
                 );
 
-                updateEvent({
-                    ...droppedEvent,
-                    startTime: newStartDate.toISOString(),
-                    endTime: newEndDate.toISOString(),
+                setData({
+                    originalEvent: droppedEvent,
+                    newStartDate,
+                    newEndDate,
                 });
+                setOpenModal(true);
 
                 return { moved: true };
             },
-            collect: (monitor) => ({
+            collect: monitor => ({
                 isOver: monitor.isOver(),
                 canDrop: monitor.canDrop(),
             }),
         }),
-        [cell.date, updateEvent]
+        [cell.date]
     );
 
     return (
@@ -61,6 +65,15 @@ export function DroppableDayCell({ cell, children }: DroppableDayCellProps) {
             ref={drop as unknown as React.RefObject<HTMLDivElement>}
             className={cn(isOver && canDrop && 'bg-accent/50')}
         >
+            {data?.originalEvent && data?.newStartDate && data?.newEndDate && (
+                <ConfirmEventUpdateDialog
+                    open={openModal}
+                    setOpen={setOpenModal}
+                    event={data.originalEvent}
+                    newStartDate={data.newStartDate}
+                    newEndDate={data.newEndDate}
+                />
+            )}
             {children}
         </div>
     );
