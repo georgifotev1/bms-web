@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { format, getDate } from 'date-fns';
+import { format } from 'date-fns';
 import * as React from 'react';
 import {
     Dialog,
@@ -32,31 +32,29 @@ export function ConfirmEventUpdateDialog({
     const updateEvent = useUpdateEvent(event.id);
     return (
         <Dialog open={open} onOpenChange={setOpen}>
-            {/* <DialogTrigger asChild>{children}</DialogTrigger> */}
-
             <DialogContent aria-describedby='Update event'>
                 <DialogHeader>
                     <DialogTitle>Reschedule this appointment?</DialogTitle>
                 </DialogHeader>
-                <DialogDescription>
-                    <div className='flex items-start gap-2'>
-                        <span>From:</span>
-                        <span>{getDate(event.startTime)}</span>
-                        <span>
-                            {format(event.startTime, 'h:mm a')}
-                            <span className='mx-0.5'>-</span>
-                            {format(event.endTime, 'h:mm a')}
-                        </span>
-                    </div>
-                    <div className='flex items-start gap-2'>
-                        <span>To:</span>
-                        <span>{getDate(newStartDate)}</span>
-                        <span>
-                            {format(newStartDate, 'h:mm a')}
-                            <span className='mx-0.5'>-</span>
-                            {format(newEndDate, 'h:mm a')}
-                        </span>
-                    </div>
+
+                <DialogDescription className='flex gap-2'>
+                    <span>From:</span>
+                    <span>{format(event.startTime, 'EEE, MMMM dd, yyyy')}</span>
+                    <span>
+                        {format(event.startTime, 'h:mm a')}
+                        <span className='mx-0.5'>-</span>
+                        {format(event.endTime, 'h:mm a')}
+                    </span>
+                </DialogDescription>
+
+                <DialogDescription className='flex gap-2'>
+                    <span>To:</span>
+                    <span>{format(newStartDate, 'EEE, MMMM dd, yyyy')}</span>
+                    <span>
+                        {format(newStartDate, 'h:mm a')}
+                        <span className='mx-0.5'>-</span>
+                        {format(newEndDate, 'h:mm a')}
+                    </span>
                 </DialogDescription>
                 <DialogFooter>
                     <DialogClose asChild>

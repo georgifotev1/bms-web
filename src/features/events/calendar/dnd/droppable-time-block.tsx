@@ -1,5 +1,5 @@
 import { useDrop } from 'react-dnd';
-import { parseISO, differenceInMilliseconds } from 'date-fns';
+import { parseISO, differenceInMilliseconds, isBefore } from 'date-fns';
 
 import { cn } from '@/utils/cn';
 import type { Event as IEvent } from '@/types/api';
@@ -32,6 +32,12 @@ export function DroppableTimeBlock({
     const [{ isOver, canDrop }, drop] = useDrop(
         () => ({
             accept: ItemTypes.EVENT,
+            canDrop: () => {
+                const now = new Date();
+                const targetTimeSlot = new Date(date);
+                targetTimeSlot.setHours(hour, minute, 0, 0);
+                return !isBefore(targetTimeSlot, now);
+            },
             drop: (item: { event: IEvent }) => {
                 const droppedEvent = item.event;
 
@@ -68,7 +74,11 @@ export function DroppableTimeBlock({
     return (
         <div
             ref={drop as unknown as React.RefObject<HTMLDivElement>}
-            className={cn('h-[24px]', isOver && canDrop && 'bg-accent/50')}
+            className={cn(
+                'h-[24px]',
+                isOver && canDrop && 'bg-accent/50',
+                isOver && !canDrop && 'bg-destructive/50'
+            )}
         >
             {data?.originalEvent && data?.newStartDate && data?.newEndDate && (
                 <ConfirmEventUpdateDialog
