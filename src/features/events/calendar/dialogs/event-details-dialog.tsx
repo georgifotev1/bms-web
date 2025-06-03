@@ -1,4 +1,4 @@
-import { format, parseISO } from 'date-fns';
+import { format } from 'date-fns';
 import { Calendar, Clock, Text, User } from 'lucide-react';
 
 import {
@@ -17,20 +17,17 @@ interface IProps {
 }
 
 export function EventDetailsDialog({ event, children }: IProps) {
-    const startDate = parseISO(event.startTime);
-    const endDate = parseISO(event.endTime);
-
     return (
         <>
             <Dialog>
                 <DialogTrigger asChild>{children}</DialogTrigger>
 
-                <DialogContent>
+                <DialogContent aria-describedby='service details'>
                     <DialogHeader>
                         <DialogTitle>{event.serviceName}</DialogTitle>
                     </DialogHeader>
 
-                    <div className='space-y-4'>
+                    <div className='space-y-4 grid grid-cols-2'>
                         <div className='flex items-start gap-2'>
                             <User className='mt-1 size-4 shrink-0' />
                             <div>
@@ -44,13 +41,24 @@ export function EventDetailsDialog({ event, children }: IProps) {
                         </div>
 
                         <div className='flex items-start gap-2'>
+                            <User className='mt-1 size-4 shrink-0' />
+                            <div>
+                                <p className='text-sm font-medium'>Customer</p>
+                                <p className='text-sm text-muted-foreground'>
+                                    {event.customerName}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className='flex items-start gap-2'>
                             <Calendar className='mt-1 size-4 shrink-0' />
                             <div>
-                                <p className='text-sm font-medium'>
-                                    Start Date
-                                </p>
+                                <p className='text-sm font-medium'>Date</p>
                                 <p className='text-sm text-muted-foreground'>
-                                    {format(startDate, 'MMM d, yyyy h:mm a')}
+                                    {format(
+                                        event.startTime,
+                                        'EEE, MMMM dd, yyyy'
+                                    )}
                                 </p>
                             </div>
                         </div>
@@ -58,12 +66,15 @@ export function EventDetailsDialog({ event, children }: IProps) {
                         <div className='flex items-start gap-2'>
                             <Clock className='mt-1 size-4 shrink-0' />
                             <div>
-                                <p className='text-sm font-medium'>End Date</p>
-                                <p className='text-sm text-muted-foreground'>
-                                    {format(endDate, 'MMM d, yyyy h:mm a')}
+                                <p className='text-sm font-medium'>Time</p>
+                                <p className='text-sm text-muted-foreground flex gap-0.5'>
+                                    {format(event.startTime, 'h:mm a')}
+                                    <span>-</span>
+                                    {format(event.endTime, 'h:mm a')}
                                 </p>
                             </div>
                         </div>
+
                         {event.comment && (
                             <div className='flex items-start gap-2'>
                                 <Text className='mt-1 size-4 shrink-0' />
