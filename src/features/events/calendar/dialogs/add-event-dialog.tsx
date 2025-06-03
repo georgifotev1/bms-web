@@ -23,6 +23,8 @@ import { TimePickerField } from '@/components/ui/form/time-picker-field';
 import { createApiDateTime, getNextAvailableTimeSlot } from '../helpers';
 import { Textarea } from '@/components/ui/form/textarea';
 import { DatePickerFieldV2 } from '@/components/ui/form/date-picker-field-v2';
+import { getDay } from 'date-fns';
+import { WorkingHour } from '@/types/api';
 
 interface IProps {
     children: React.ReactNode;
@@ -36,6 +38,14 @@ export function AddEventDialog(props: IProps) {
     const brand = useBrandContext();
 
     const [open, setOpen] = React.useState<boolean>(false);
+
+    const getSelectedDateWorkingHours = (
+        selectedDate: Date
+    ): WorkingHour | undefined => {
+        return brand.workingHours.find(
+            day => day.dayOfWeek === getDay(selectedDate)
+        );
+    };
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>{props.children}</DialogTrigger>
@@ -146,8 +156,16 @@ export function AddEventDialog(props: IProps) {
                                         registration={register('startTime')}
                                         defaultValue={props.startTime}
                                         placeholder='Start time'
-                                        startTime={'09:00'}
-                                        endTime='18:00'
+                                        startTime={
+                                            getSelectedDateWorkingHours(
+                                                selectedDate
+                                            )?.openTime
+                                        }
+                                        endTime={
+                                            getSelectedDateWorkingHours(
+                                                selectedDate
+                                            )?.closeTime
+                                        }
                                         interval={15}
                                         minTime={getNextAvailableTimeSlot(
                                             selectedDate
@@ -159,8 +177,16 @@ export function AddEventDialog(props: IProps) {
                                         error={formState.errors['endTime']}
                                         registration={register('endTime')}
                                         placeholder='End time'
-                                        startTime='09:00'
-                                        endTime='18:00'
+                                        startTime={
+                                            getSelectedDateWorkingHours(
+                                                selectedDate
+                                            )?.openTime
+                                        }
+                                        endTime={
+                                            getSelectedDateWorkingHours(
+                                                selectedDate
+                                            )?.closeTime
+                                        }
                                         interval={serviceDuration}
                                         minTime={startTimeValue}
                                         startTimeRef={startTimeValue}
