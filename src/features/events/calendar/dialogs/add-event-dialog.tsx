@@ -27,10 +27,10 @@ import { DatePickerFieldV2 } from '@/components/ui/form/date-picker-field-v2';
 interface IProps {
     children: React.ReactNode;
     startDate?: Date;
-    startTime?: { hour: number; minute: number };
+    startTime?: string;
 }
 
-export function AddEventDialog({ children }: IProps) {
+export function AddEventDialog(props: IProps) {
     const { users, customers, services } = useDashboardData();
     const event = useCreateEvent();
     const brand = useBrandContext();
@@ -38,7 +38,7 @@ export function AddEventDialog({ children }: IProps) {
     const [open, setOpen] = React.useState<boolean>(false);
     return (
         <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger asChild>{children}</DialogTrigger>
+            <DialogTrigger asChild>{props.children}</DialogTrigger>
 
             <DialogContent>
                 <DialogHeader>
@@ -144,8 +144,9 @@ export function AddEventDialog({ children }: IProps) {
                                         label='Start Time'
                                         error={formState.errors['startTime']}
                                         registration={register('startTime')}
+                                        defaultValue={props.startTime}
                                         placeholder='Start time'
-                                        startTime='09:00'
+                                        startTime={'09:00'}
                                         endTime='18:00'
                                         interval={15}
                                         minTime={getNextAvailableTimeSlot(
@@ -163,6 +164,7 @@ export function AddEventDialog({ children }: IProps) {
                                         interval={serviceDuration}
                                         minTime={startTimeValue}
                                         startTimeRef={startTimeValue}
+                                        isEndTimePicker
                                     />
                                 </div>
 

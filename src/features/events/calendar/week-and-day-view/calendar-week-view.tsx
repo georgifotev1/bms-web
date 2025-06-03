@@ -124,7 +124,7 @@ export function CalendarWeekView({ singleDayEvents, multiDayEvents }: IProps) {
                             <div className='grid grid-cols-7 divide-x'>
                                 {weekDays.map((day, dayIndex) => {
                                     const dayEvents = singleDayEvents.filter(
-                                        (event) =>
+                                        event =>
                                             isSameDay(
                                                 parseISO(event.startTime),
                                                 day
@@ -172,10 +172,10 @@ export function CalendarWeekView({ singleDayEvents, multiDayEvents }: IProps) {
                                                         >
                                                             <AddEventDialog
                                                                 startDate={day}
-                                                                startTime={{
+                                                                startTime={formatTimeSlot(
                                                                     hour,
-                                                                    minute: 0,
-                                                                }}
+                                                                    0
+                                                                )}
                                                             >
                                                                 <div
                                                                     className='absolute inset-x-0 top-0 h-[24px] cursor-pointer group'
@@ -200,10 +200,10 @@ export function CalendarWeekView({ singleDayEvents, multiDayEvents }: IProps) {
                                                         >
                                                             <AddEventDialog
                                                                 startDate={day}
-                                                                startTime={{
+                                                                startTime={formatTimeSlot(
                                                                     hour,
-                                                                    minute: 15,
-                                                                }}
+                                                                    15
+                                                                )}
                                                             >
                                                                 <div
                                                                     className='absolute inset-x-0 top-[24px] h-[24px] cursor-pointer group'
@@ -228,10 +228,10 @@ export function CalendarWeekView({ singleDayEvents, multiDayEvents }: IProps) {
                                                         >
                                                             <AddEventDialog
                                                                 startDate={day}
-                                                                startTime={{
+                                                                startTime={formatTimeSlot(
                                                                     hour,
-                                                                    minute: 30,
-                                                                }}
+                                                                    30
+                                                                )}
                                                             >
                                                                 <div
                                                                     className='absolute inset-x-0 top-[48px] h-[24px] cursor-pointer group'
@@ -256,10 +256,10 @@ export function CalendarWeekView({ singleDayEvents, multiDayEvents }: IProps) {
                                                         >
                                                             <AddEventDialog
                                                                 startDate={day}
-                                                                startTime={{
+                                                                startTime={formatTimeSlot(
                                                                     hour,
-                                                                    minute: 45,
-                                                                }}
+                                                                    45
+                                                                )}
                                                             >
                                                                 <div
                                                                     className='absolute inset-x-0 top-[72px] h-[24px] cursor-pointer group'
@@ -283,7 +283,7 @@ export function CalendarWeekView({ singleDayEvents, multiDayEvents }: IProps) {
 
                                             {groupedEvents.map(
                                                 (group, groupIndex) =>
-                                                    group.map((event) => {
+                                                    group.map(event => {
                                                         let style =
                                                             getEventBlockStyle(
                                                                 event,
@@ -304,9 +304,7 @@ export function CalendarWeekView({ singleDayEvents, multiDayEvents }: IProps) {
                                                                     otherIndex !==
                                                                         groupIndex &&
                                                                     otherGroup.some(
-                                                                        (
-                                                                            otherEvent
-                                                                        ) =>
+                                                                        otherEvent =>
                                                                             areIntervalsOverlapping(
                                                                                 {
                                                                                     start: parseISO(

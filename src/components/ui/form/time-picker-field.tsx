@@ -23,6 +23,8 @@ type TimePickerFieldProps = FieldWrapperPassThroughProps & {
     minTime?: string; // Minimum selectable time (e.g., for end time based on start time)
     registration: Partial<UseFormRegisterReturn>;
     startTimeRef?: string;
+    disabled?: boolean;
+    isEndTimePicker?: boolean;
 };
 
 export const TimePickerField = (props: TimePickerFieldProps) => {
@@ -38,6 +40,8 @@ export const TimePickerField = (props: TimePickerFieldProps) => {
         minTime,
         registration,
         startTimeRef,
+        disabled,
+        isEndTimePicker,
     } = props;
 
     const [selectedTime, setSelectedTime] = React.useState<string>(
@@ -56,10 +60,10 @@ export const TimePickerField = (props: TimePickerFieldProps) => {
         let minTotalMinutes = startTotalMinutes;
         if (minTime) {
             const [minHour, minMinute] = minTime.split(':').map(Number);
-            minTotalMinutes = Math.max(
-                minHour * 60 + minMinute,
-                startTotalMinutes
-            );
+            let minMinutes = minHour * 60 + minMinute;
+            if (isEndTimePicker) minMinutes += interval;
+
+            minTotalMinutes = Math.max(minMinutes, startTotalMinutes);
         }
 
         for (
@@ -80,7 +84,7 @@ export const TimePickerField = (props: TimePickerFieldProps) => {
         }
 
         return options;
-    }, [startTime, endTime, interval, minTime]);
+    }, [startTime, endTime, interval, minTime, isEndTimePicker]);
 
     const handleTimeChange = React.useCallback(
         (time: string) => {
@@ -141,6 +145,7 @@ export const TimePickerField = (props: TimePickerFieldProps) => {
                 value={selectedTime}
                 onValueChange={handleTimeChange}
                 name={registration.name}
+                disabled={disabled}
             >
                 <SelectTrigger className={cn('w-full', className)}>
                     <SelectValue placeholder={placeholder} />

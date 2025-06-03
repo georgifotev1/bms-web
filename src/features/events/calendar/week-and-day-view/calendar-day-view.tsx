@@ -36,7 +36,7 @@ export function CalendarDayView({ singleDayEvents, multiDayEvents }: IProps) {
 
     const currentEvents = getCurrentEvents(singleDayEvents);
 
-    const dayEvents = singleDayEvents.filter((event) => {
+    const dayEvents = singleDayEvents.filter(event => {
         const eventDate = parseISO(event.startTime);
         return (
             eventDate.getDate() === selectedDate.getDate() &&
@@ -122,10 +122,10 @@ export function CalendarDayView({ singleDayEvents, multiDayEvents }: IProps) {
                                             >
                                                 <AddEventDialog
                                                     startDate={selectedDate}
-                                                    startTime={{
+                                                    startTime={formatTimeSlot(
                                                         hour,
-                                                        minute: 0,
-                                                    }}
+                                                        0
+                                                    )}
                                                 >
                                                     <div className='absolute inset-x-0 top-0 h-[24px] cursor-pointer group'>
                                                         <div className='absolute left-0 top-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-100 text-xs font-medium text-primary bg-background px-1 py-0.5 rounded shadow-sm border border-primary'>
@@ -145,10 +145,10 @@ export function CalendarDayView({ singleDayEvents, multiDayEvents }: IProps) {
                                             >
                                                 <AddEventDialog
                                                     startDate={selectedDate}
-                                                    startTime={{
+                                                    startTime={formatTimeSlot(
                                                         hour,
-                                                        minute: 15,
-                                                    }}
+                                                        15
+                                                    )}
                                                 >
                                                     <div className='absolute inset-x-0 top-[24px] h-[24px] cursor-pointer group'>
                                                         <div className='absolute left-0 top-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-100 text-xs font-medium text-primary bg-background px-1 py-0.5 rounded shadow-sm border border-primary'>
@@ -167,10 +167,10 @@ export function CalendarDayView({ singleDayEvents, multiDayEvents }: IProps) {
                                             >
                                                 <AddEventDialog
                                                     startDate={selectedDate}
-                                                    startTime={{
+                                                    startTime={formatTimeSlot(
                                                         hour,
-                                                        minute: 30,
-                                                    }}
+                                                        30
+                                                    )}
                                                 >
                                                     <div className='absolute inset-x-0 top-[48px] h-[24px] cursor-pointer group'>
                                                         <div className='absolute left-0 top-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-100 text-xs font-medium text-primary bg-background px-1 py-0.5 rounded shadow-sm border border-primary'>
@@ -189,10 +189,10 @@ export function CalendarDayView({ singleDayEvents, multiDayEvents }: IProps) {
                                             >
                                                 <AddEventDialog
                                                     startDate={selectedDate}
-                                                    startTime={{
+                                                    startTime={formatTimeSlot(
                                                         hour,
-                                                        minute: 45,
-                                                    }}
+                                                        45
+                                                    )}
                                                 >
                                                     <div className='absolute inset-x-0 top-[72px] h-[24px] cursor-pointer group'>
                                                         <div className='absolute left-0 top-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-100 text-xs font-medium text-primary bg-background px-1 py-0.5 rounded shadow-sm border border-primary'>
@@ -209,7 +209,7 @@ export function CalendarDayView({ singleDayEvents, multiDayEvents }: IProps) {
                                 })}
 
                                 {groupedEvents.map((group, groupIndex) =>
-                                    group.map((event) => {
+                                    group.map(event => {
                                         let style = getEventBlockStyle(
                                             event,
                                             selectedDate,
@@ -223,7 +223,7 @@ export function CalendarDayView({ singleDayEvents, multiDayEvents }: IProps) {
                                         const hasOverlap = groupedEvents.some(
                                             (otherGroup, otherIndex) =>
                                                 otherIndex !== groupIndex &&
-                                                otherGroup.some((otherEvent) =>
+                                                otherGroup.some(otherEvent =>
                                                     areIntervalsOverlapping(
                                                         {
                                                             start: parseISO(
@@ -303,9 +303,9 @@ export function CalendarDayView({ singleDayEvents, multiDayEvents }: IProps) {
                     {currentEvents.length > 0 && (
                         <ScrollArea className='h-[422px] px-4' type='always'>
                             <div className='space-y-6 pb-4'>
-                                {currentEvents.map((event) => {
+                                {currentEvents.map(event => {
                                     const user = users.find(
-                                        (user) => user.id === event.userId
+                                        user => user.id === event.userId
                                     );
 
                                     return (
