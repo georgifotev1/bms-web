@@ -41,8 +41,6 @@ import type {
     ICalendarCell,
 } from '@/types/calendar';
 
-// ================ Header helper functions ================ //
-
 export function rangeText(view: TCalendarView, date: Date) {
     const formatString = 'MMM d, yyyy';
     let start: Date;
@@ -58,8 +56,8 @@ export function rangeText(view: TCalendarView, date: Date) {
             end = endOfMonth(date);
             break;
         case 'week':
-            start = startOfWeek(date);
-            end = endOfWeek(date);
+            start = startOfWeek(date, { weekStartsOn: 1 });
+            end = endOfWeek(date, { weekStartsOn: 1 });
             break;
         case 'day':
             return format(date, formatString);
@@ -450,8 +448,8 @@ export const getCurrentWeekDates = (date: Date = new Date()) => {
     sunday.setDate(monday.getDate() + 6);
 
     return {
-        startDate: monday.toISOString().split('T')[0],
-        endDate: sunday.toISOString().split('T')[0],
+        startDate: format(monday, 'yyyy-MM-dd'),
+        endDate: format(sunday, 'yyyy-MM-dd'),
     };
 };
 
@@ -478,8 +476,8 @@ export const getCurrentMonthDates = (date: Date = new Date()) => {
     );
 
     return {
-        startDate: firstDay.toISOString().split('T')[0],
-        endDate: lastDay.toISOString().split('T')[0],
+        startDate: format(firstDay, 'yyyy-MM-dd'),
+        endDate: format(lastDay, 'yyyy-MM-dd'),
     };
 };
 
