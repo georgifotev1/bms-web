@@ -52,7 +52,7 @@ export function AddEventDialog({ children }: IProps) {
 
                 <Form
                     id='event-form'
-                    onSubmit={(values) => {
+                    onSubmit={values => {
                         event.mutate(
                             {
                                 customerId: values.customerId,
@@ -79,13 +79,19 @@ export function AddEventDialog({ children }: IProps) {
                     {({ register, formState, watch }) => {
                         const startTimeValue = watch('startTime');
                         const selectedDate = watch('eventDate');
+                        const serviceId = watch('serviceId');
+                        const serviceDuration =
+                            services.data?.find(
+                                service => service.id === serviceId
+                            )?.duration ?? 15;
+
                         return (
                             <>
                                 <SelectField
                                     label='User'
                                     error={formState.errors['userId']}
                                     options={
-                                        users.data?.map((user) => ({
+                                        users.data?.map(user => ({
                                             label: user.name,
                                             value: user.id,
                                         })) ?? []
@@ -96,7 +102,7 @@ export function AddEventDialog({ children }: IProps) {
                                     label='Customer'
                                     error={formState.errors['customerId']}
                                     options={
-                                        customers?.data?.map((customer) => ({
+                                        customers?.data?.map(customer => ({
                                             label: customer.name,
                                             value: customer.id,
                                         })) ?? []
@@ -107,19 +113,14 @@ export function AddEventDialog({ children }: IProps) {
                                     label='Service'
                                     error={formState.errors['serviceId']}
                                     options={
-                                        services?.data?.map((service) => ({
+                                        services?.data?.map(service => ({
                                             label: service.title,
                                             value: service.id,
                                         })) ?? []
                                     }
                                     registration={register('serviceId')}
                                 />
-                                {/* <DatePickerField
-                                label='Event Date'
-                                error={formState.errors['eventDate']}
-                                control={control}
-                                name='eventDate'
-                            /> */}
+
                                 <div className='grid grid-cols-3 gap-2'>
                                     <DatePickerFieldV2
                                         label='Event Date'
@@ -131,12 +132,10 @@ export function AddEventDialog({ children }: IProps) {
                                                 dayOfWeek:
                                                     brand.workingHours
                                                         .filter(
-                                                            (day) =>
-                                                                day.isClosed
+                                                            day => day.isClosed
                                                         )
                                                         .map(
-                                                            (day) =>
-                                                                day.dayOfWeek
+                                                            day => day.dayOfWeek
                                                         ) ?? [],
                                             },
                                         ]}
@@ -161,8 +160,9 @@ export function AddEventDialog({ children }: IProps) {
                                         placeholder='End time'
                                         startTime='09:00'
                                         endTime='18:00'
-                                        interval={15}
+                                        interval={serviceDuration}
                                         minTime={startTimeValue}
+                                        startTimeRef={startTimeValue}
                                     />
                                 </div>
 

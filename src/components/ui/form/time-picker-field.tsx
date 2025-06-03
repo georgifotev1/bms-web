@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/select';
 
 import { FieldWrapper, FieldWrapperPassThroughProps } from './field-wrapper';
+import { add, parse, format } from 'date-fns';
 
 type TimePickerFieldProps = FieldWrapperPassThroughProps & {
     className?: string;
@@ -21,6 +22,7 @@ type TimePickerFieldProps = FieldWrapperPassThroughProps & {
     interval?: number; // Default: 15 (minutes)
     minTime?: string; // Minimum selectable time (e.g., for end time based on start time)
     registration: Partial<UseFormRegisterReturn>;
+    startTimeRef?: string;
 };
 
 export const TimePickerField = (props: TimePickerFieldProps) => {
@@ -35,6 +37,7 @@ export const TimePickerField = (props: TimePickerFieldProps) => {
         interval = 15,
         minTime,
         registration,
+        startTimeRef,
     } = props;
 
     const [selectedTime, setSelectedTime] = React.useState<string>(
@@ -79,20 +82,23 @@ export const TimePickerField = (props: TimePickerFieldProps) => {
         return options;
     }, [startTime, endTime, interval, minTime]);
 
-    const handleTimeChange = (time: string) => {
-        setSelectedTime(time);
+    const handleTimeChange = React.useCallback(
+        (time: string) => {
+            setSelectedTime(time);
 
-        const syntheticEvent = {
-            target: {
-                name: registration.name,
-                value: time,
-            },
-        } as React.ChangeEvent<HTMLInputElement>;
+            const syntheticEvent = {
+                target: {
+                    name: registration.name,
+                    value: time,
+                },
+            } as React.ChangeEvent<HTMLInputElement>;
 
-        if (registration.onChange) {
-            registration.onChange(syntheticEvent);
-        }
-    };
+            if (registration.onChange) {
+                registration.onChange(syntheticEvent);
+            }
+        },
+        [registration]
+    );
 
     React.useEffect(() => {
         if (selectedTime && minTime) {
@@ -120,6 +126,14 @@ export const TimePickerField = (props: TimePickerFieldProps) => {
         }
     }, [minTime, selectedTime, registration]);
 
+    React.useEffect(() => {
+        if (!startTimeRef) return;
+        const date = parse(startTimeRef, 'HH:mm', new Date());
+        const newDate = add(date, { minutes: interval });
+        const newTimeString = format(newDate, 'HH:mm');
+        handleTimeChange(newTimeString);
+    }, [startTimeRef, interval, handleTimeChange]);
+
     return (
         <FieldWrapper label={label} error={error}>
             <Select
@@ -132,7 +146,7 @@ export const TimePickerField = (props: TimePickerFieldProps) => {
                     <SelectValue placeholder={placeholder} />
                 </SelectTrigger>
                 <SelectContent>
-                    {generateTimeOptions.map((option) => (
+                    {generateTimeOptions.map(option => (
                         <SelectItem key={option.value} value={option.value}>
                             {option.label}
                         </SelectItem>
