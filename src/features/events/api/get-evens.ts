@@ -15,14 +15,14 @@ const eventParamsSchema = z.object({
         .string()
         .regex(/^\d{4}-\d{2}-\d{2}$/, 'Start date must be in YYYY-MM-DD format')
         .refine(
-            (date) => !isNaN(Date.parse(date)),
+            date => !isNaN(Date.parse(date)),
             'Start date must be a valid date'
         ),
     endDate: z
         .string()
         .regex(/^\d{4}-\d{2}-\d{2}$/, 'End date must be in YYYY-MM-DD format')
         .refine(
-            (date) => !isNaN(Date.parse(date)),
+            date => !isNaN(Date.parse(date)),
             'End date must be a valid date'
         ),
 });
@@ -64,7 +64,7 @@ const getEvents = ({ startDate, endDate }: EventParams = {}): Promise<
 
     if (!result.success) {
         const errorMessages = result.error.errors
-            .map((err) => err.message)
+            .map(err => err.message)
             .join(', ');
         return Promise.reject(new Error(`Validation failed: ${errorMessages}`));
     }
@@ -87,7 +87,8 @@ export const useEventsForView = (
         queryKey: [
             queryKeys.events,
             view,
-            currentDate.toISOString().split('T')[0],
+            dateRange.startDate,
+            dateRange.endDate,
         ],
         queryFn: () =>
             getEvents({

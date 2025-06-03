@@ -99,7 +99,7 @@ export function getEventsCount(
         month: isSameMonth,
     };
 
-    return events.filter((event) =>
+    return events.filter(event =>
         compareFns[view](new Date(event.startTime), date)
     ).length;
 }
@@ -109,7 +109,7 @@ export function getEventsCount(
 export function getCurrentEvents(events: IEvent[]) {
     const now = new Date();
     return (
-        events.filter((event) =>
+        events.filter(event =>
             isWithinInterval(now, {
                 start: parseISO(event.startTime),
                 end: parseISO(event.endTime),
@@ -193,7 +193,7 @@ export function getVisibleHours(
     let earliestEventHour = visibleHours.from;
     let latestEventHour = visibleHours.to;
 
-    singleDayEvents.forEach((event) => {
+    singleDayEvents.forEach(event => {
         const startHour = parseISO(event.startTime).getHours();
         const endTime = parseISO(event.endTime);
         const endHour = endTime.getHours() + (endTime.getMinutes() > 0 ? 1 : 0);
@@ -264,7 +264,7 @@ export function calculateMonthEventPositions(
     const eventPositions: { [key: string]: number } = {};
     const occupiedPositions: { [key: string]: boolean[] } = {};
 
-    eachDayOfInterval({ start: monthStart, end: monthEnd }).forEach((day) => {
+    eachDayOfInterval({ start: monthStart, end: monthEnd }).forEach(day => {
         occupiedPositions[day.toISOString()] = [false, false, false];
     });
 
@@ -291,7 +291,7 @@ export function calculateMonthEventPositions(
         ),
     ];
 
-    sortedEvents.forEach((event) => {
+    sortedEvents.forEach(event => {
         const eventStart = parseISO(event.startTime);
         const eventEnd = parseISO(event.endTime);
         const eventDays = eachDayOfInterval({
@@ -303,7 +303,7 @@ export function calculateMonthEventPositions(
 
         for (let i = 0; i < 3; i++) {
             if (
-                eventDays.every((day) => {
+                eventDays.every(day => {
                     const dayPositions =
                         occupiedPositions[startOfDay(day).toISOString()];
                     return dayPositions && !dayPositions[i];
@@ -315,7 +315,7 @@ export function calculateMonthEventPositions(
         }
 
         if (position !== -1) {
-            eventDays.forEach((day) => {
+            eventDays.forEach(day => {
                 const dayKey = startOfDay(day).toISOString();
                 occupiedPositions[dayKey][position] = true;
             });
@@ -331,7 +331,7 @@ export function getMonthCellEvents(
     events: IEvent[],
     eventPositions: Record<string, number>
 ) {
-    const eventsForDate = events.filter((event) => {
+    const eventsForDate = events.filter(event => {
         const eventStart = parseISO(event.startTime);
         const eventEnd = parseISO(event.endTime);
         return (
@@ -342,7 +342,7 @@ export function getMonthCellEvents(
     });
 
     return eventsForDate
-        .map((event) => ({
+        .map(event => ({
             ...event,
             position: eventPositions[event.id] ?? -1,
             isMultiDay: event.startTime !== event.endTime,
@@ -457,8 +457,7 @@ export const getCurrentWeekDates = (date: Date = new Date()) => {
 
 export const getCurrentDayDates = (date: Date = new Date()) => {
     const targetDate = new Date(date);
-    const dateStr = targetDate.toISOString().split('T')[0];
-
+    const dateStr = format(targetDate, 'yyyy-MM-dd');
     return {
         startDate: dateStr,
         endDate: dateStr,
