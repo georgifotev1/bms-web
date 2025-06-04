@@ -10,5 +10,6 @@ export const useBrand = (brandId: number) => {
     return useQuery({
         queryKey: [queryKeys.brand, brandId],
         queryFn: () => getBrand(brandId),
+        enabled: !!brandId && brandId > 0,
     });
 };
