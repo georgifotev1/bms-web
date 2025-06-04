@@ -23,7 +23,7 @@ import { TimePickerField } from '@/components/ui/form/time-picker-field';
 import { createApiDateTime, getNextAvailableTimeSlot } from '../helpers';
 import { Textarea } from '@/components/ui/form/textarea';
 import { DatePickerFieldV2 } from '@/components/ui/form/date-picker-field-v2';
-import { getDay } from 'date-fns';
+import { getDay, parse, addMinutes, format } from 'date-fns';
 import { WorkingHour } from '@/types/api';
 
 interface IProps {
@@ -45,6 +45,12 @@ export function AddEventDialog(props: IProps) {
         return brand.workingHours.find(
             day => day.dayOfWeek === getDay(selectedDate)
         );
+    };
+    const getDefaultEndTimeValue = () => {
+        if (!props.startTime) return;
+        const date = parse(props.startTime, 'HH:mm', new Date());
+        const newDate = addMinutes(date, 15);
+        return format(newDate, 'HH:mm');
     };
     return (
         <Dialog open={open} onOpenChange={setOpen}>
@@ -136,6 +142,7 @@ export function AddEventDialog(props: IProps) {
                                         label='Event Date'
                                         error={formState.errors['eventDate']}
                                         registration={register('eventDate')}
+                                        defaultValue={props.startDate}
                                         disabledOptions={[
                                             { before: new Date() },
                                             {
@@ -191,6 +198,7 @@ export function AddEventDialog(props: IProps) {
                                         minTime={startTimeValue}
                                         startTimeRef={startTimeValue}
                                         isEndTimePicker
+                                        defaultValue={getDefaultEndTimeValue()}
                                     />
                                 </div>
 
