@@ -25,6 +25,7 @@ import { Textarea } from '@/components/ui/form/textarea';
 import { DatePickerFieldV2 } from '@/components/ui/form/date-picker-field-v2';
 import { getDay, parse, addMinutes, format } from 'date-fns';
 import { WorkingHour } from '@/types/api';
+import { toast } from 'sonner';
 
 interface IProps {
     children: React.ReactNode;
@@ -82,7 +83,12 @@ export function AddEventDialog(props: IProps) {
                                 comment: values.comment ?? '',
                             },
                             {
-                                onSuccess: () => setOpen(false),
+                                onSuccess: () => {
+                                    setOpen(false);
+                                    toast.success(
+                                        'Event was added successfully!'
+                                    );
+                                },
                             }
                         );
                     }}

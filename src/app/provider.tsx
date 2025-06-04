@@ -18,7 +18,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
             })
     );
     return (
-        <React.Suspense fallback={<LoadingScreen />} >
+        <React.Suspense fallback={<LoadingScreen />}>
             <ErrorBoundary FallbackComponent={MainErrorFallback}>
                 <QueryClientProvider client={queryClient}>
                     {import.meta.env.DEV && <ReactQueryDevtools />}

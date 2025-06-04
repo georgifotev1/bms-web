@@ -43,7 +43,6 @@ export const TimePickerField = (props: TimePickerFieldProps) => {
         disabled,
         isEndTimePicker,
     } = props;
-
     const [selectedTime, setSelectedTime] = React.useState<string>(
         defaultValue || ''
     );
@@ -103,32 +102,6 @@ export const TimePickerField = (props: TimePickerFieldProps) => {
         },
         [registration]
     );
-
-    React.useEffect(() => {
-        if (selectedTime && minTime) {
-            const [selectedHour, selectedMinute] = selectedTime
-                .split(':')
-                .map(Number);
-            const [minHour, minMinute] = minTime.split(':').map(Number);
-
-            const selectedTotalMinutes = selectedHour * 60 + selectedMinute;
-            const minTotalMinutes = minHour * 60 + minMinute;
-
-            if (selectedTotalMinutes < minTotalMinutes) {
-                setSelectedTime('');
-                const syntheticEvent = {
-                    target: {
-                        name: registration.name,
-                        value: '',
-                    },
-                } as React.ChangeEvent<HTMLInputElement>;
-
-                if (registration.onChange) {
-                    registration.onChange(syntheticEvent);
-                }
-            }
-        }
-    }, [minTime, selectedTime, registration]);
 
     React.useEffect(() => {
         if (!startTimeRef) return;

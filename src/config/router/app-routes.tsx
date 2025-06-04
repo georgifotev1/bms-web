@@ -1,7 +1,7 @@
 import { RouteObject } from 'react-router';
 import { paths } from '@/config/paths';
 import AppRoot, { ErrorBoundary } from '@/app/routes/app/root';
-import { AppProtectedRoute } from '@/lib/app-protected-route';
+import { AppProtectedRoute } from '@/components/layouts/app-protected-route';
 
 export const appRoutes: RouteObject[] = [
     {

@@ -67,7 +67,7 @@ export const SelectField = (props: SelectFieldProps) => {
                     <SelectValue placeholder={placeholder} />
                 </SelectTrigger>
                 <SelectContent>
-                    {options.map((option) => (
+                    {options.map(option => (
                         <SelectItem
                             key={option.label?.toString()}
                             value={option.value.toString()}
