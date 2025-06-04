@@ -1,5 +1,5 @@
 import { cva } from 'class-variance-authority';
-import { format, differenceInMinutes, parseISO } from 'date-fns';
+import { format, differenceInMinutes, parseISO, addMinutes } from 'date-fns';
 
 import { cn } from '@/utils/cn';
 
@@ -58,7 +58,11 @@ export function EventBlock({ event, className }: IProps) {
     const { badgeVariant } = useCalendar();
 
     const start = parseISO(event.startTime);
-    const end = parseISO(event.endTime);
+    let end = parseISO(event.endTime);
+    if (event.bufferTime) {
+        end = addMinutes(end, event.bufferTime);
+    }
+
     const durationInMinutes = differenceInMinutes(end, start);
     const heightInPixels = (durationInMinutes / 60) * 96 - 8;
 

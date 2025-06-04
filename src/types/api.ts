@@ -72,6 +72,8 @@ export type Event = {
     userName: string;
     serviceName: string;
     comment?: string;
+    cost?: string;
+    bufferTime?: number;
     createdAt: string;
     updatedAt: string;
 };
