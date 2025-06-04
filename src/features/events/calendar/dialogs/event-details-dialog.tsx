@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/dialog';
 
 import type { Event as IEvent } from '@/types/api';
+import { DialogDescription } from '@radix-ui/react-dialog';
 
 interface IProps {
     event: IEvent;
@@ -22,10 +23,11 @@ export function EventDetailsDialog({ event, children }: IProps) {
             <Dialog>
                 <DialogTrigger asChild>{children}</DialogTrigger>
 
-                <DialogContent aria-describedby='service details'>
+                <DialogContent>
                     <DialogHeader>
                         <DialogTitle>{event.serviceName}</DialogTitle>
                     </DialogHeader>
+                    <DialogDescription></DialogDescription>
 
                     <div className='space-y-4 grid grid-cols-2'>
                         <div className='flex items-start gap-2'>

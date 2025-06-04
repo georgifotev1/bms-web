@@ -59,11 +59,7 @@ export function AddEventDialog(props: IProps) {
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle>Add New Event</DialogTitle>
-                    <DialogDescription>
-                        This is just and example of how to use the form. In a
-                        real application, you would call the API to create the
-                        event
-                    </DialogDescription>
+                    <DialogDescription></DialogDescription>
                 </DialogHeader>
 
                 <Form
