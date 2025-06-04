@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
-import { UseFormRegisterReturn } from 'react-hook-form';
+import { UseFormRegisterReturn, UseFormSetValue } from 'react-hook-form';
 
 import { cn } from '@/utils/cn';
 import { Button } from '@/components/ui/button';
@@ -22,6 +22,8 @@ type DatePickerFieldProps = FieldWrapperPassThroughProps & {
     dateFormat?: string;
     registration: Partial<UseFormRegisterReturn>;
     disabledOptions: Matcher | Matcher[] | undefined;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    setValue: UseFormSetValue<any>;
 };
 
 export const DatePickerFieldV2 = (props: DatePickerFieldProps) => {
@@ -34,6 +36,7 @@ export const DatePickerFieldV2 = (props: DatePickerFieldProps) => {
         dateFormat = 'PPP',
         registration,
         disabledOptions,
+        setValue,
     } = props;
 
     const [selectedValue, setSelectedValue] = React.useState<Date | undefined>(
@@ -44,18 +47,14 @@ export const DatePickerFieldV2 = (props: DatePickerFieldProps) => {
     const handleDateSelect = (selectedDate: Date) => {
         setSelectedValue(selectedDate);
         setIsOpen(false);
-
-        const syntheticEvent = {
-            target: {
-                name: registration.name,
-                value: selectedDate,
-            },
-        };
-
-        if (registration.onChange) {
-            registration.onChange(syntheticEvent);
-        }
+        if (registration.name) setValue(registration.name, selectedDate);
     };
+
+    React.useEffect(() => {
+        if (defaultValue && registration.name) {
+            setValue(registration.name, defaultValue);
+        }
+    }, [defaultValue, setValue, registration.name]);
 
     return (
         <FieldWrapper label={label} error={error}>
@@ -89,11 +88,6 @@ export const DatePickerFieldV2 = (props: DatePickerFieldProps) => {
                     />
                 </PopoverContent>
             </Popover>
-            <input
-                type='hidden'
-                {...registration}
-                value={selectedValue ? selectedValue.toISOString() : ''}
-            />
         </FieldWrapper>
     );
 };

@@ -92,7 +92,7 @@ export function AddEventDialog(props: IProps) {
                     }}
                     schema={eventFormSchema}
                 >
-                    {({ register, formState, watch }) => {
+                    {({ register, formState, watch, setValue }) => {
                         const startTimeValue = watch('startTime');
                         const selectedDate = watch('eventDate');
                         const serviceId = watch('serviceId');
@@ -143,6 +143,7 @@ export function AddEventDialog(props: IProps) {
                                         error={formState.errors['eventDate']}
                                         registration={register('eventDate')}
                                         defaultValue={props.startDate}
+                                        setValue={setValue}
                                         disabledOptions={[
                                             { before: new Date() },
                                             {
