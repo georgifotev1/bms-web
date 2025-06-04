@@ -1,5 +1,5 @@
 import { format } from 'date-fns';
-import { Calendar, Clock, Text, User } from 'lucide-react';
+import { Banknote, Calendar, Clock, ClockPlus, Text, User } from 'lucide-react';
 
 import {
     Dialog,
@@ -74,6 +74,34 @@ export function EventDetailsDialog({ event, children }: IProps) {
                                 </p>
                             </div>
                         </div>
+
+                        {event.bufferTime && (
+                            <div className='flex items-start gap-2'>
+                                <ClockPlus className='mt-1 size-4 shrink-0' />
+                                <div>
+                                    <p className='text-sm font-medium'>
+                                        Buffer Time
+                                    </p>
+                                    <p className='text-sm text-muted-foreground flex gap-0.5'>
+                                        {event.bufferTime} minutes
+                                    </p>
+                                </div>
+                            </div>
+                        )}
+
+                        {event.cost && (
+                            <div className='flex items-start gap-2'>
+                                <Banknote className='mt-1 size-4 shrink-0' />
+                                <div>
+                                    <p className='text-sm font-medium'>
+                                        Total Price
+                                    </p>
+                                    <p className='text-sm text-muted-foreground flex gap-0.5'>
+                                        {event.cost}
+                                    </p>
+                                </div>
+                            </div>
+                        )}
 
                         {event.comment && (
                             <div className='flex items-start gap-2'>
