@@ -48,11 +48,20 @@ export const appRoutes: RouteObject[] = [
                     ),
             },
             {
-                path: paths.app.root.services,
+                path: paths.app.services.path,
                 lazy: () =>
                     import('@/app/routes/app/services').then(
                         ({ ServicesRoute }) => ({
                             Component: ServicesRoute,
+                        })
+                    ),
+            },
+            {
+                path: paths.app.services.new,
+                lazy: () =>
+                    import('@/app/routes/app/services/new').then(
+                        ({ NewServiceRoute }) => ({
+                            Component: NewServiceRoute,
                         })
                     ),
             },

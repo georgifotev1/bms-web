@@ -28,7 +28,10 @@ export const paths = {
         brandCreate: '/brand/create',
         root: {
             path: '/',
-            services: '/services',
+        },
+        services: {
+            path: '/services',
+            new: '/services/new',
         },
     },
 } as const;
