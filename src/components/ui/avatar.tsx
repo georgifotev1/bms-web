@@ -52,7 +52,7 @@ function AvatarFallback({
 
 const AvatarComponent = ({ user }: { user: User }) => {
     return (
-        <Avatar className='h-8 w-8 rounded-full'>
+        <Avatar>
             <AvatarImage src={user.avatar} alt={user.name} />
             <AvatarFallback className='rounded-lg'>
                 {getInitials(user.name)}

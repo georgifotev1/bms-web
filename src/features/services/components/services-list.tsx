@@ -1,9 +1,9 @@
 import { useDashboardData } from '@/context/dashboard';
 import { H3, SmallText, SmallTextMuted } from '@/components/typography';
 import { LoadingScreen } from '@/components/ui/spinner/loading-screen';
-import { AvatarComponent } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
+import { ServiceProviders } from './service-providers';
 
 export const ServicesList = () => {
     const { services, users, isLoading } = useDashboardData();
@@ -25,7 +25,7 @@ export const ServicesList = () => {
                     {services.data.map(service => (
                         <div
                             key={service.id}
-                            className='flex items-center py-2 px-4 justify-between border rounded-md cursor-pointer hover:bg-accent/50'
+                            className='flex items-center py-2 px-4 justify-between border rounded-sm cursor-pointer hover:bg-accent/50'
                         >
                             <div className='flex flex-col gap-2'>
                                 <SmallText>{service.title}</SmallText>
@@ -40,16 +40,10 @@ export const ServicesList = () => {
                                 </div>
                             </div>
                             <div>
-                                <div className='flex gap-1'>
-                                    {service.providers.map(provider => {
-                                        const usr = users.data?.find(
-                                            user => user.id === provider
-                                        );
-                                        return usr ? (
-                                            <AvatarComponent user={usr} />
-                                        ) : null;
-                                    })}
-                                </div>
+                                <ServiceProviders
+                                    providers={service.providers}
+                                    users={users.data}
+                                />
                             </div>
                         </div>
                     ))}
