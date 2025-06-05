@@ -148,3 +148,21 @@ export const Muted = ({ children, className, ...props }: TypographyProps) => {
         </p>
     );
 };
+
+export const SmallTextMuted = ({
+    children,
+    className,
+    ...props
+}: TypographyProps) => {
+    return (
+        <small
+            className={cn(
+                'text-sm font-medium leading-none text-slate-500 dark:text-slate-400',
+                className
+            )}
+            {...props}
+        >
+            {children}
+        </small>
+    );
+};

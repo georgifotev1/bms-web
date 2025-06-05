@@ -2,6 +2,8 @@ import * as AvatarPrimitive from '@radix-ui/react-avatar';
 import * as React from 'react';
 
 import { cn } from '@/utils/cn';
+import { getInitials } from '@/utils/helpers';
+import { User } from '@/types/api';
 
 function Avatar({
     className,
@@ -48,5 +50,15 @@ function AvatarFallback({
     );
 }
 
-export { Avatar, AvatarFallback, AvatarImage };
+const AvatarComponent = ({ user }: { user: User }) => {
+    return (
+        <Avatar className='h-8 w-8 rounded-full'>
+            <AvatarImage src={user.avatar} alt={user.name} />
+            <AvatarFallback className='rounded-lg'>
+                {getInitials(user.name)}
+            </AvatarFallback>
+        </Avatar>
+    );
+};
 
+export { Avatar, AvatarFallback, AvatarImage, AvatarComponent };
