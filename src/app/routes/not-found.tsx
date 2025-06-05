@@ -1,6 +1,5 @@
 import { H1, Lead } from '@/components/typography';
-import { buttonVariants } from '@/components/ui/button';
-import { Link } from '@/components/ui/link';
+import { ButtonLink } from '@/components/ui/link';
 
 export const NotFoundRoute = () => {
     return (
@@ -12,15 +11,7 @@ export const NotFoundRoute = () => {
                     Sorry, we couldn’t find the page you’re looking for.
                 </Lead>
                 <div className='mt-10 flex items-center justify-center gap-x-6'>
-                    <Link
-                        className={buttonVariants({
-                            variant: 'default',
-                            size: 'default',
-                        })}
-                        to={'/'}
-                    >
-                        Go back home
-                    </Link>
+                    <ButtonLink to={'/'}>Go back home</ButtonLink>
                 </div>
             </div>
         </main>

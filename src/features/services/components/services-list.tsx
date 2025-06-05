@@ -1,12 +1,10 @@
 import { useDashboardData } from '@/context/dashboard';
 import { H3, SmallText, SmallTextMuted } from '@/components/typography';
 import { LoadingScreen } from '@/components/ui/spinner/loading-screen';
-import { buttonVariants } from '@/components/ui/button';
 import { Plus } from 'lucide-react';
 import { ServiceProviders } from './service-providers';
-import { Link } from '@/components/ui/link';
+import { ButtonLink } from '@/components/ui/link';
 import { paths } from '@/config/paths';
-import { cn } from '@/utils/cn';
 
 export const ServicesList = () => {
     const { services, users, isLoading } = useDashboardData();
@@ -17,18 +15,13 @@ export const ServicesList = () => {
             <div className='container px-0 md:px-12'>
                 <div className='flex justify-between'>
                     <H3>Services ({services.data.length})</H3>
-                    <Link
+                    <ButtonLink
                         to={paths.app.services.new}
-                        className={cn(
-                            buttonVariants({
-                                variant: 'default',
-                                size: 'icon',
-                            }),
-                            'rounded-full'
-                        )}
+                        variant='default'
+                        size='icon'
                     >
                         <Plus />
-                    </Link>
+                    </ButtonLink>
                 </div>
 
                 <div className='flex flex-col gap-2 mt-8'>
