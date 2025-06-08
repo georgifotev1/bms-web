@@ -165,6 +165,7 @@ type FormProps<TFormValues extends FieldValues, Schema> = {
     children: (methods: UseFormReturn<TFormValues>) => React.ReactNode;
     options?: UseFormProps<TFormValues>;
     id?: string;
+    hasFiles?: boolean;
 };
 
 const Form = <
@@ -178,6 +179,7 @@ const Form = <
     options,
     id,
     schema,
+    hasFiles,
 }: FormProps<TFormValues, Schema>) => {
     const form = useForm({ ...options, resolver: zodResolver(schema) });
     return (
@@ -186,6 +188,7 @@ const Form = <
                 className={cn('space-y-6', className)}
                 onSubmit={form.handleSubmit(onSubmit)}
                 id={id}
+                encType={hasFiles ? 'multipart/form-data' : undefined}
             >
                 {children(form)}
             </form>
