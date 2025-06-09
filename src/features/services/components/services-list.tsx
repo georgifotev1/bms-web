@@ -1,7 +1,7 @@
 import { useDashboardData } from '@/context/dashboard';
 import { H3, SmallText, SmallTextMuted } from '@/components/typography';
 import { LoadingScreen } from '@/components/ui/spinner/loading-screen';
-import { Plus } from 'lucide-react';
+import { Image, Plus } from 'lucide-react';
 import { ServiceProviders } from './service-providers';
 import { ButtonLink } from '@/components/ui/link';
 import { paths } from '@/config/paths';
@@ -28,9 +28,22 @@ export const ServicesList = () => {
                     {services.data.map(service => (
                         <div
                             key={service.id}
-                            className='flex items-center py-2 px-4 justify-between border rounded-sm cursor-pointer hover:bg-accent/50'
+                            className='flex items-center gap-2 py-2 px-4 justify-between border rounded-sm cursor-pointer hover:bg-accent/50'
                         >
-                            <div className='flex flex-col gap-2'>
+                            {service.imageUrl ? (
+                                <img
+                                    src={service.imageUrl}
+                                    width={50}
+                                    alt={service.title}
+                                    className='shrink-0 rounded-sm'
+                                />
+                            ) : (
+                                <div className='w-[50px] h-[50px] bg-accent flex items-center justify-center rounded-sm shrink-0'>
+                                    <Image />
+                                </div>
+                            )}
+
+                            <div className='flex flex-1 flex-col gap-2'>
                                 <SmallText>{service.title}</SmallText>
                                 <div className='flex gap-1'>
                                     <SmallTextMuted>
