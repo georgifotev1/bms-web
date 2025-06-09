@@ -122,4 +122,14 @@ export const api = {
         }),
     delete: <T>(url: string, options: RequestInit = {}): Promise<T> =>
         fetchWrapper<T>(url, { method: 'DELETE', ...options }),
+    postFormData: <T>(
+        url: string,
+        formData: FormData,
+        options: RequestInit = {}
+    ): Promise<T> =>
+        fetchWrapper<T>(url, {
+            method: 'POST',
+            body: formData,
+            ...options,
+        }),
 };

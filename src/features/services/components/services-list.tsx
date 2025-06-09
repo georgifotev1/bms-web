@@ -12,7 +12,7 @@ export const ServicesList = () => {
     if (!services.data) return;
     return (
         <section className='py-8'>
-            <div className='container px-0 md:px-12'>
+            <div className='container px-0 md:px-12 mx-auto'>
                 <div className='flex justify-between'>
                     <H3>Services ({services.data.length})</H3>
                     <ButtonLink

@@ -9,8 +9,8 @@ const CREATE_SERVICE_FORM_ID = 'create-service-form';
 export const NewServiceRoute = () => {
     return (
         <div className='flex flex-col relative gap-6 max-w-[1140px] mx-auto'>
-            <header className='h-14 sticky top-0 bg-canvas z-10 lg:px-10'>
-                <div className='py-3 flex items-center justify-between border-b border-solid border-tertiary px-4 lg:!px-0'>
+            <header className='h-14 sticky bg-background top-0 z-10 lg:px-10 border-b border-solid border-tertiary'>
+                <div className='py-3 flex items-center justify-between px-4 lg:!px-0'>
                     <div className='flex items-center gap-2'>
                         <ButtonLink
                             variant='ghost'

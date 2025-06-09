@@ -24,24 +24,43 @@ export const createServiceSchema = z.object({
     bufferTime: z.coerce.number().optional(),
     cost: z.string().optional(),
     isVisible: z.boolean().default(true),
-    imageUrl: z
+    image: z
         .any()
+        .optional()
         .refine(file => {
-            if (!file) return true; // Optional field
-            return file?.size <= MAX_FILE_SIZE;
+            if (!file || file.size === undefined) return true;
+            return file.size <= MAX_FILE_SIZE;
         }, `Max image size is 5MB.`)
         .refine(file => {
-            if (!file) return true; // Optional field
-            return ACCEPTED_IMAGE_TYPES.includes(file?.type);
-        }, 'Only .jpg, .jpeg, .png and .webp formats are supported.')
-        .optional(),
+            if (!file || file.type === undefined) return true;
+            return ACCEPTED_IMAGE_TYPES.includes(file.type);
+        }, 'Only .jpg, .jpeg, .png and .webp formats are supported.'),
     userIds: z.array(z.coerce.number().int().nonnegative()).optional(),
 });
 
 export type CreateServiceData = z.infer<typeof createServiceSchema>;
 
 const createService = (data: CreateServiceData): Promise<Service> => {
-    return api.post('/service', data);
+    const formData = new FormData();
+
+    formData.append('title', data.title);
+    formData.append('description', data.description || '');
+    formData.append('duration', data.duration.toString());
+    formData.append('bufferTime', data.bufferTime?.toString() || '0');
+    formData.append('cost', data.cost || '');
+    formData.append('isVisible', data.isVisible?.toString() || 'false');
+
+    if (data.userIds && data.userIds.length > 0) {
+        data.userIds.forEach(id => {
+            formData.append('userIds', id.toString());
+        });
+    }
+
+    if (data.image && data.image instanceof File) {
+        formData.append('image', data.image);
+    }
+
+    return api.postFormData('/service', formData);
 };
 
 export const useCreateService = () => {

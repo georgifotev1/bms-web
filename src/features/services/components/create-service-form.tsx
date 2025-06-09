@@ -1,5 +1,5 @@
 import { Form, Input } from '@/components/ui/form';
-import { createServiceSchema } from '../api/create-service';
+import { createServiceSchema, useCreateService } from '../api/create-service';
 import { FieldError } from 'react-hook-form';
 import { SwitchField } from '@/components/ui/form/switch-field';
 import { Textarea } from '@/components/ui/form/textarea';
@@ -12,17 +12,19 @@ import { Trash } from 'lucide-react';
 
 export const CreateServiceForm = ({ id }: { id: string }) => {
     const { users, isLoading } = useDashboardData();
+    const createService = useCreateService();
     return (
         <Form
             id={id}
             onSubmit={values => {
-                console.log('values', values);
+                console.log(values);
+                createService.mutate(values);
             }}
             schema={createServiceSchema}
             hasFiles
         >
             {({ register, formState, setValue, getValues, watch }) => {
-                const image = watch('imageUrl');
+                const image = watch('image');
                 return (
                     <div className='lg:grid lg:grid-cols-2 lg:gap-14 px-4 lg:!px-10'>
                         <div className='col-start-1 flex flex-col gap-4 mb-4 grow-0'>
@@ -38,20 +40,17 @@ export const CreateServiceForm = ({ id }: { id: string }) => {
                                     </div>
                                     <div className='flex items-center gap-2'>
                                         <ImageUploader
-                                            registration={register('imageUrl')}
+                                            registration={register('image')}
                                             label='Upload'
                                             multiple={false}
                                             error={
-                                                formState.errors['imageUrl'] as
+                                                formState.errors['image'] as
                                                     | FieldError
                                                     | undefined
                                             }
                                             image={image?.[0]}
                                             onCroppedImage={croppedFile => {
-                                                setValue(
-                                                    'imageUrl',
-                                                    croppedFile
-                                                );
+                                                setValue('image', croppedFile);
                                             }}
                                         />
                                         {image instanceof File && (
@@ -59,7 +58,7 @@ export const CreateServiceForm = ({ id }: { id: string }) => {
                                                 className='cursor-pointer mt-2'
                                                 size={18}
                                                 onClick={() =>
-                                                    setValue('imageUrl', null)
+                                                    setValue('image', null)
                                                 }
                                             />
                                         )}
