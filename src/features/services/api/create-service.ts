@@ -12,8 +12,8 @@ export const ACCEPTED_IMAGE_TYPES = [
     'image/webp',
 ];
 
-export const createServiceSchema = z.object({
-    title: z.string({ required_error: 'Title is required' }),
+export const serviceSchema = z.object({
+    title: z.string().min(3, 'Title is required'),
     description: z.string().optional(),
     duration: z.coerce
         .number({
@@ -38,9 +38,9 @@ export const createServiceSchema = z.object({
     userIds: z.array(z.coerce.number().int().nonnegative()).optional(),
 });
 
-export type CreateServiceData = z.infer<typeof createServiceSchema>;
+export type ServiceData = z.infer<typeof serviceSchema>;
 
-const createService = (data: CreateServiceData): Promise<Service> => {
+export const getServiceFormData = (data: ServiceData) => {
     const formData = new FormData();
 
     formData.append('title', data.title);
@@ -56,10 +56,20 @@ const createService = (data: CreateServiceData): Promise<Service> => {
         });
     }
 
-    if (data.image && data.image instanceof File) {
-        formData.append('image', data.image);
+    if (data.image) {
+        if (data.image instanceof File) {
+            formData.append('image', data.image); // File upload
+        }
+        if (typeof data.image === 'string') {
+            formData.append('imageUrl', data.image); // URL string
+        }
     }
 
+    return formData;
+};
+
+const createService = (data: ServiceData): Promise<Service> => {
+    const formData = getServiceFormData(data);
     return api.postFormData('/service', formData);
 };
 

@@ -132,4 +132,14 @@ export const api = {
             body: formData,
             ...options,
         }),
+    putFormData: <T>(
+        url: string,
+        formData: FormData,
+        options: RequestInit = {}
+    ): Promise<T> =>
+        fetchWrapper<T>(url, {
+            method: 'PUT',
+            body: formData,
+            ...options,
+        }),
 };

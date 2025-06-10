@@ -5,9 +5,11 @@ import { Image, Plus } from 'lucide-react';
 import { ServiceProviders } from './service-providers';
 import { ButtonLink } from '@/components/ui/link';
 import { paths } from '@/config/paths';
+import { useNavigate } from 'react-router';
 
 export const ServicesList = () => {
     const { services, users, isLoading } = useDashboardData();
+    const navigate = useNavigate();
     if (isLoading) return <LoadingScreen />;
     if (!services.data) return;
     return (
@@ -29,6 +31,7 @@ export const ServicesList = () => {
                         <div
                             key={service.id}
                             className='flex items-center gap-2 py-2 px-4 justify-between border rounded-sm cursor-pointer hover:bg-accent/50'
+                            onClick={() => navigate(`/services/${service.id}`)}
                         >
                             {service.imageUrl ? (
                                 <img

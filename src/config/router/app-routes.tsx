@@ -65,6 +65,15 @@ export const appRoutes: RouteObject[] = [
                         })
                     ),
             },
+            {
+                path: paths.app.services.edit,
+                lazy: () =>
+                    import('@/app/routes/app/services/edit').then(
+                        ({ EditServiceRoute }) => ({
+                            Component: EditServiceRoute,
+                        })
+                    ),
+            },
         ],
     },
     {

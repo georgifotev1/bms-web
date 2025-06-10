@@ -8,6 +8,7 @@ interface ImagePreviewProps {
     className?: string;
     imageClassName?: string;
     alt?: string;
+    defaultUrl?: string;
 }
 
 export const ImagePreview: React.FC<ImagePreviewProps> = ({
@@ -16,14 +17,12 @@ export const ImagePreview: React.FC<ImagePreviewProps> = ({
     className,
     imageClassName,
     alt = 'Preview',
+    defaultUrl,
 }) => {
-    const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+    const [previewUrl, setPreviewUrl] = useState<string>(defaultUrl ?? '');
 
     useEffect(() => {
-        if (!file) {
-            setPreviewUrl(null);
-            return;
-        }
+        if (!file) return;
         const url = URL.createObjectURL(file);
         setPreviewUrl(url);
 
@@ -32,7 +31,7 @@ export const ImagePreview: React.FC<ImagePreviewProps> = ({
         };
     }, [file]);
 
-    if (!file || !previewUrl) {
+    if (!previewUrl) {
         return (
             <div className={cn('flex items-center justify-center', className)}>
                 {fallback || (
