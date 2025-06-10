@@ -1,5 +1,5 @@
 import { useDashboardData } from '@/context/dashboard';
-import { EditServiceForm } from '@/features/services/components/edit-service-form';
+import { EditServiceForm } from '@/features/services/components/service-form';
 import { useParams } from 'react-router';
 
 export const EditServiceRoute = () => {

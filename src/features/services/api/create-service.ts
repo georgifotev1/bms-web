@@ -23,7 +23,7 @@ export const serviceSchema = z.object({
         .min(1, 'Duration must be greater than 0'),
     bufferTime: z.coerce.number().optional(),
     cost: z.string().optional(),
-    isVisible: z.boolean().default(true),
+    isVisible: z.coerce.boolean().default(true),
     image: z
         .any()
         .optional()

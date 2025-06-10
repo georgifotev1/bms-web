@@ -1,4 +1,4 @@
-import { CreateServiceForm } from '@/features/services/components/create-service-form';
+import { CreateServiceForm } from '@/features/services/components/service-form';
 
 export const NewServiceRoute = () => {
     return <CreateServiceForm />;

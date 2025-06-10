@@ -59,6 +59,7 @@ function SwitchField({
                     {...props}
                 />
             </div>
+            <input type='hidden' {...registration} />
         </FieldWrapper>
     );
 }
