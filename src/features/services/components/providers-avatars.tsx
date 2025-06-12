@@ -1,7 +1,7 @@
 import { AvatarComponent } from '@/components/ui/avatar';
 import { User } from '@/types/api';
 
-export const ServiceProviders = ({
+export const ProvidersAvatars = ({
     providers,
     users,
 }: {

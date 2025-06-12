@@ -35,7 +35,9 @@ export const serviceSchema = z.object({
             if (!file || file.type === undefined) return true;
             return ACCEPTED_IMAGE_TYPES.includes(file.type);
         }, 'Only .jpg, .jpeg, .png and .webp formats are supported.'),
-    userIds: z.array(z.coerce.number().int().nonnegative()).optional(),
+    userIds: z
+        .array(z.coerce.number().int().nonnegative())
+        .min(1, 'At least one provider must be assigned'),
 });
 
 export type ServiceData = z.infer<typeof serviceSchema>;

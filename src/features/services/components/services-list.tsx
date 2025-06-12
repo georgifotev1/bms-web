@@ -2,7 +2,7 @@ import { useDashboardData } from '@/context/dashboard';
 import { H3, SmallText, SmallTextMuted } from '@/components/typography';
 import { LoadingScreen } from '@/components/ui/spinner/loading-screen';
 import { Image, Plus } from 'lucide-react';
-import { ServiceProviders } from './service-providers';
+import { ProvidersAvatars } from './providers-avatars';
 import { ButtonLink } from '@/components/ui/link';
 import { paths } from '@/config/paths';
 import { useNavigate } from 'react-router';
@@ -30,7 +30,7 @@ export const ServicesList = () => {
                     {services.data.map(service => (
                         <div
                             key={service.id}
-                            className='flex items-center gap-2 py-2 px-4 justify-between border rounded-sm cursor-pointer hover:bg-accent/50'
+                            className='flex items-center gap-4 py-2 px-4 justify-between border rounded-sm cursor-pointer hover:bg-accent/50'
                             onClick={() => navigate(`/services/${service.id}`)}
                         >
                             {service.imageUrl ? (
@@ -54,12 +54,15 @@ export const ServicesList = () => {
                                     </SmallTextMuted>
                                     <SmallTextMuted>-</SmallTextMuted>
                                     <SmallTextMuted>
-                                        ${service.cost}
+                                        $
+                                        {service.cost != ''
+                                            ? service.cost
+                                            : '0'}
                                     </SmallTextMuted>
                                 </div>
                             </div>
                             <div>
-                                <ServiceProviders
+                                <ProvidersAvatars
                                     providers={service.providers}
                                     users={users.data}
                                 />

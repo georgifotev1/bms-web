@@ -22,14 +22,18 @@ export const ImagePreview: React.FC<ImagePreviewProps> = ({
     const [previewUrl, setPreviewUrl] = useState<string>(defaultUrl ?? '');
 
     useEffect(() => {
-        if (!file) return;
+        if (!file) {
+            setPreviewUrl(defaultUrl ?? '');
+            return;
+        }
+
         const url = URL.createObjectURL(file);
         setPreviewUrl(url);
 
         return () => {
             URL.revokeObjectURL(url);
         };
-    }, [file]);
+    }, [file, defaultUrl]);
 
     if (!previewUrl) {
         return (

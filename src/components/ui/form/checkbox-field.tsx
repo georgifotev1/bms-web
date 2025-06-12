@@ -2,7 +2,7 @@
 import React from 'react';
 import { Controller, Control } from 'react-hook-form';
 import { cn } from '@/utils/cn'; // Adjust import path as needed
-import { FieldWrapper, FieldWrapperPassThroughProps } from './field-wrapper';
+import { FieldWrapperPassThroughProps } from './field-wrapper';
 import { Checkbox } from '../checkbox';
 import { Label } from './label';
 
@@ -22,7 +22,6 @@ export type CheckboxFieldProps = Omit<
 export const CheckboxField = ({
     className,
     label,
-    error,
     name,
     control,
     checkboxClassName,
@@ -36,7 +35,7 @@ export const CheckboxField = ({
             name={name}
             control={control}
             defaultValue={initialValues}
-            render={({ field, fieldState }) => {
+            render={({ field }) => {
                 const currentValues: any[] = field.value || [];
                 const isChecked = currentValues.includes(value);
 
@@ -57,33 +56,24 @@ export const CheckboxField = ({
                 };
 
                 return (
-                    <FieldWrapper error={error}>
-                        <div
-                            className={cn(
-                                'flex items-center space-x-3',
-                                className
-                            )}
+                    <div
+                        className={cn('flex items-center space-x-3', className)}
+                    >
+                        <Checkbox
+                            id={`${name}-${value}`}
+                            checked={isChecked}
+                            onCheckedChange={handleCheckedChange}
+                            disabled={disabled}
+                            className={checkboxClassName}
+                            {...props}
+                        />
+                        <Label
+                            htmlFor={`${name}-${value}`}
+                            className='text-sm font-normal'
                         >
-                            <Checkbox
-                                id={`${name}-${value}`}
-                                checked={isChecked}
-                                onCheckedChange={handleCheckedChange}
-                                disabled={disabled}
-                                className={cn(
-                                    (error || fieldState.error) &&
-                                        'ring-2 ring-destructive ring-offset-2',
-                                    checkboxClassName
-                                )}
-                                {...props}
-                            />
-                            <Label
-                                htmlFor={`${name}-${value}`}
-                                className='text-sm font-normal'
-                            >
-                                {label}
-                            </Label>
-                        </div>
-                    </FieldWrapper>
+                            {label}
+                        </Label>
+                    </div>
                 );
             }}
         />
