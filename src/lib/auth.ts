@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { z } from 'zod';
-import { Token, User, UserWithToken } from '@/types/api';
-import { api, tokenService } from './api-client';
+import { User } from '@/types/api';
+import { api } from './api-client';
 import { queryKeys } from './react-query';
 
 export const loginInputSchema = z.object({
@@ -26,12 +26,12 @@ const logout = (): Promise<void> => {
     return api.post('/auth/logout');
 };
 
-const login = (data: LoginInput): Promise<Token> => {
-    return api.post('/auth/token', data);
+const login = (data: LoginInput): Promise<User> => {
+    return api.post('/auth/signin', data);
 };
 
-const register = (data: RegisterInput): Promise<UserWithToken> => {
-    return api.post('/auth/register', data);
+const register = (data: RegisterInput): Promise<User> => {
+    return api.post('/auth/signup', data);
 };
 
 export const useUser = () => {
@@ -45,8 +45,8 @@ export const useLogin = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: login,
-        onSuccess: (data) => {
-            tokenService.setToken(data.token);
+        onSuccess: data => {
+            queryClient.setQueryData([queryKeys.user], data);
             queryClient.invalidateQueries({ queryKey: [queryKeys.user] });
         },
     });
@@ -57,8 +57,7 @@ export const useRegister = () => {
 
     return useMutation({
         mutationFn: register,
-        onSuccess: (data) => {
-            tokenService.setToken(data.token);
+        onSuccess: data => {
             queryClient.setQueryData([queryKeys.user], data);
             queryClient.invalidateQueries({ queryKey: [queryKeys.user] });
         },
@@ -71,7 +70,6 @@ export const useLogout = () => {
     return useMutation({
         mutationFn: logout,
         onSuccess: () => {
-            tokenService.clearToken();
             queryClient.removeQueries({ queryKey: [queryKeys.user] });
         },
     });
