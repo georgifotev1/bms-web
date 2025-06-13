@@ -1,5 +1,4 @@
 import { Calendar, ListTree, Settings2, Smile } from 'lucide-react';
-
 import {
     SidebarGroup,
     SidebarGroupLabel,
@@ -7,10 +6,18 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
 export function NavMain() {
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const isActive = (itemUrl: string) => {
+        if (itemUrl === '/') {
+            return location.pathname === '/';
+        }
+        return location.pathname.startsWith(itemUrl);
+    };
     const items = [
         {
             title: 'Calendar',
@@ -56,10 +63,10 @@ export function NavMain() {
         <SidebarGroup>
             <SidebarGroupLabel>Platform</SidebarGroupLabel>
             <SidebarMenu>
-                {items.map((item) => (
+                {items.map(item => (
                     <SidebarMenuItem key={item.title}>
                         <SidebarMenuButton
-                            isActive={item.url === window.location.pathname}
+                            isActive={isActive(item.url)}
                             tooltip={item.title}
                             onClick={() => navigate(item.url)}
                         >
