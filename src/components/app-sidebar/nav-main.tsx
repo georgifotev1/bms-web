@@ -1,4 +1,10 @@
-import { Calendar, ListTree, Settings, Smile } from 'lucide-react';
+import {
+    BriefcaseBusiness,
+    Calendar,
+    ListTree,
+    Settings,
+    Smile,
+} from 'lucide-react';
 import {
     SidebarGroup,
     SidebarGroupLabel,
@@ -59,10 +65,27 @@ export function NavMain() {
         },
     ];
 
+    const brand = {
+        title: 'Brand',
+        url: '/brand',
+        icon: BriefcaseBusiness,
+    };
+
     return (
         <SidebarGroup>
-            <SidebarGroupLabel>Platform</SidebarGroupLabel>
             <SidebarMenu>
+                <SidebarMenuItem className='mb-2'>
+                    <SidebarMenuButton
+                        isActive={isActive(brand.url)}
+                        tooltip={brand.title}
+                        onClick={() => navigate(brand.url)}
+                    >
+                        {brand.icon && <brand.icon />}
+                        {brand.title}
+                    </SidebarMenuButton>
+                </SidebarMenuItem>
+                <SidebarGroupLabel>Platform</SidebarGroupLabel>
+
                 {items.map(item => (
                     <SidebarMenuItem key={item.title}>
                         <SidebarMenuButton

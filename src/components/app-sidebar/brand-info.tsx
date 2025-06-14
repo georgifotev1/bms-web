@@ -12,7 +12,7 @@ export function BrandInfo() {
 
     return (
         <SidebarMenu>
-            <SidebarMenuItem className='flex cursor-pointer items-center gap-2 data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground h-12 text-sm group-data-[collapsible=icon]:p-0!'>
+            <SidebarMenuItem className='flex items-center gap-2 data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground h-12 text-sm group-data-[collapsible=icon]:p-0!'>
                 {open && (
                     <>
                         <div className='bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-9 items-center justify-center rounded-full'>

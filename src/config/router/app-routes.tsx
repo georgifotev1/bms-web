@@ -39,7 +39,7 @@ export const appRoutes: RouteObject[] = [
         ErrorBoundary: ErrorBoundary,
         children: [
             {
-                path: paths.app.root.path,
+                index: true,
                 lazy: () =>
                     import('@/app/routes/app/calendar').then(
                         ({ CalendarRoute }) => ({
