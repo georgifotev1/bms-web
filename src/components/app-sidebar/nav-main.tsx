@@ -1,4 +1,4 @@
-import { Calendar, ListTree, Settings2, Smile } from 'lucide-react';
+import { Calendar, ListTree, Settings, Smile } from 'lucide-react';
 import {
     SidebarGroup,
     SidebarGroupLabel,
@@ -37,7 +37,7 @@ export function NavMain() {
         {
             title: 'Settings',
             url: '/settings',
-            icon: Settings2,
+            icon: Settings,
             items: [
                 {
                     title: 'General',
