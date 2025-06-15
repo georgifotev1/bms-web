@@ -13,6 +13,7 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { useLocation, useNavigate } from 'react-router';
+import { cn } from '@/utils/cn';
 
 export function NavMain() {
     const navigate = useNavigate();
@@ -25,6 +26,11 @@ export function NavMain() {
         return location.pathname.startsWith(itemUrl);
     };
     const items = [
+        {
+            title: 'Brand',
+            url: '/brand',
+            icon: BriefcaseBusiness,
+        },
         {
             title: 'Calendar',
             url: '/',
@@ -65,29 +71,16 @@ export function NavMain() {
         },
     ];
 
-    const brand = {
-        title: 'Brand',
-        url: '/brand',
-        icon: BriefcaseBusiness,
-    };
-
     return (
         <SidebarGroup>
             <SidebarMenu>
-                <SidebarMenuItem className='mb-2'>
-                    <SidebarMenuButton
-                        isActive={isActive(brand.url)}
-                        tooltip={brand.title}
-                        onClick={() => navigate(brand.url)}
-                    >
-                        {brand.icon && <brand.icon />}
-                        {brand.title}
-                    </SidebarMenuButton>
-                </SidebarMenuItem>
                 <SidebarGroupLabel>Platform</SidebarGroupLabel>
 
                 {items.map(item => (
-                    <SidebarMenuItem key={item.title}>
+                    <SidebarMenuItem
+                        className={cn(item.title === 'Brand' && 'mb-4')}
+                        key={item.title}
+                    >
                         <SidebarMenuButton
                             isActive={isActive(item.url)}
                             tooltip={item.title}

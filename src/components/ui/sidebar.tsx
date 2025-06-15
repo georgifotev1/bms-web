@@ -6,13 +6,6 @@ import * as React from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/form/input';
 import { Separator } from '@/components/ui/separator';
-import {
-    Sheet,
-    SheetContent,
-    SheetDescription,
-    SheetHeader,
-    SheetTitle,
-} from '@/components/ui/sheet';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
     Tooltip,
@@ -25,7 +18,6 @@ import { cn } from '@/utils/cn';
 
 const SIDEBAR_STATE_KEY = 'sidebar_state';
 const SIDEBAR_WIDTH = '16rem';
-const SIDEBAR_WIDTH_MOBILE = '18rem';
 const SIDEBAR_WIDTH_ICON = '3rem';
 const SIDEBAR_KEYBOARD_SHORTCUT = 'b';
 
@@ -107,6 +99,10 @@ function SidebarProvider({
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, [toggleSidebar]);
 
+    React.useEffect(() => {
+        if (isMobile) setOpen(false);
+    }, [isMobile, setOpen]);
+
     // We add a state so that we can do data-state="expanded" or "collapsed".
     // This makes it easier to style the sidebar with Tailwind classes.
     const state = open ? 'expanded' : 'collapsed';
@@ -169,7 +165,7 @@ function Sidebar({
     variant?: 'sidebar' | 'floating' | 'inset';
     collapsible?: 'offcanvas' | 'icon' | 'none';
 }) {
-    const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
+    const { state } = useSidebar();
 
     if (collapsible === 'none') {
         return (
@@ -186,38 +182,9 @@ function Sidebar({
         );
     }
 
-    if (isMobile) {
-        return (
-            <Sheet open={openMobile} onOpenChange={setOpenMobile} {...props}>
-                <SheetContent
-                    data-sidebar='sidebar'
-                    data-slot='sidebar'
-                    data-mobile='true'
-                    className='text-sidebar-foreground w-(--sidebar-width) p-0 [&>button]:hidden'
-                    style={
-                        {
-                            '--sidebar-width': SIDEBAR_WIDTH_MOBILE,
-                        } as React.CSSProperties
-                    }
-                    side={side}
-                >
-                    <SheetHeader className='sr-only'>
-                        <SheetTitle>Sidebar</SheetTitle>
-                        <SheetDescription>
-                            Displays the mobile sidebar.
-                        </SheetDescription>
-                    </SheetHeader>
-                    <div className='flex h-full w-full flex-col'>
-                        {children}
-                    </div>
-                </SheetContent>
-            </Sheet>
-        );
-    }
-
     return (
         <div
-            className='group peer text-sidebar-foreground hidden md:block'
+            className='group peer text-sidebar-foreground md:block'
             data-state={state}
             data-collapsible={state === 'collapsed' ? collapsible : ''}
             data-variant={variant}
@@ -239,7 +206,7 @@ function Sidebar({
             <div
                 data-slot='sidebar-container'
                 className={cn(
-                    'fixed inset-y-0 z-10 hidden h-svh w-(--sidebar-width) transition-[left,right,width] duration-200 ease-linear md:flex',
+                    'fixed inset-y-0 z-10 h-svh w-(--sidebar-width) transition-[left,right,width] duration-200 ease-linear md:flex',
                     side === 'left'
                         ? 'left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)]'
                         : 'right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]',
