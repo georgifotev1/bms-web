@@ -1,3 +1,4 @@
+import { ContentLayout } from '@/components/layouts/content';
 import { useDashboardData } from '@/context/dashboard';
 import { EditServiceForm } from '@/features/services/components/service-form';
 import { useParams } from 'react-router';
@@ -11,5 +12,9 @@ export const EditServiceRoute = () => {
 
     if (!service) return <div>Service not found</div>;
 
-    return <EditServiceForm service={service} />;
+    return (
+        <ContentLayout title='Services'>
+            <EditServiceForm service={service} />;
+        </ContentLayout>
+    );
 };

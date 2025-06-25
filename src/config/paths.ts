@@ -34,5 +34,8 @@ export const paths = {
             new: '/services/new',
             edit: '/services/:serviceId',
         },
+        brand: {
+            path: '/brand',
+        },
     },
 } as const;
