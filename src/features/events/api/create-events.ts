@@ -7,14 +7,14 @@ import { z } from 'zod';
 export const eventFormSchema = z.object({
     customerId: z.coerce
         .number({ required_error: 'Customer ID is required' })
-        .min(0, 'Customer ID must be at least 0'),
-    serviceId: z.string({ required_error: 'Service ID is required' }),
+        .min(1, 'Customer ID is required'),
+    serviceId: z.string().min(1, 'Service ID is required'),
     userId: z.coerce
         .number({ required_error: 'User ID is required' })
-        .min(0, 'User ID must be at least 0'),
+        .min(1, 'User ID is required'),
     eventDate: z.date({ required_error: 'Event date is required' }),
-    startTime: z.string({ required_error: 'Start time is required' }),
-    endTime: z.string({ required_error: 'Start time is required' }),
+    startTime: z.string().min(1, 'Start time is required'),
+    endTime: z.string().min(1, 'End time is required'),
     comment: z.string().optional(),
 });
 

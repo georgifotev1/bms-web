@@ -210,22 +210,26 @@ export function AddEventDialog(props: IProps) {
                                     error={formState.errors['comment']}
                                     registration={register('comment')}
                                 />
+
+                                <DialogFooter>
+                                    <DialogClose asChild>
+                                        <Button type='button' variant='outline'>
+                                            Cancel
+                                        </Button>
+                                    </DialogClose>
+
+                                    <Button
+                                        form='event-form'
+                                        type='submit'
+                                        disabled={!formState.isValid}
+                                    >
+                                        Create Event
+                                    </Button>
+                                </DialogFooter>
                             </>
                         );
                     }}
                 </Form>
-
-                <DialogFooter>
-                    <DialogClose asChild>
-                        <Button type='button' variant='outline'>
-                            Cancel
-                        </Button>
-                    </DialogClose>
-
-                    <Button form='event-form' type='submit'>
-                        Create Event
-                    </Button>
-                </DialogFooter>
             </DialogContent>
         </Dialog>
     );

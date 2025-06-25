@@ -77,7 +77,7 @@ export function EventDetailsDialog({ event, children }: IProps) {
                             </div>
                         </div>
 
-                        {event.bufferTime && (
+                        {!!event.bufferTime && (
                             <div className='flex items-start gap-2'>
                                 <ClockPlus className='mt-1 size-4 shrink-0' />
                                 <div>
