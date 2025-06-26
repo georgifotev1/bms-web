@@ -11,10 +11,10 @@ import { useNavigate } from 'react-router';
 import { Service } from '@/types/api';
 import { useCreateService } from '../api/create-service';
 import { useUpdateService } from '../api/edit-service';
-import { ServiceDetailsHeader } from './service-details-header';
 import { UseMutationResult } from '@tanstack/react-query';
 import { ServiceProvidersSection } from './providers';
 import { UploadImageComponent } from '@/components/images/upload-image';
+import { FormDetailsHeader } from '@/components/ui/form/details-header';
 
 interface ServiceFormProps {
     mode: 'create' | 'edit';
@@ -88,12 +88,12 @@ export const ServiceForm = ({ mode, service, mutation }: ServiceFormProps) => {
                 };
                 return (
                     <div className='flex flex-col relative gap-6 max-w-[1140px] mx-auto'>
-                        <ServiceDetailsHeader
+                        <FormDetailsHeader
                             title={isEditMode ? 'Edit Service' : 'New Service'}
                             disabled={isSubmitDisabled()}
                             isLoading={mutation.isPending}
+                            goBackTo={paths.app.services.path}
                         />
-
                         <div className='lg:grid lg:grid-cols-2 lg:gap-14 px-4 lg:!px-10'>
                             <div className='col-start-1 flex flex-col gap-4 mb-4 grow-0'>
                                 <H4>Service Details</H4>
@@ -153,7 +153,7 @@ export const ServiceForm = ({ mode, service, mutation }: ServiceFormProps) => {
                                     registration={register('isVisible')}
                                     defaultChecked={
                                         isEditMode
-                                            ? service?.isVisible ?? true
+                                            ? (service?.isVisible ?? true)
                                             : true
                                     }
                                     label='Visible'

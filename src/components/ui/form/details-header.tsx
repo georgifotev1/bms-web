@@ -2,29 +2,28 @@ import { H4 } from '@/components/typography';
 import { Button } from '@/components/ui/button';
 import { ButtonLink } from '@/components/ui/link';
 import { Spinner } from '@/components/ui/spinner/spinner';
-import { paths } from '@/config/paths';
 import { ChevronLeft } from 'lucide-react';
 
-export const ServiceDetailsHeader = ({
+export const FormDetailsHeader = ({
     title,
     disabled,
     isLoading,
+    goBackTo,
 }: {
     title: string;
     disabled: boolean;
     isLoading: boolean;
+    goBackTo?: string;
 }) => {
     return (
         <header className='h-14 sticky bg-background top-0 z-10 lg:px-10 border-b border-solid border-tertiary'>
             <div className='py-3 flex items-center justify-between px-4 lg:!px-0'>
                 <div className='flex items-center gap-2'>
-                    <ButtonLink
-                        variant='ghost'
-                        size='icon'
-                        to={paths.app.services.path}
-                    >
-                        <ChevronLeft />
-                    </ButtonLink>
+                    {goBackTo && (
+                        <ButtonLink variant='ghost' size='icon' to={goBackTo}>
+                            <ChevronLeft />
+                        </ButtonLink>
+                    )}
                     <H4>{title}</H4>
                 </div>
                 <Button

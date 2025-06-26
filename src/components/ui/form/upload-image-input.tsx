@@ -2,7 +2,6 @@ import * as React from 'react';
 import { type UseFormRegisterReturn } from 'react-hook-form';
 import { FieldWrapper, FieldWrapperPassThroughProps } from './field-wrapper';
 import { buttonVariants } from '../button';
-import { ACCEPTED_IMAGE_TYPES } from '@/features/services/api/create-service';
 import { Label } from 'react-aria-components';
 import ReactCrop, {
     type Crop,
@@ -22,6 +21,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { ImageIcon } from 'lucide-react';
 import { DialogDescription } from '@radix-ui/react-dialog';
+import { ACCEPTED_IMAGE_TYPES } from '@/constants';
 
 export type InputProps = React.InputHTMLAttributes<HTMLInputElement> &
     FieldWrapperPassThroughProps & {

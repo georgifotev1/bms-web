@@ -1,16 +1,9 @@
+import { ACCEPTED_IMAGE_TYPES, MAX_FILE_SIZE } from '@/constants';
 import { api } from '@/lib/api-client';
 import { queryKeys } from '@/lib/react-query';
 import { Service } from '@/types/api';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { z } from 'zod';
-
-const MAX_FILE_SIZE = 5000000;
-export const ACCEPTED_IMAGE_TYPES = [
-    'image/jpeg',
-    'image/jpg',
-    'image/png',
-    'image/webp',
-];
 
 export const serviceSchema = z.object({
     title: z.string().min(3, 'Title is required'),
