@@ -23,7 +23,7 @@ const socialLinkSchema = z.object({
     url: z.string().url('Must be a valid URL'),
 });
 
-export const brandSchema = z.object({
+export const brandDetailsSchema = z.object({
     name: z
         .string()
         .min(3, 'Name must be at least 3 characters')
@@ -68,7 +68,7 @@ export const brandSchema = z.object({
         }, 'Only .jpg, .jpeg, .png and .webp formats are supported.'),
 });
 
-export type BrandData = z.infer<typeof brandSchema>;
+export type BrandData = z.infer<typeof brandDetailsSchema>;
 
 export const getBrandFormData = (data: BrandData) => {
     const formData = new FormData();
@@ -115,19 +115,18 @@ export const getBrandFormData = (data: BrandData) => {
 };
 
 const updateBrand = (
-    brandId: string,
+    brandId: number,
     data: BrandData
 ): Promise<BrandProfile> => {
     const formData = getBrandFormData(data);
     return api.putFormData(`/brands/${brandId}`, formData);
 };
 
-export const useUpdateBrand = () => {
+export const useUpdateBrand = (brandId: number) => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: ({ brandId, data }: { brandId: string; data: BrandData }) =>
-            updateBrand(brandId, data),
+        mutationFn: (data: BrandData) => updateBrand(brandId, data),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: [queryKeys.brand] });
         },
