@@ -94,17 +94,21 @@ export function ClientContainer() {
         });
     }, [selectedDate, selectedUserId, events, currentView]);
 
-    const singleDayEvents = filteredEvents?.filter(event => {
-        const startDate = parseISO(event.startTime);
-        const endDate = parseISO(event.endTime);
-        return isSameDay(startDate, endDate);
-    });
+    const singleDayEvents = useMemo(() => {
+        return filteredEvents?.filter(event => {
+            const startDate = parseISO(event.startTime);
+            const endDate = parseISO(event.endTime);
+            return isSameDay(startDate, endDate);
+        });
+    }, [filteredEvents]);
 
-    const multiDayEvents = filteredEvents?.filter(event => {
-        const startDate = parseISO(event.startTime);
-        const endDate = parseISO(event.endTime);
-        return !isSameDay(startDate, endDate);
-    });
+    const multiDayEvents = useMemo(() => {
+        return filteredEvents?.filter(event => {
+            const startDate = parseISO(event.startTime);
+            const endDate = parseISO(event.endTime);
+            return !isSameDay(startDate, endDate);
+        });
+    }, [filteredEvents]);
 
     const eventStartDates = useMemo(() => {
         return filteredEvents?.map(event => ({
