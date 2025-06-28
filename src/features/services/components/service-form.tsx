@@ -105,7 +105,8 @@ export const ServiceForm = ({ mode, service, mutation }: ServiceFormProps) => {
                                             ? service?.imageUrl
                                             : undefined
                                     }
-                                    label={isEditMode ? 'Edit' : 'Upload'}
+                                    label={'Service image'}
+                                    buttonText={isEditMode ? 'Edit' : 'Upload'}
                                     registration={register('image')}
                                     error={
                                         formState.errors.image as

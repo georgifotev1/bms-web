@@ -9,6 +9,7 @@ interface ImagePreviewProps {
     imageClassName?: string;
     alt?: string;
     defaultUrl?: string;
+    fullWidth?: boolean;
 }
 
 export const ImagePreview: React.FC<ImagePreviewProps> = ({
@@ -18,6 +19,7 @@ export const ImagePreview: React.FC<ImagePreviewProps> = ({
     imageClassName,
     alt = 'Preview',
     defaultUrl,
+    fullWidth,
 }) => {
     const [previewUrl, setPreviewUrl] = useState<string>(defaultUrl ?? '');
 
@@ -37,9 +39,20 @@ export const ImagePreview: React.FC<ImagePreviewProps> = ({
 
     if (!previewUrl) {
         return (
-            <div className={cn('flex items-center justify-center', className)}>
+            <div
+                className={cn(
+                    'flex items-center justify-center',
+                    className,
+                    fullWidth && 'w-full'
+                )}
+            >
                 {fallback || (
-                    <div className='flex flex-col items-center justify-center w-36 h-36 text-muted-foreground border rounded-2xl bg-accent'>
+                    <div
+                        className={cn(
+                            'flex flex-col items-center justify-center w-36 h-36 text-muted-foreground border rounded-2xl bg-accent',
+                            fullWidth && 'w-full h-full'
+                        )}
+                    >
                         <ImageIcon className='h-8 w-8' />
                     </div>
                 )}
@@ -48,7 +61,13 @@ export const ImagePreview: React.FC<ImagePreviewProps> = ({
     }
 
     return (
-        <div className={cn('w-36 h-36 object-cover', className)}>
+        <div
+            className={cn(
+                'w-36 h-36',
+                className,
+                fullWidth && 'w-full h-full aspect-video'
+            )}
+        >
             <img
                 src={previewUrl}
                 alt={alt}

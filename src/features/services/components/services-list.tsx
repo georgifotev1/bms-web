@@ -39,6 +39,7 @@ export const ServicesList = () => {
                                     width={50}
                                     alt={service.title}
                                     className='shrink-0 rounded-sm'
+                                    loading='lazy'
                                 />
                             ) : (
                                 <div className='w-[50px] h-[50px] bg-accent flex items-center justify-center rounded-sm shrink-0'>

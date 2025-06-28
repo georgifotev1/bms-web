@@ -1,39 +1,37 @@
 import { Trash } from 'lucide-react';
-import { Muted } from '../typography';
 import { ImageUploader } from '../ui/form/upload-image-input';
 import { ImagePreview } from './image-preview';
 import { FieldError, UseFormRegisterReturn } from 'react-hook-form';
+import { Button } from '../ui/button';
 
-interface IUploadImageComponentProps {
+interface IUploadBannerComponentProps {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     image: any;
     defaultUrl?: string;
     error?: FieldError | undefined;
-    label: string;
     registration: Partial<UseFormRegisterReturn>;
     onCroppedImage?: (croppedFile: File) => void;
     onRemoveImage?: () => void;
     buttonText: string;
 }
-export const UploadImageComponent = ({
+export const UploadBannerComponent = ({
     image,
     defaultUrl,
     error,
-    label,
     registration,
     onCroppedImage,
     onRemoveImage,
     buttonText,
-}: IUploadImageComponentProps) => {
+}: IUploadBannerComponentProps) => {
     return (
-        <div className='flex gap-6 items-center'>
+        <div className='flex flex-col gap-6 items-center relative'>
             <ImagePreview
                 file={image instanceof File ? image : null}
                 defaultUrl={defaultUrl}
+                fullWidth
+                className='h-52'
             />
-            <div className='flex flex-col'>
-                <span>{label}</span>
-                <Muted>Up to 5 MB in size</Muted>
+            <div className='flex flex-col absolute bottom-4 right-8'>
                 <div className='flex items-center gap-2'>
                     <ImageUploader
                         registration={registration}
@@ -42,13 +40,17 @@ export const UploadImageComponent = ({
                         error={error}
                         image={image?.[0]}
                         onCroppedImage={onCroppedImage}
+                        aspectRatio={16 / 9}
                     />
                     {image instanceof File && (
-                        <Trash
-                            className='cursor-pointer mt-2'
-                            size={18}
+                        <Button
+                            size='icon'
+                            className='mt-2'
+                            variant='outline'
                             onClick={onRemoveImage}
-                        />
+                        >
+                            <Trash className='cursor-pointer' />
+                        </Button>
                     )}
                 </div>
             </div>
