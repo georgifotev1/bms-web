@@ -10,6 +10,7 @@ interface ImagePreviewProps {
     alt?: string;
     defaultUrl?: string;
     fullWidth?: boolean;
+    isLogo?: boolean;
 }
 
 export const ImagePreview: React.FC<ImagePreviewProps> = ({
@@ -20,6 +21,7 @@ export const ImagePreview: React.FC<ImagePreviewProps> = ({
     alt = 'Preview',
     defaultUrl,
     fullWidth,
+    isLogo,
 }) => {
     const [previewUrl, setPreviewUrl] = useState<string>(defaultUrl ?? '');
 
@@ -50,7 +52,8 @@ export const ImagePreview: React.FC<ImagePreviewProps> = ({
                     <div
                         className={cn(
                             'flex flex-col items-center justify-center w-36 h-36 text-muted-foreground border rounded-2xl bg-accent',
-                            fullWidth && 'w-full h-full'
+                            fullWidth && 'w-full h-full',
+                            isLogo && 'rounded-full'
                         )}
                     >
                         <ImageIcon className='h-8 w-8' />
@@ -65,7 +68,8 @@ export const ImagePreview: React.FC<ImagePreviewProps> = ({
             className={cn(
                 'w-36 h-36',
                 className,
-                fullWidth && 'w-full h-full aspect-video'
+                fullWidth && 'w-full h-full aspect-video',
+                isLogo && 'rounded-full'
             )}
         >
             <img

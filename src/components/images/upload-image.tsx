@@ -14,6 +14,7 @@ interface IUploadImageComponentProps {
     onCroppedImage?: (croppedFile: File) => void;
     onRemoveImage?: () => void;
     buttonText: string;
+    isLogo?: boolean;
 }
 export const UploadImageComponent = ({
     image,
@@ -24,12 +25,14 @@ export const UploadImageComponent = ({
     onCroppedImage,
     onRemoveImage,
     buttonText,
+    isLogo = false,
 }: IUploadImageComponentProps) => {
     return (
         <div className='flex gap-6 items-center'>
             <ImagePreview
                 file={image instanceof File ? image : null}
                 defaultUrl={defaultUrl}
+                isLogo={isLogo}
             />
             <div className='flex flex-col'>
                 <span>{label}</span>
@@ -42,6 +45,7 @@ export const UploadImageComponent = ({
                         error={error}
                         image={image?.[0]}
                         onCroppedImage={onCroppedImage}
+                        isLogo={isLogo}
                     />
                     {image instanceof File && (
                         <Trash

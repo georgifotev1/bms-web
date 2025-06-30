@@ -30,6 +30,7 @@ export type InputProps = React.InputHTMLAttributes<HTMLInputElement> &
         image?: File;
         onCroppedImage?: (croppedFile: File) => void;
         aspectRatio?: number; // Optional aspect ratio for cropping
+        isLogo?: boolean; // Enable circular cropping
     };
 
 function ImageUploader({
@@ -38,6 +39,7 @@ function ImageUploader({
     registration,
     onCroppedImage,
     aspectRatio,
+    isLogo = false,
     ...props
 }: InputProps) {
     const [open, setOpen] = React.useState<boolean>(false);
@@ -63,13 +65,15 @@ function ImageUploader({
     const onImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
         const { width, height } = e.currentTarget;
 
+        const cropAspectRatio = isLogo ? 1 : aspectRatio || 1;
+
         const initialCrop = centerCrop(
             makeAspectCrop(
                 {
                     unit: '%',
                     width: 90,
                 },
-                aspectRatio || 1,
+                cropAspectRatio,
                 width,
                 height
             ),
@@ -85,7 +89,8 @@ function ImageUploader({
         (
             image: HTMLImageElement,
             canvas: HTMLCanvasElement,
-            crop: PixelCrop
+            crop: PixelCrop,
+            circular: boolean = false
         ) => {
             const ctx = canvas.getContext('2d');
             if (!ctx) {
@@ -104,19 +109,32 @@ function ImageUploader({
 
             const cropX = crop.x * scaleX;
             const cropY = crop.y * scaleY;
+            const cropWidth = crop.width * scaleX;
+            const cropHeight = crop.height * scaleY;
 
             ctx.save();
+
+            if (circular) {
+                // Create circular clipping path
+                const centerX = cropWidth / 2;
+                const centerY = cropHeight / 2;
+                const radius = Math.min(cropWidth, cropHeight) / 2;
+
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+                ctx.clip();
+            }
 
             ctx.drawImage(
                 image,
                 cropX,
                 cropY,
-                crop.width * scaleX,
-                crop.height * scaleY,
+                cropWidth,
+                cropHeight,
                 0,
                 0,
-                crop.width * scaleX,
-                crop.height * scaleY
+                cropWidth,
+                cropHeight
             );
 
             ctx.restore();
@@ -134,10 +152,11 @@ function ImageUploader({
             canvasPreview(
                 imgRef.current,
                 previewCanvasRef.current,
-                completedCrop
+                completedCrop,
+                isLogo
             );
         }
-    }, [completedCrop, canvasPreview]);
+    }, [completedCrop, canvasPreview, isLogo]);
 
     const getCroppedImg = async (): Promise<File | null> => {
         const image = imgRef.current;
@@ -158,6 +177,10 @@ function ImageUploader({
             throw new Error('No 2d context');
         }
 
+        if (isLogo) {
+            ctx.clearRect(0, 0, offscreen.width, offscreen.height);
+        }
+
         ctx.drawImage(
             previewCanvas,
             0,
@@ -170,12 +193,25 @@ function ImageUploader({
             offscreen.height
         );
 
+        const imageType = isLogo
+            ? 'image/png'
+            : props.image.type || 'image/png';
+
         const blob = await offscreen.convertToBlob({
-            type: props.image.type || 'image/png',
+            type: imageType,
         });
 
-        return new File([blob], props.image.name, {
-            type: props.image.type,
+        const originalName = props.image.name;
+        const nameWithoutExt =
+            originalName.substring(0, originalName.lastIndexOf('.')) ||
+            originalName;
+        const extension = isLogo
+            ? 'png'
+            : props.image.type?.split('/')[1] || 'png';
+        const newName = `${nameWithoutExt}_${isLogo ? 'circular' : 'cropped'}.${extension}`;
+
+        return new File([blob], newName, {
+            type: imageType,
             lastModified: Date.now(),
         });
     };
@@ -220,7 +256,7 @@ function ImageUploader({
             </FieldWrapper>
 
             <Dialog open={open} onOpenChange={setOpen}>
-                <DialogContent className='max-w-3xl'>
+                <DialogContent className='max-w-4xl'>
                     <DialogHeader>
                         <DialogTitle>Crop Your Image</DialogTitle>
                         <DialogDescription></DialogDescription>
