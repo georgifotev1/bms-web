@@ -1,4 +1,4 @@
-import { Form } from '@/components/ui/form';
+import { Form, Input } from '@/components/ui/form';
 import { brandDetailsSchema, useUpdateBrand } from '../api/update-brand';
 import { FormDetailsHeader } from '@/components/ui/form/details-header';
 import { useBrandContext } from '@/context/brand';
@@ -19,8 +19,9 @@ export const BrandDetailsForm = () => {
         >
             {({ formState, watch, register, setValue }) => {
                 const isButtonDisabled =
-                    Object.keys(formState.dirtyFields).length === 0 ||
-                    formState.isSubmitSuccessful;
+                    (Object.keys(formState.dirtyFields).length === 0 ||
+                        formState.isSubmitSuccessful) &&
+                    formState.isValid;
                 const banner = watch('banner');
                 const logo = watch('logo');
 
@@ -67,6 +68,20 @@ export const BrandDetailsForm = () => {
                                 onRemoveImage={() => {
                                     setValue('logo', null);
                                 }}
+                            />
+                            <Input
+                                type='text'
+                                defaultValue={brand.name}
+                                label='Brand name'
+                                error={formState.errors['name']}
+                                registration={register('name')}
+                            />
+                            <Input
+                                type='text'
+                                defaultValue={brand.pageUrl}
+                                label='Your booking page URL'
+                                error={formState.errors['pageUrl']}
+                                registration={register('pageUrl')}
                             />
                         </div>
                     </div>
