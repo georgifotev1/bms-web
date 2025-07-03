@@ -6,14 +6,47 @@ import { FieldError } from 'react-hook-form';
 import { UploadBannerComponent } from '@/components/images/upload-banner';
 import { UploadImageComponent } from '@/components/images/upload-image';
 import { Textarea } from '@/components/ui/form/textarea';
-import { SelectField } from '@/components/ui/form/select-field';
+import { type Option, SelectField } from '@/components/ui/form/select-field';
 import { useCountries } from '@/lib/countries';
+import * as React from 'react';
 
 export const BrandDetailsForm = () => {
     const brand = useBrandContext();
     const updateBrand = useUpdateBrand(brand.id);
     const countries = useCountries();
 
+    const { countryOptions, currencyOptions } = React.useMemo(() => {
+        if (!countries?.data) {
+            return { countryOptions: [], currencyOptions: [] };
+        }
+
+        const countryOpts: Option[] = [];
+        const currencyOpts: Option[] = [];
+        const seenCurrencies = new Set();
+
+        countries.data.forEach(country => {
+            if (
+                country.currencies &&
+                Object.keys(country.currencies).length > 0
+            ) {
+                countryOpts.push({
+                    label: country.name.common,
+                    value: country.name.common,
+                });
+
+                const currencyCode = Object.keys(country.currencies)[0];
+                if (!seenCurrencies.has(currencyCode)) {
+                    seenCurrencies.add(currencyCode);
+                    currencyOpts.push({
+                        label: currencyCode,
+                        value: currencyCode,
+                    });
+                }
+            }
+        });
+
+        return { countryOptions: countryOpts, currencyOptions: currencyOpts };
+    }, [countries?.data]);
     return (
         <Form
             onSubmit={values => {
@@ -146,13 +179,15 @@ export const BrandDetailsForm = () => {
                                 <SelectField
                                     label='Country'
                                     error={formState.errors['country']}
-                                    options={
-                                        countries?.data?.map(countries => ({
-                                            label: countries.name.common,
-                                            value: countries.name.common,
-                                        })) ?? []
-                                    }
+                                    options={countryOptions}
                                     registration={register('country')}
+                                />
+
+                                <SelectField
+                                    label='Currency'
+                                    error={formState.errors['currency']}
+                                    options={currencyOptions}
+                                    registration={register('currency')}
                                 />
                             </div>
                         </div>

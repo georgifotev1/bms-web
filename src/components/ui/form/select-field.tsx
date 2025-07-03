@@ -12,7 +12,7 @@ import {
 
 import { FieldWrapper, FieldWrapperPassThroughProps } from './field-wrapper';
 
-type Option = {
+export type Option = {
     label: React.ReactNode;
     value: string | number | string[];
 };

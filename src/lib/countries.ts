@@ -17,12 +17,18 @@ type RestCountry = {
         root: string;
         suffixes?: string[];
     };
+    currencies: {
+        [currencyCode: string]: {
+            name: string;
+            symbol: string;
+        };
+    };
 };
 
 export const getCountries = async (): Promise<RestCountry[]> => {
     try {
         const response = await fetch(
-            'https://restcountries.com/v3.1/all?fields=name,cca2,idd'
+            'https://restcountries.com/v3.1/all?fields=name,cca2,idd,currencies'
         );
 
         if (!response.ok) {
