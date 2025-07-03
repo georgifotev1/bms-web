@@ -10,7 +10,7 @@ export const queryConfig = {
 } satisfies DefaultOptions;
 
 export type ApiFnReturnType<
-    FnType extends (...args: unknown[]) => Promise<unknown>
+    FnType extends (...args: unknown[]) => Promise<unknown>,
 > = Awaited<ReturnType<FnType>>;
 
 export type QueryConfig<T extends (...args: unknown[]) => unknown> = Omit<
@@ -19,7 +19,7 @@ export type QueryConfig<T extends (...args: unknown[]) => unknown> = Omit<
 >;
 
 export type MutationConfig<
-    MutationFnType extends (...args: unknown[]) => Promise<unknown>
+    MutationFnType extends (...args: unknown[]) => Promise<unknown>,
 > = UseMutationOptions<
     ApiFnReturnType<MutationFnType>,
     Error,
@@ -33,4 +33,5 @@ export const queryKeys = {
     users: 'users',
     customers: 'customers',
     services: 'services',
+    countries: 'countries',
 };
