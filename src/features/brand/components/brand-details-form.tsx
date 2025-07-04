@@ -9,6 +9,7 @@ import { Textarea } from '@/components/ui/form/textarea';
 import { type Option, SelectField } from '@/components/ui/form/select-field';
 import { useCountries } from '@/lib/countries';
 import * as React from 'react';
+import WorkingHours from './working-hours';
 
 export const BrandDetailsForm = () => {
     const brand = useBrandContext();
@@ -47,6 +48,16 @@ export const BrandDetailsForm = () => {
 
         return { countryOptions: countryOpts, currencyOptions: currencyOpts };
     }, [countries?.data]);
+
+    const defaultWorkingHours = React.useMemo(() => {
+        return brand.workingHours.sort((a, b) => {
+            const dayOrder = [1, 2, 3, 4, 5, 6, 0];
+            return (
+                dayOrder.indexOf(a.dayOfWeek) - dayOrder.indexOf(b.dayOfWeek)
+            );
+        });
+    }, [brand.workingHours]);
+
     return (
         <Form
             onSubmit={values => {
@@ -191,6 +202,11 @@ export const BrandDetailsForm = () => {
                                         registration={register('currency')}
                                     />
                                 </div>
+                                <WorkingHours
+                                    setValue={setValue}
+                                    registration={register('workingHours')}
+                                    defaultValue={defaultWorkingHours}
+                                />
                             </div>
                         </div>
                     </div>

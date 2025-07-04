@@ -13,8 +13,8 @@ const workingHoursSchema = z.object({
         })
         .min(0, 'Day of week must be between 0-6')
         .max(6, 'Day of week must be between 0-6'),
-    openTime: z.date().optional(),
-    closeTime: z.date().optional(),
+    openTime: z.string().optional(),
+    closeTime: z.string().optional(),
     isClosed: z.boolean().default(false),
 });
 
@@ -69,6 +69,7 @@ export const brandDetailsSchema = z.object({
 });
 
 export type BrandData = z.infer<typeof brandDetailsSchema>;
+export type WorkingHour = z.infer<typeof workingHoursSchema>;
 
 export const getBrandFormData = (data: BrandData) => {
     const formData = new FormData();
