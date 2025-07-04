@@ -18,20 +18,45 @@ const WorkingHours = ({
     defaultValue,
 }: WorkingHoursProps) => {
     const [workingHours, setWorkingHours] = React.useState(defaultValue);
-
-    React.useEffect(() => {
-        if (registration.name) {
-            setValue(registration.name, workingHours);
-        }
-    }, [workingHours, registration.name, setValue]);
-
     const handleTimeChange = (
         dayOfWeek: number,
         field: 'openTime' | 'closeTime',
         value: string
     ) => {
-        updateWorkingHour(dayOfWeek, { [field]: value });
+        const updated = workingHours.map(day =>
+            day.dayOfWeek === dayOfWeek ? { ...day, [field]: value } : day
+        );
+        setWorkingHours(updated);
+
+        if (registration.name) {
+            setValue(registration.name, updated, {
+                shouldDirty: true,
+                shouldTouch: true,
+            });
+        }
     };
+
+    const handleSwitchChange = (dayOfWeek: number, isOpen: boolean) => {
+        const updated = workingHours.map(day =>
+            day.dayOfWeek === dayOfWeek
+                ? {
+                      ...day,
+                      isClosed: !isOpen,
+                      openTime: isOpen ? '09:00' : undefined,
+                      closeTime: isOpen ? '18:00' : undefined,
+                  }
+                : day
+        );
+        setWorkingHours(updated);
+
+        if (registration.name) {
+            setValue(registration.name, updated, {
+                shouldDirty: true,
+                shouldTouch: true,
+            });
+        }
+    };
+
     const dayNames = [
         'Sunday',
         'Monday',
@@ -43,24 +68,6 @@ const WorkingHours = ({
     ];
     const getDayName = (dayNumber: number) => dayNames[dayNumber];
 
-    const updateWorkingHour = (
-        dayOfWeek: number,
-        updates: Partial<WorkingHour>
-    ) => {
-        setWorkingHours(prev =>
-            prev.map(day =>
-                day.dayOfWeek === dayOfWeek ? { ...day, ...updates } : day
-            )
-        );
-    };
-
-    const handleSwitchChange = (dayOfWeek: number, isOpen: boolean) => {
-        updateWorkingHour(dayOfWeek, {
-            isClosed: !isOpen,
-            openTime: isOpen ? '09:00' : undefined,
-            closeTime: isOpen ? '18:00' : undefined,
-        });
-    };
     return (
         <div className='border-t border-solid border-tertiary py-6 space-y-6'>
             <div className='mb-6'>

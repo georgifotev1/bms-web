@@ -22,7 +22,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 
 type FormFieldContextValue<
     TFieldValues extends FieldValues = FieldValues,
-    TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+    TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 > = {
     name: TName;
 };
@@ -33,7 +33,7 @@ const FormFieldContext = React.createContext<FormFieldContextValue>(
 
 const FormField = <
     TFieldValues extends FieldValues = FieldValues,
-    TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+    TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 >({
     ...props
 }: ControllerProps<TFieldValues, TName>) => {
@@ -171,7 +171,7 @@ type FormProps<TFormValues extends FieldValues, Schema> = {
 const Form = <
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     Schema extends ZodType<any, any, any>,
-    TFormValues extends FieldValues = z.infer<Schema>
+    TFormValues extends FieldValues = z.infer<Schema>,
 >({
     onSubmit,
     children,
@@ -181,7 +181,10 @@ const Form = <
     schema,
     hasFiles,
 }: FormProps<TFormValues, Schema>) => {
-    const form = useForm({ ...options, resolver: zodResolver(schema) });
+    const form = useForm({
+        ...options,
+        resolver: zodResolver(schema),
+    });
     return (
         <FormProvider {...form}>
             <form

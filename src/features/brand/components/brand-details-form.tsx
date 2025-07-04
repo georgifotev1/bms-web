@@ -65,12 +65,13 @@ export const BrandDetailsForm = () => {
             }}
             schema={brandDetailsSchema}
             className='w-full'
+            options={{ mode: 'onChange' }}
         >
             {({ formState, watch, register, setValue }) => {
                 const isButtonDisabled =
-                    (Object.keys(formState.dirtyFields).length === 0 ||
-                        formState.isSubmitSuccessful) &&
-                    formState.isValid;
+                    (Object.keys(formState.touchedFields).length === 0 &&
+                        formState.isValid) ||
+                    formState.isSubmitSuccessful;
                 const banner = watch('banner');
                 const logo = watch('logo');
 
