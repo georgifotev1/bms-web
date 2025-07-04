@@ -8,12 +8,14 @@ import { NavMenu } from './nav-menu';
 export const BrandSidebar = () => {
     return (
         <Sidebar className='border-r' collapsible='none'>
-            <SidebarHeader>
-                <H4>Brand Details</H4>
-            </SidebarHeader>
-            <SidebarContent>
-                <NavMenu />
-            </SidebarContent>
+            <div className='fixed'>
+                <SidebarHeader>
+                    <H4>Brand Details</H4>
+                </SidebarHeader>
+                <SidebarContent>
+                    <NavMenu />
+                </SidebarContent>
+            </div>
         </Sidebar>
     );
 };

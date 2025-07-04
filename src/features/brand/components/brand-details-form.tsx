@@ -176,19 +176,21 @@ export const BrandDetailsForm = () => {
                                     />
                                 </div>
 
-                                <SelectField
-                                    label='Country'
-                                    error={formState.errors['country']}
-                                    options={countryOptions}
-                                    registration={register('country')}
-                                />
+                                <div className='flex gap-4'>
+                                    <SelectField
+                                        label='Country'
+                                        error={formState.errors['country']}
+                                        options={countryOptions}
+                                        registration={register('country')}
+                                    />
 
-                                <SelectField
-                                    label='Currency'
-                                    error={formState.errors['currency']}
-                                    options={currencyOptions}
-                                    registration={register('currency')}
-                                />
+                                    <SelectField
+                                        label='Currency'
+                                        error={formState.errors['currency']}
+                                        options={currencyOptions}
+                                        registration={register('currency')}
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
