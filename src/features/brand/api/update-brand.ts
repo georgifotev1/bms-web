@@ -20,7 +20,7 @@ const workingHoursSchema = z.object({
 
 const socialLinkSchema = z.object({
     platform: z.string().min(1, 'Platform is required'),
-    url: z.string().url('Must be a valid URL'),
+    url: z.string().min(1, 'Must be a valid URL'),
 });
 
 export const brandDetailsSchema = z.object({
@@ -70,6 +70,7 @@ export const brandDetailsSchema = z.object({
 
 export type BrandData = z.infer<typeof brandDetailsSchema>;
 export type WorkingHour = z.infer<typeof workingHoursSchema>;
+export type SocialLink = z.infer<typeof socialLinkSchema>;
 
 export const getBrandFormData = (data: BrandData) => {
     const formData = new FormData();

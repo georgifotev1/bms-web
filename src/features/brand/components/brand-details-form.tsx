@@ -10,6 +10,7 @@ import { type Option, SelectField } from '@/components/ui/form/select-field';
 import { useCountries } from '@/lib/countries';
 import * as React from 'react';
 import WorkingHours from './working-hours';
+import SocialLinks from './social-links';
 
 export const BrandDetailsForm = () => {
     const brand = useBrandContext();
@@ -61,6 +62,7 @@ export const BrandDetailsForm = () => {
     return (
         <Form
             onSubmit={values => {
+                console.log('Form submitted with values:');
                 console.log(values);
             }}
             schema={brandDetailsSchema}
@@ -68,13 +70,9 @@ export const BrandDetailsForm = () => {
             options={{ mode: 'onChange' }}
         >
             {({ formState, watch, register, setValue }) => {
-                const isButtonDisabled =
-                    (Object.keys(formState.touchedFields).length === 0 &&
-                        formState.isValid) ||
-                    formState.isSubmitSuccessful;
+                const isButtonDisabled = false; // Fix this later
                 const banner = watch('banner');
                 const logo = watch('logo');
-
                 return (
                     <div className='flex flex-col relative gap-6 max-w-[1140px] mx-auto'>
                         <FormDetailsHeader
@@ -203,10 +201,17 @@ export const BrandDetailsForm = () => {
                                         registration={register('currency')}
                                     />
                                 </div>
+
                                 <WorkingHours
                                     setValue={setValue}
                                     registration={register('workingHours')}
                                     defaultValue={defaultWorkingHours}
+                                />
+
+                                <SocialLinks
+                                    registration={register('socialLinks')}
+                                    setValue={setValue}
+                                    defaultValue={brand.socialLinks ?? []}
                                 />
                             </div>
                         </div>
