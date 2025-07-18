@@ -77,9 +77,18 @@ export const appRoutes: RouteObject[] = [
             {
                 path: paths.app.brand.path,
                 lazy: () =>
-                    import('@/app/routes/app/brand/brand').then(
+                    import('@/app/routes/app/brand/brand-details').then(
                         ({ BrandRoute }) => ({
                             Component: BrandRoute,
+                        })
+                    ),
+            },
+            {
+                path: paths.app.brand.workingHours,
+                lazy: () =>
+                    import('@/app/routes/app/brand/working-hours').then(
+                        ({ WorkingHoursRoute }) => ({
+                            Component: WorkingHoursRoute,
                         })
                     ),
             },

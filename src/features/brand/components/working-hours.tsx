@@ -62,7 +62,7 @@ const WorkingHours = ({
         });
     };
     return (
-        <div className='border-t border-solid border-tertiary py-6 space-y-6'>
+        <div className='py-6 space-y-6 lg:px-10'>
             <div className='mb-6'>
                 <Label className='font-bold mb-1'>Working hours</Label>
                 <Muted>

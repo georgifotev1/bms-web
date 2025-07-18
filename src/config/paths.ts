@@ -36,6 +36,8 @@ export const paths = {
         },
         brand: {
             path: '/brand',
+            workingHours: '/brand/working-hours',
+            sociaLinks: '/brand/social-links',
         },
     },
 } as const;
