@@ -18,7 +18,11 @@ const workingHoursSchema = z.object({
     isClosed: z.boolean().default(false),
 });
 
-const socialLinkSchema = z.object({
+export const workingHoursFormSchema = z.object({
+    workingHours: z.array(workingHoursSchema),
+});
+
+export const socialLinkSchema = z.object({
     platform: z.string().min(1, 'Platform is required'),
     url: z.string().min(1, 'Must be a valid URL'),
 });
@@ -42,8 +46,6 @@ export const brandDetailsSchema = z.object({
     city: z.string().optional(),
     address: z.string().optional(),
     currency: z.string().optional(),
-    workingHours: z.array(workingHoursSchema).optional(),
-    socialLinks: z.array(socialLinkSchema).optional(),
     logo: z
         .any()
         .optional()
@@ -87,14 +89,6 @@ export const getBrandFormData = (data: BrandData) => {
     formData.append('address', data.address || '');
     formData.append('currency', data.currency || '');
 
-    if (data.workingHours && data.workingHours.length > 0) {
-        formData.append('workingHours', JSON.stringify(data.workingHours));
-    }
-
-    if (data.socialLinks && data.socialLinks.length > 0) {
-        formData.append('socialLinks', JSON.stringify(data.socialLinks));
-    }
-
     if (data.logo) {
         if (data.logo instanceof File) {
             formData.append('logo', data.logo);
@@ -121,7 +115,21 @@ const updateBrand = (
     data: BrandData
 ): Promise<BrandProfile> => {
     const formData = getBrandFormData(data);
-    return api.putFormData(`/brands/${brandId}`, formData);
+    return api.putFormData(`/brand/${brandId}`, formData);
+};
+
+const updateWorkingHours = (
+    brandId: number,
+    data: WorkingHour[]
+): Promise<BrandProfile> => {
+    return api.put(`/brand/${brandId}/working-hours`, data);
+};
+
+const updateSocialLinks = (
+    brandId: number,
+    data: SocialLink[]
+): Promise<BrandProfile> => {
+    return api.put(`/brand/${brandId}/social-links`, data);
 };
 
 export const useUpdateBrand = (brandId: number) => {
@@ -129,6 +137,28 @@ export const useUpdateBrand = (brandId: number) => {
 
     return useMutation({
         mutationFn: (data: BrandData) => updateBrand(brandId, data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [queryKeys.brand] });
+        },
+    });
+};
+
+export const useUpdateWorkingHours = (brandId: number) => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (data: WorkingHour[]) => updateWorkingHours(brandId, data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [queryKeys.brand] });
+        },
+    });
+};
+
+export const useUpdateSocialLinks = (brandId: number) => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (data: SocialLink[]) => updateSocialLinks(brandId, data),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: [queryKeys.brand] });
         },

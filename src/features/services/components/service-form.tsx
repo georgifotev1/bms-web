@@ -79,12 +79,9 @@ export const ServiceForm = ({ mode, service, mutation }: ServiceFormProps) => {
                 const image = watch('image');
                 const isSubmitDisabled = () => {
                     if (isEditMode) {
-                        return (
-                            Object.keys(formState.dirtyFields).length === 0 ||
-                            formState.isSubmitSuccessful
-                        );
+                        return Object.keys(formState.dirtyFields).length === 0;
                     }
-                    return !formState.isValid || formState.isSubmitSuccessful;
+                    return !formState.isValid;
                 };
                 return (
                     <div className='flex flex-col relative gap-6 max-w-[1140px] mx-auto'>
@@ -154,7 +151,7 @@ export const ServiceForm = ({ mode, service, mutation }: ServiceFormProps) => {
                                     registration={register('isVisible')}
                                     defaultChecked={
                                         isEditMode
-                                            ? (service?.isVisible ?? true)
+                                            ? service?.isVisible ?? true
                                             : true
                                     }
                                     label='Visible'

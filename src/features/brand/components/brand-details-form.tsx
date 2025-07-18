@@ -1,5 +1,9 @@
 import { Form, Input, Label } from '@/components/ui/form';
-import { brandDetailsSchema, useUpdateBrand } from '../api/update-brand';
+import {
+    BrandData,
+    brandDetailsSchema,
+    useUpdateBrand,
+} from '../api/update-brand';
 import { FormDetailsHeader } from '@/components/ui/form/details-header';
 import { useBrandContext } from '@/context/brand';
 import { FieldError } from 'react-hook-form';
@@ -9,8 +13,8 @@ import { Textarea } from '@/components/ui/form/textarea';
 import { type Option, SelectField } from '@/components/ui/form/select-field';
 import { useCountries } from '@/lib/countries';
 import * as React from 'react';
-import WorkingHours from './working-hours';
-import SocialLinks from './social-links';
+// import WorkingHours from './working-hours';
+// import SocialLinks from './social-links';
 
 export const BrandDetailsForm = () => {
     const brand = useBrandContext();
@@ -50,34 +54,63 @@ export const BrandDetailsForm = () => {
         return { countryOptions: countryOpts, currencyOptions: currencyOpts };
     }, [countries?.data]);
 
-    const defaultWorkingHours = React.useMemo(() => {
-        return brand.workingHours.sort((a, b) => {
-            const dayOrder = [1, 2, 3, 4, 5, 6, 0];
-            return (
-                dayOrder.indexOf(a.dayOfWeek) - dayOrder.indexOf(b.dayOfWeek)
-            );
-        });
-    }, [brand.workingHours]);
+    // const defaultWorkingHours = React.useMemo(() => {
+    //     return brand.workingHours.sort((a, b) => {
+    //         const dayOrder = [1, 2, 3, 4, 5, 6, 0];
+    //         return (
+    //             dayOrder.indexOf(a.dayOfWeek) - dayOrder.indexOf(b.dayOfWeek)
+    //         );
+    //     });
+    // }, [brand.workingHours]);
 
+    const handleSubmit = (values: BrandData) => {
+        const submitData = {
+            ...values,
+            banner:
+                values.banner?.length === 0 || values.banner === null
+                    ? brand.bannerUrl
+                    : values.banner,
+            logo:
+                values.logo?.length === 0 || values.logo === null
+                    ? brand.logoUrl
+                    : values.logo,
+        };
+        updateBrand.mutate(submitData);
+    };
+
+    const getFormDefaults = (): BrandData => {
+        return {
+            name: brand.name ?? '',
+            pageUrl: brand.pageUrl ?? '',
+            description: brand.description ?? '',
+            email: brand.email ?? '',
+            phone: brand.phone ?? '',
+            address: brand.address ?? '',
+            city: brand.city ?? '',
+            state: brand.state ?? '',
+            zipCode: brand.zipCode ?? '',
+            country: brand.country ?? '',
+            currency: brand.currency ?? '',
+        };
+    };
     return (
         <Form
-            onSubmit={values => {
-                console.log('Form submitted with values:');
-                console.log(values);
-            }}
+            onSubmit={handleSubmit}
             schema={brandDetailsSchema}
             className='w-full'
-            options={{ mode: 'onChange' }}
+            options={{ mode: 'onChange', defaultValues: getFormDefaults() }}
         >
             {({ formState, watch, register, setValue }) => {
-                const isButtonDisabled = false; // Fix this later
                 const banner = watch('banner');
                 const logo = watch('logo');
+                const isSubmitDisabled =
+                    Object.keys(formState.dirtyFields).length === 0 ||
+                    !formState.isValid;
                 return (
                     <div className='flex flex-col relative gap-6 max-w-[1140px] mx-auto'>
                         <FormDetailsHeader
                             title='Your Brand'
-                            disabled={isButtonDisabled}
+                            disabled={isSubmitDisabled}
                             isLoading={updateBrand.isPending}
                         />
                         <div className='px-4 lg:!px-10 space-y-6'>
@@ -192,6 +225,7 @@ export const BrandDetailsForm = () => {
                                         error={formState.errors['country']}
                                         options={countryOptions}
                                         registration={register('country')}
+                                        defaultValue={brand.country}
                                     />
 
                                     <SelectField
@@ -199,10 +233,11 @@ export const BrandDetailsForm = () => {
                                         error={formState.errors['currency']}
                                         options={currencyOptions}
                                         registration={register('currency')}
+                                        defaultValue={brand.currency}
                                     />
                                 </div>
 
-                                <WorkingHours
+                                {/* <WorkingHours
                                     setValue={setValue}
                                     registration={register('workingHours')}
                                     defaultValue={defaultWorkingHours}
@@ -212,7 +247,7 @@ export const BrandDetailsForm = () => {
                                     registration={register('socialLinks')}
                                     setValue={setValue}
                                     defaultValue={brand.socialLinks ?? []}
-                                />
+                                /> */}
                             </div>
                         </div>
                     </div>
