@@ -8,7 +8,6 @@ import {
 import { cn } from '@/utils/cn';
 import { useNavigate } from 'react-router';
 import { paths } from '@/config/paths';
-import { isActiveTab } from '@/utils/helpers';
 
 export function NavMenu() {
     const navigate = useNavigate();
@@ -40,7 +39,7 @@ export function NavMenu() {
                         key={item.title}
                     >
                         <SidebarMenuButton
-                            isActive={isActiveTab(item.url)}
+                            isActive={location.pathname === item.url}
                             tooltip={item.title}
                             onClick={() => navigate(item.url)}
                         >
