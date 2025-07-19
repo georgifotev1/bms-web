@@ -25,7 +25,7 @@ export function CalendarAgendaView({
             { date: Date; events: IEvent[]; multiDayEvents: IEvent[] }
         >();
 
-        singleDayEvents.forEach((event) => {
+        singleDayEvents.forEach(event => {
             const eventDate = parseISO(event.startTime);
             if (!isSameMonth(eventDate, selectedDate)) return;
 
@@ -42,7 +42,7 @@ export function CalendarAgendaView({
             allDates.get(dateKey)?.events.push(event);
         });
 
-        multiDayEvents.forEach((event) => {
+        multiDayEvents.forEach(event => {
             const eventStart = parseISO(event.startTime);
             const eventEnd = parseISO(event.endTime);
 
@@ -78,9 +78,9 @@ export function CalendarAgendaView({
         singleDayEvents.length > 0 || multiDayEvents.length > 0;
 
     return (
-        <ScrollArea className='h-[700px]' type='scroll'>
+        <ScrollArea className='max-h-[100vh]' type='scroll'>
             <div className='space-y-6 p-4'>
-                {eventsByDay.map((dayGroup) => (
+                {eventsByDay.map(dayGroup => (
                     <AgendaDayGroup
                         key={format(dayGroup.date, 'yyyy-MM-dd')}
                         date={dayGroup.date}
