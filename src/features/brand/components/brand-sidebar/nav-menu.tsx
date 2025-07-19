@@ -1,4 +1,4 @@
-import { BriefcaseBusiness, Users } from 'lucide-react';
+import { BriefcaseBusiness, Clock, Users } from 'lucide-react';
 import {
     SidebarGroup,
     SidebarMenu,
@@ -6,23 +6,23 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { cn } from '@/utils/cn';
-import { useLocation, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
+import { paths } from '@/config/paths';
+import { isActiveTab } from '@/utils/helpers';
 
 export function NavMenu() {
     const navigate = useNavigate();
-    const location = useLocation();
 
-    const isActive = (itemUrl: string) => {
-        if (itemUrl === '/') {
-            return location.pathname === '/';
-        }
-        return location.pathname.startsWith(itemUrl);
-    };
     const items = [
         {
             title: 'Your Brand',
-            url: '/brand',
+            url: paths.app.brand.path,
             icon: BriefcaseBusiness,
+        },
+        {
+            title: 'Working Hours',
+            url: paths.app.brand.workingHours,
+            icon: Clock,
         },
         {
             title: 'Team',
@@ -40,7 +40,7 @@ export function NavMenu() {
                         key={item.title}
                     >
                         <SidebarMenuButton
-                            isActive={isActive(item.url)}
+                            isActive={isActiveTab(item.url)}
                             tooltip={item.title}
                             onClick={() => navigate(item.url)}
                         >

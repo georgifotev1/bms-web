@@ -61,6 +61,7 @@ const WorkingHours = ({
             closeTime: isOpen ? '18:00' : undefined,
         });
     };
+
     return (
         <div className='py-6 space-y-6 lg:px-10'>
             <div className='mb-6'>
@@ -96,7 +97,7 @@ const WorkingHours = ({
                                 e.target.value
                             )
                         }
-                        defaultValue={day.isClosed ? '' : '09:00'}
+                        defaultValue={day.isClosed ? '' : day.openTime}
                         disabled={day.isClosed}
                         className='bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none'
                     />
@@ -109,7 +110,8 @@ const WorkingHours = ({
                                 e.target.value
                             )
                         }
-                        defaultValue={day.isClosed ? '' : '18:00'}
+                        min={day.openTime}
+                        defaultValue={day.isClosed ? '' : day.closeTime}
                         disabled={day.isClosed}
                         className='bg-background appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none'
                     />

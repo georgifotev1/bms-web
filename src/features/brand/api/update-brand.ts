@@ -72,6 +72,7 @@ export const brandDetailsSchema = z.object({
 
 export type BrandData = z.infer<typeof brandDetailsSchema>;
 export type WorkingHour = z.infer<typeof workingHoursSchema>;
+export type WorkingHoursFormData = z.infer<typeof workingHoursFormSchema>;
 export type SocialLink = z.infer<typeof socialLinkSchema>;
 
 export const getBrandFormData = (data: BrandData) => {
@@ -120,7 +121,7 @@ const updateBrand = (
 
 const updateWorkingHours = (
     brandId: number,
-    data: WorkingHour[]
+    data: WorkingHoursFormData
 ): Promise<BrandProfile> => {
     return api.put(`/brand/${brandId}/working-hours`, data);
 };
@@ -147,7 +148,8 @@ export const useUpdateWorkingHours = (brandId: number) => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: (data: WorkingHour[]) => updateWorkingHours(brandId, data),
+        mutationFn: (data: WorkingHoursFormData) =>
+            updateWorkingHours(brandId, data),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: [queryKeys.brand] });
         },

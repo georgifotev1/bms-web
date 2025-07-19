@@ -23,14 +23,16 @@ export const WorkingHoursForm = () => {
 
     return (
         <Form
-            onSubmit={values => console.log(values)}
+            onSubmit={values => updateWorkingHours.mutate(values)}
             schema={workingHoursFormSchema}
             className='w-full'
         >
-            {({ register, setValue, formState }) => {
-                const isSubmitDisabled =
-                    Object.keys(formState.dirtyFields).length === 0 ||
-                    !formState.isValid;
+            {({
+                register,
+                setValue,
+                formState: { isDirty, isValid, isSubmitting },
+            }) => {
+                const isSubmitDisabled = !isDirty || !isValid || isSubmitting;
                 return (
                     <div className='flex flex-col relative gap-6 max-w-[1140px] mx-auto'>
                         <FormDetailsHeader

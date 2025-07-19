@@ -12,19 +12,13 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { useLocation, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import { cn } from '@/utils/cn';
+import { isActiveTab } from '@/utils/helpers';
 
 export function NavMain() {
     const navigate = useNavigate();
-    const location = useLocation();
 
-    const isActive = (itemUrl: string) => {
-        if (itemUrl === '/') {
-            return location.pathname === '/';
-        }
-        return location.pathname.startsWith(itemUrl);
-    };
     const items = [
         {
             title: 'Brand',
@@ -82,7 +76,7 @@ export function NavMain() {
                         key={item.title}
                     >
                         <SidebarMenuButton
-                            isActive={isActive(item.url)}
+                            isActive={isActiveTab(item.url)}
                             tooltip={item.title}
                             onClick={() => navigate(item.url)}
                         >
