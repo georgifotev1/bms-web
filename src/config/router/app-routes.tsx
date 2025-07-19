@@ -77,7 +77,7 @@ export const appRoutes: RouteObject[] = [
             {
                 path: paths.app.brand.path,
                 lazy: () =>
-                    import('@/app/routes/app/brand/brand-details').then(
+                    import('@/app/routes/app/brand/brand').then(
                         ({ BrandRoute }) => ({
                             Component: BrandRoute,
                         })
