@@ -31,9 +31,8 @@ export const FormDetailsHeader = ({
                     disabled={disabled || isLoading}
                     className='rounded-4xl'
                     type='submit'
-                    icon={isLoading && <Spinner />}
                 >
-                    Save
+                    <span>{isLoading ? <Spinner /> : 'Save'}</span>
                 </Button>
             </div>
         </header>

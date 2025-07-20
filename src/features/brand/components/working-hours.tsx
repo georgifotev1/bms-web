@@ -21,7 +21,7 @@ const WorkingHours = ({
 
     React.useEffect(() => {
         if (registration.name) {
-            setValue(registration.name, workingHours);
+            setValue(registration.name, workingHours, { shouldDirty: true });
         }
     }, [workingHours, registration.name, setValue]);
 
