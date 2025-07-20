@@ -1,11 +1,13 @@
 import { UseFormRegisterReturn, UseFormSetValue } from 'react-hook-form';
-import { SocialLink } from '../api/update-brand';
+
 import * as React from 'react';
 import { Label } from '@/components/ui/form';
 import { Muted } from '@/components/typography';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useDebounce } from '@/utils/debounce';
+import { ActionsButton } from '@/components/ui/actions-button';
+import { SocialLink } from '../api/social-links';
 
 interface SocialLinkProps {
     registration: Partial<UseFormRegisterReturn>;
@@ -64,6 +66,13 @@ const SocialLinks = ({
         return !newLink.platform.trim() || !newLink.url.trim();
     }, [newLink.platform, newLink.url]);
 
+    const actions = [
+        {
+            label: 'Delete',
+            fn: () => console.log('delete'),
+        },
+    ];
+
     React.useEffect(() => {
         if (registration.name) {
             setValue(registration.name, socialLinks, { shouldDirty: true });
@@ -80,15 +89,23 @@ const SocialLinks = ({
             </div>
             {socialLinks.length > 0 &&
                 socialLinks.map((socialLink, index) => (
-                    <div key={socialLink.platform + index}>
-                        <Label className='mb-2'>{socialLink.platform}</Label>
-                        <Input
-                            type='text'
-                            defaultValue={socialLink.url}
-                            onChange={e =>
-                                updateExistingLink(e.target.value, index)
-                            }
-                        />
+                    <div
+                        key={socialLink.platform + index}
+                        className='flex w-full gap-4 items-end'
+                    >
+                        <div className='flex-1'>
+                            <Label className='mb-2'>
+                                {socialLink.platform}
+                            </Label>
+                            <Input
+                                type='text'
+                                defaultValue={socialLink.url}
+                                onChange={e =>
+                                    updateExistingLink(e.target.value, index)
+                                }
+                            />
+                        </div>
+                        <ActionsButton actions={actions} />
                     </div>
                 ))}
             {isAddingLink && (

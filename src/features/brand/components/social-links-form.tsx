@@ -1,11 +1,12 @@
 import { useBrandContext } from '@/context/brand';
-import {
-    socialLinksFormSchema,
-    useUpdateSocialLinks,
-} from '../api/update-brand';
+
 import { Form } from '@/components/ui/form';
 import { FormDetailsHeader } from '@/components/ui/form/details-header';
 import SocialLinks from './social-links';
+import {
+    socialLinksFormSchema,
+    useUpdateSocialLinks,
+} from '../api/social-links';
 
 export const SocialLinksForm = () => {
     const brand = useBrandContext();

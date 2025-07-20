@@ -3,8 +3,8 @@ import { Label } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
 import { UseFormRegisterReturn, UseFormSetValue } from 'react-hook-form';
-import { WorkingHour } from '../api/update-brand';
 import * as React from 'react';
+import { WorkingHour } from '../api/working-hours';
 
 interface WorkingHoursProps {
     registration: Partial<UseFormRegisterReturn>;

@@ -1,12 +1,12 @@
 import * as React from 'react';
 import WorkingHours from './working-hours';
 import { useBrandContext } from '@/context/brand';
+import { Form } from '@/components/ui/form';
+import { FormDetailsHeader } from '@/components/ui/form/details-header';
 import {
     useUpdateWorkingHours,
     workingHoursFormSchema,
-} from '../api/update-brand';
-import { Form } from '@/components/ui/form';
-import { FormDetailsHeader } from '@/components/ui/form/details-header';
+} from '../api/working-hours';
 
 export const WorkingHoursForm = () => {
     const brand = useBrandContext();
