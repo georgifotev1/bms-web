@@ -34,3 +34,18 @@ export const useUpdateSocialLinks = (brandId: number) => {
         },
     });
 };
+
+const deleteSocialLinks = (brandId: number, socialLinkId: number) => {
+    return api.delete(`/brand/${brandId}/social-links/${socialLinkId}`);
+};
+
+export const useDeleteSocialLink = (brandId: number) => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (linkId: number) => deleteSocialLinks(brandId, linkId),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [queryKeys.brand] });
+        },
+    });
+};
