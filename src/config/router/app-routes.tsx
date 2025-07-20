@@ -92,6 +92,15 @@ export const appRoutes: RouteObject[] = [
                         })
                     ),
             },
+            {
+                path: paths.app.brand.sociaLinks,
+                lazy: () =>
+                    import('@/app/routes/app/brand/social-links').then(
+                        ({ SocialLinksRoute }) => ({
+                            Component: SocialLinksRoute,
+                        })
+                    ),
+            },
         ],
     },
     {

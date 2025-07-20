@@ -27,6 +27,10 @@ export const socialLinkSchema = z.object({
     url: z.string().min(1, 'Must be a valid URL'),
 });
 
+export const socialLinksFormSchema = z.object({
+    socialLinks: z.array(socialLinkSchema),
+});
+
 export const brandDetailsSchema = z.object({
     name: z
         .string()
@@ -73,6 +77,7 @@ export const brandDetailsSchema = z.object({
 export type BrandData = z.infer<typeof brandDetailsSchema>;
 export type WorkingHour = z.infer<typeof workingHoursSchema>;
 export type WorkingHoursFormData = z.infer<typeof workingHoursFormSchema>;
+export type SocialLinksFormData = z.infer<typeof socialLinksFormSchema>;
 export type SocialLink = z.infer<typeof socialLinkSchema>;
 
 export const getBrandFormData = (data: BrandData) => {
@@ -128,7 +133,7 @@ const updateWorkingHours = (
 
 const updateSocialLinks = (
     brandId: number,
-    data: SocialLink[]
+    data: SocialLinksFormData
 ): Promise<BrandProfile> => {
     return api.put(`/brand/${brandId}/social-links`, data);
 };
@@ -160,7 +165,8 @@ export const useUpdateSocialLinks = (brandId: number) => {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: (data: SocialLink[]) => updateSocialLinks(brandId, data),
+        mutationFn: (data: SocialLinksFormData) =>
+            updateSocialLinks(brandId, data),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: [queryKeys.brand] });
         },

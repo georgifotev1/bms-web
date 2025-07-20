@@ -1,14 +1,14 @@
 import { ContentLayout } from '@/components/layouts/content';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { BrandDetailsForm } from '@/features/brand/components/brand-details-form';
 import { BrandSidebar } from '@/features/brand/components/brand-sidebar';
+import { SocialLinksForm } from '@/features/brand/components/social-links-form';
+import { ScrollArea } from '@radix-ui/react-scroll-area';
 
-export const BrandRoute = () => {
+export const SocialLinksRoute = () => {
     return (
-        <ContentLayout title='Brand Details' className='flex h-full'>
+        <ContentLayout title='Social Links' className='flex h-full'>
             <BrandSidebar />
             <ScrollArea className='max-h-[100vh] w-full'>
-                <BrandDetailsForm />
+                <SocialLinksForm />
             </ScrollArea>
         </ContentLayout>
     );

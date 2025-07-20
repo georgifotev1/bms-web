@@ -1,4 +1,4 @@
-import { BriefcaseBusiness, Clock, Users } from 'lucide-react';
+import { BriefcaseBusiness, Clock, Link, Users } from 'lucide-react';
 import {
     SidebarGroup,
     SidebarMenu,
@@ -22,6 +22,11 @@ export function NavMenu() {
             title: 'Working Hours',
             url: paths.app.brand.workingHours,
             icon: Clock,
+        },
+        {
+            title: 'Social Links',
+            url: paths.app.brand.sociaLinks,
+            icon: Link,
         },
         {
             title: 'Team',

@@ -66,12 +66,12 @@ const SocialLinks = ({
 
     React.useEffect(() => {
         if (registration.name) {
-            setValue(registration.name, socialLinks);
+            setValue(registration.name, socialLinks, { shouldDirty: true });
         }
     }, [socialLinks, registration.name, setValue]);
 
     return (
-        <div className='border-t border-solid border-tertiary py-6 space-y-6'>
+        <div className='py-6 space-y-6 lg:px-10'>
             <div className='mb-6'>
                 <Label className='font-bold mb-1'>Social Links</Label>
                 <Muted>
@@ -92,8 +92,8 @@ const SocialLinks = ({
                     </div>
                 ))}
             {isAddingLink && (
-                <div className='flex gap-2 items-end'>
-                    <div>
+                <div className='w-full flex gap-2 items-end'>
+                    <div className='flex-1/2'>
                         <Label className='mb-2'>Platform</Label>
                         <Input
                             type='text'
@@ -101,7 +101,7 @@ const SocialLinks = ({
                             onChange={e => setPlatformValue(e)}
                         />
                     </div>
-                    <div>
+                    <div className='flex-1/2'>
                         <Label className='mb-2'>URL</Label>
                         <Input
                             type='text'
