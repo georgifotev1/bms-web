@@ -54,15 +54,6 @@ export const BrandDetailsForm = () => {
         return { countryOptions: countryOpts, currencyOptions: currencyOpts };
     }, [countries?.data]);
 
-    // const defaultWorkingHours = React.useMemo(() => {
-    //     return brand.workingHours.sort((a, b) => {
-    //         const dayOrder = [1, 2, 3, 4, 5, 6, 0];
-    //         return (
-    //             dayOrder.indexOf(a.dayOfWeek) - dayOrder.indexOf(b.dayOfWeek)
-    //         );
-    //     });
-    // }, [brand.workingHours]);
-
     const handleSubmit = (values: BrandData) => {
         const submitData = {
             ...values,
@@ -236,18 +227,6 @@ export const BrandDetailsForm = () => {
                                         defaultValue={brand.currency}
                                     />
                                 </div>
-
-                                {/* <WorkingHours
-                                    setValue={setValue}
-                                    registration={register('workingHours')}
-                                    defaultValue={defaultWorkingHours}
-                                />
-
-                                <SocialLinks
-                                    registration={register('socialLinks')}
-                                    setValue={setValue}
-                                    defaultValue={brand.socialLinks ?? []}
-                                /> */}
                             </div>
                         </div>
                     </div>

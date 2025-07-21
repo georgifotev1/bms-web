@@ -19,7 +19,6 @@ export type Token = {
 export type UserWithToken = User & Token;
 
 export type SocialLink = {
-    id: number;
     brandId: number;
     platform: string;
     url: string;
