@@ -15,6 +15,7 @@ interface SocialLinkProps {
     setValue: UseFormSetValue<any>;
     defaultValue: SocialLink[];
 }
+
 const SocialLinks = ({
     registration,
     setValue,
@@ -35,6 +36,7 @@ const SocialLinks = ({
             }));
         }
     );
+
     const setUrlValue = useDebounce(
         (event: React.ChangeEvent<HTMLInputElement>) => {
             setNewLink(prev => ({
@@ -52,6 +54,10 @@ const SocialLinks = ({
         );
     });
 
+    const deleteSocialLink = (index: number) => {
+        setSocialLinks(prev => prev.filter((_, i) => i !== index));
+    };
+
     const cancelNewLink = () => {
         setNewLink({ platform: '', url: '' });
         setIsAddingLink(false);
@@ -65,13 +71,6 @@ const SocialLinks = ({
     const isButtonDisabled = React.useMemo(() => {
         return !newLink.platform.trim() || !newLink.url.trim();
     }, [newLink.platform, newLink.url]);
-
-    const actions = [
-        {
-            label: 'Delete',
-            fn: () => console.log('delete'),
-        },
-    ];
 
     React.useEffect(() => {
         if (registration.name) {
@@ -88,26 +87,38 @@ const SocialLinks = ({
                 </Muted>
             </div>
             {socialLinks.length > 0 &&
-                socialLinks.map((socialLink, index) => (
-                    <div
-                        key={socialLink.platform + index}
-                        className='flex w-full gap-4 items-end'
-                    >
-                        <div className='flex-1'>
-                            <Label className='mb-2'>
-                                {socialLink.platform}
-                            </Label>
-                            <Input
-                                type='text'
-                                defaultValue={socialLink.url}
-                                onChange={e =>
-                                    updateExistingLink(e.target.value, index)
-                                }
-                            />
+                socialLinks.map((socialLink, index) => {
+                    const actions = [
+                        {
+                            label: 'Delete',
+                            fn: () => deleteSocialLink(index),
+                        },
+                    ];
+
+                    return (
+                        <div
+                            key={socialLink.platform + index}
+                            className='flex w-full gap-4 items-end'
+                        >
+                            <div className='flex-1'>
+                                <Label className='mb-2'>
+                                    {socialLink.platform}
+                                </Label>
+                                <Input
+                                    type='text'
+                                    defaultValue={socialLink.url}
+                                    onChange={e =>
+                                        updateExistingLink(
+                                            e.target.value,
+                                            index
+                                        )
+                                    }
+                                />
+                            </div>
+                            <ActionsButton actions={actions} />
                         </div>
-                        <ActionsButton actions={actions} />
-                    </div>
-                ))}
+                    );
+                })}
             {isAddingLink && (
                 <div className='w-full flex gap-2 items-end'>
                     <div className='flex-1/2'>
