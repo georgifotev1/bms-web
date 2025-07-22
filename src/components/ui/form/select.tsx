@@ -1,3 +1,4 @@
+import { FieldValues } from 'react-hook-form';
 import {
     Select,
     SelectContent,
@@ -15,14 +16,15 @@ import {
 } from './form';
 import { BaseFormFieldProps, FormSelectOption } from './form.interfaces';
 
-export interface FormSelectProps extends BaseFormFieldProps {
+export interface FormSelectProps<T extends FieldValues = FieldValues>
+    extends BaseFormFieldProps<T> {
     placeholder?: string;
     type?: 'text' | 'email' | 'number' | 'password';
     className?: string;
     options: FormSelectOption[];
 }
 
-export const FormSelect = ({
+export const FormSelect = <T extends FieldValues = FieldValues>({
     control,
     name,
     label,
@@ -30,7 +32,7 @@ export const FormSelect = ({
     description,
     options = [],
     ...props
-}: FormSelectProps) => (
+}: FormSelectProps<T>) => (
     <FormField
         control={control}
         name={name}

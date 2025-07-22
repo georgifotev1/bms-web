@@ -1,3 +1,4 @@
+import { FieldValues } from 'react-hook-form';
 import { Switch } from '../switch';
 import {
     FormControl,
@@ -8,12 +9,12 @@ import {
 } from './form';
 import { BaseFormFieldProps } from './form.interfaces';
 
-export const FormSwitch = ({
+export const FormSwitch = <T extends FieldValues = FieldValues>({
     control,
     name,
     label,
     description,
-}: BaseFormFieldProps) => (
+}: BaseFormFieldProps<T>) => (
     <FormField
         control={control}
         name={name}

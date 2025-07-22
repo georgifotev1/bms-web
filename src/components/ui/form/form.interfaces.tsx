@@ -1,10 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { Control, FieldPath } from 'react-hook-form';
+import { Control, FieldPath, FieldValues } from 'react-hook-form';
 
-export interface BaseFormFieldProps {
-    control: Control<any>;
-    name: FieldPath<any>;
-    label: string;
+export interface BaseFormFieldProps<T extends FieldValues = FieldValues> {
+    control: Control<T>;
+    name: FieldPath<T>;
+    label?: string;
     description?: string;
 }
 

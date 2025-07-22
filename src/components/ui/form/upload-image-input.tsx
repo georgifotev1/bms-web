@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useController } from 'react-hook-form';
+import { FieldValues, useController } from 'react-hook-form';
 import { ImageIcon } from 'lucide-react';
 import ReactCrop, {
     type Crop,
@@ -29,13 +29,14 @@ import {
 import { ACCEPTED_IMAGE_TYPES } from '@/constants';
 import { BaseFormFieldProps } from './form.interfaces';
 
-export interface FormImageUploaderProps extends BaseFormFieldProps {
+export interface FormImageUploaderProps<T extends FieldValues = FieldValues>
+    extends BaseFormFieldProps<T> {
     aspectRatio?: number;
     isLogo?: boolean;
     onCroppedImage?: (file: File) => void;
 }
 
-export const FormImageUploader = ({
+export const FormImageUploader = <T extends FieldValues = FieldValues>({
     name,
     control,
     label,
@@ -43,7 +44,7 @@ export const FormImageUploader = ({
     aspectRatio,
     isLogo = false,
     onCroppedImage,
-}: FormImageUploaderProps) => {
+}: FormImageUploaderProps<T>) => {
     const [open, setOpen] = React.useState(false);
     const [imgSrc, setImgSrc] = React.useState('');
     const [crop, setCrop] = React.useState<Crop>();

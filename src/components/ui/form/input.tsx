@@ -1,3 +1,4 @@
+import { FieldValues } from 'react-hook-form';
 import { Input } from '../input';
 import {
     FormControl,
@@ -9,12 +10,13 @@ import {
 } from './form';
 import { BaseFormFieldProps } from './form.interfaces';
 
-export interface FormInputProps extends BaseFormFieldProps {
+export interface FormInputProps<T extends FieldValues = FieldValues>
+    extends BaseFormFieldProps<T> {
     placeholder?: string;
     type?: 'text' | 'email' | 'number' | 'password';
     className?: string;
 }
-export const FormInput = ({
+export const FormInput = <T extends FieldValues = FieldValues>({
     control,
     name,
     label,
@@ -23,7 +25,7 @@ export const FormInput = ({
     type = 'text',
     className,
     ...props
-}: FormInputProps) => (
+}: FormInputProps<T>) => (
     <FormField
         control={control}
         name={name}

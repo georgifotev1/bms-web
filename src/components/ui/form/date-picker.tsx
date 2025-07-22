@@ -13,13 +13,14 @@ import {
 import { BaseFormFieldProps } from './form.interfaces';
 import { CalendarIcon } from 'lucide-react';
 import { Calendar } from '../calendar';
+import { FieldValues } from 'react-hook-form';
 
-export const FormDatePicker = ({
+export const FormDatePicker = <T extends FieldValues = FieldValues>({
     control,
     name,
     label,
     description,
-}: BaseFormFieldProps) => (
+}: BaseFormFieldProps<T>) => (
     <FormField
         control={control}
         name={name}

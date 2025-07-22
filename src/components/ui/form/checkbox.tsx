@@ -1,3 +1,4 @@
+import { FieldValues } from 'react-hook-form';
 import { Checkbox } from '../checkbox';
 import {
     FormControl,
@@ -9,17 +10,18 @@ import {
 } from './form';
 import { BaseFormFieldProps } from './form.interfaces';
 
-export interface FormCheckboxProps extends BaseFormFieldProps {
+export interface FormCheckboxProps<T extends FieldValues = FieldValues>
+    extends BaseFormFieldProps<T> {
     className?: string;
 }
 
-export const FormCheckbox = ({
+export const FormCheckbox = <T extends FieldValues = FieldValues>({
     control,
     name,
     label,
     description,
     ...props
-}: FormCheckboxProps) => (
+}: FormCheckboxProps<T>) => (
     <FormField
         control={control}
         name={name}

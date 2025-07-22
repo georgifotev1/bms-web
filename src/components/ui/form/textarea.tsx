@@ -1,3 +1,4 @@
+import { FieldValues } from 'react-hook-form';
 import { Textarea } from '../textarea';
 import {
     FormControl,
@@ -10,19 +11,20 @@ import {
 
 import { BaseFormFieldProps } from './form.interfaces';
 
-export interface FormTextareaProps extends BaseFormFieldProps {
+export interface FormTextareaProps<T extends FieldValues = FieldValues>
+    extends BaseFormFieldProps<T> {
     placeholder?: string;
     className?: string;
 }
 
-export const FormTextarea = ({
+export const FormTextarea = <T extends FieldValues = FieldValues>({
     control,
     name,
     label,
     placeholder,
     description,
     ...props
-}: FormTextareaProps) => (
+}: FormTextareaProps<T>) => (
     <FormField
         control={control}
         name={name}
