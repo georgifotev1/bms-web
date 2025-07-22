@@ -1,16 +1,16 @@
-import { Form, Input, Label } from '@/components/ui/form';
+import { Form, Input, Label } from '@/components/ui/form-v1';
 import {
     BrandData,
     brandDetailsSchema,
     useUpdateBrand,
 } from '../api/update-brand';
-import { FormDetailsHeader } from '@/components/ui/form/details-header';
+import { FormDetailsHeader } from '@/components/ui/form-v1/details-header';
 import { useBrandContext } from '@/context/brand';
 import { FieldError } from 'react-hook-form';
 import { UploadBannerComponent } from '@/components/images/upload-banner';
 import { UploadImageComponent } from '@/components/images/upload-image';
-import { Textarea } from '@/components/ui/form/textarea';
-import { type Option, SelectField } from '@/components/ui/form/select-field';
+import { Textarea } from '@/components/ui/form-v1/textarea';
+import { type Option, SelectField } from '@/components/ui/form-v1/select-field';
 import { useCountries } from '@/lib/countries';
 import * as React from 'react';
 // import WorkingHours from './working-hours';

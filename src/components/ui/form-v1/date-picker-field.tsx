@@ -26,7 +26,7 @@ type DatePickerFieldProps = FieldWrapperPassThroughProps & {
     setValue: UseFormSetValue<any>;
 };
 
-export const DatePickerFieldV2 = (props: DatePickerFieldProps) => {
+export const DatePickerField = (props: DatePickerFieldProps) => {
     const {
         label,
         error,

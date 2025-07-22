@@ -1,5 +1,5 @@
 import { Muted } from '@/components/typography';
-import { Label } from '@/components/ui/form';
+import { Label } from '@/components/ui/form-v1';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
 import { UseFormRegisterReturn, UseFormSetValue } from 'react-hook-form';

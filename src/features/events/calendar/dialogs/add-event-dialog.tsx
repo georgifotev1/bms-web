@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { Form } from '@/components/ui/form';
+import { Form } from '@/components/ui/form-v1';
 import * as React from 'react';
 import {
     Dialog,
@@ -16,13 +16,13 @@ import {
     eventFormSchema,
     useCreateEvent,
 } from '@/features/events/api/create-events';
-import { SelectField } from '@/components/ui/form/select-field';
+import { SelectField } from '@/components/ui/form-v1/select-field';
 import { useDashboardData } from '@/context/dashboard';
 import { useBrandContext } from '@/context/brand';
-import { TimePickerField } from '@/components/ui/form/time-picker-field';
+import { TimePickerField } from '@/components/ui/form-v1/time-picker-field';
 import { createApiDateTime, getNextAvailableTimeSlot } from '../helpers';
-import { Textarea } from '@/components/ui/form/textarea';
-import { DatePickerFieldV2 } from '@/components/ui/form/date-picker-field-v2';
+import { Textarea } from '@/components/ui/form-v1/textarea';
+import { DatePickerField } from '@/components/ui/form-v1/date-picker-field';
 import { getDay, parse, addMinutes, format } from 'date-fns';
 import { WorkingHour } from '@/types/api';
 import { toast } from 'sonner';
@@ -140,7 +140,7 @@ export function AddEventDialog(props: IProps) {
                                 />
 
                                 <div className='grid grid-cols-3 gap-2'>
-                                    <DatePickerFieldV2
+                                    <DatePickerField
                                         label='Event Date'
                                         error={formState.errors['eventDate']}
                                         registration={register('eventDate')}

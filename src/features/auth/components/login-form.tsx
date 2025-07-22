@@ -1,7 +1,7 @@
 import { Link, useSearchParams, useNavigate } from 'react-router';
 
 import { Button } from '@/components/ui/button';
-import { Form, Input } from '@/components/ui/form';
+import { Form, Input } from '@/components/ui/form-v1';
 import { paths } from '@/config/paths';
 import { useLogin, loginInputSchema } from '@/lib/auth';
 
@@ -14,7 +14,7 @@ export const LoginForm = () => {
     return (
         <div>
             <Form
-                onSubmit={(values) => {
+                onSubmit={values => {
                     login.mutate(values, {
                         onSuccess: () =>
                             navigate(

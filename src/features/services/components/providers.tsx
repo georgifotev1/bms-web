@@ -1,5 +1,5 @@
 import { H4, Muted } from '@/components/typography';
-import { CheckboxField } from '@/components/ui/form/checkbox-field';
+import { CheckboxField } from '@/components/ui/form-v1/checkbox-field';
 import { User } from '@/types/api';
 import { ServiceData } from '../api/create-service';
 import { Control } from 'react-hook-form';

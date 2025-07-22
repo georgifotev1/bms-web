@@ -1,8 +1,8 @@
 import * as React from 'react';
 import WorkingHours from './working-hours';
 import { useBrandContext } from '@/context/brand';
-import { Form } from '@/components/ui/form';
-import { FormDetailsHeader } from '@/components/ui/form/details-header';
+import { Form } from '@/components/ui/form-v1';
+import { FormDetailsHeader } from '@/components/ui/form-v1/details-header';
 import {
     useUpdateWorkingHours,
     workingHoursFormSchema,

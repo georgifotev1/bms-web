@@ -1,7 +1,7 @@
 import { UseFormRegisterReturn, UseFormSetValue } from 'react-hook-form';
 
 import * as React from 'react';
-import { Label } from '@/components/ui/form';
+import { Label } from '@/components/ui/form-v1';
 import { Muted } from '@/components/typography';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';

@@ -1,5 +1,5 @@
 import { Trash } from 'lucide-react';
-import { ImageUploader } from '../ui/form/upload-image-input';
+import { ImageUploader } from '../ui/form-v1/upload-image-input';
 import { ImagePreview } from './image-preview';
 import { FieldError, UseFormRegisterReturn } from 'react-hook-form';
 import { Button } from '../ui/button';

@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router';
 
 import { Button } from '@/components/ui/button';
-import { Form, Input } from '@/components/ui/form';
+import { Form, Input } from '@/components/ui/form-v1';
 import { paths } from '@/config/paths';
 import { createBrandInputSchema, useCreateBrand } from '../api/create-brand';
 import { useQueryClient } from '@tanstack/react-query';
@@ -13,7 +13,7 @@ export const CreateBrandForm = () => {
 
     return (
         <Form
-            onSubmit={(values) => {
+            onSubmit={values => {
                 brand.mutate(values, {
                     onSuccess: async () => {
                         await queryClient.invalidateQueries({

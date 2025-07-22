@@ -4,7 +4,11 @@ import { Slot } from '@radix-ui/react-slot';
 import {
     Controller,
     FormProvider,
+    SubmitHandler,
+    useForm,
     useFormContext,
+    UseFormProps,
+    UseFormReturn,
     useFormState,
     type ControllerProps,
     type FieldPath,
@@ -12,9 +16,9 @@ import {
 } from 'react-hook-form';
 
 import { cn } from '@/utils/cn';
-import { Label } from '@/components/ui/label';
-
-const Form = FormProvider;
+import { Label } from '@/components/ui/form-v1/label';
+import { z, ZodType } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 type FormFieldContextValue<
     TFieldValues extends FieldValues = FieldValues,
@@ -153,6 +157,53 @@ function FormMessage({ className, ...props }: React.ComponentProps<'p'>) {
         </p>
     );
 }
+
+type FormProps<TFormValues extends FieldValues, Schema> = {
+    onSubmit: SubmitHandler<TFormValues>;
+    schema: Schema;
+    className?: string;
+    children: (methods: UseFormReturn<TFormValues>) => React.ReactNode;
+    options?: UseFormProps<TFormValues>;
+    id?: string;
+    hasFiles?: boolean;
+};
+
+const Form = <
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    Schema extends ZodType<any, any, any>,
+    TFormValues extends FieldValues = z.infer<Schema>
+>({
+    onSubmit,
+    children,
+    className,
+    options,
+    id,
+    schema,
+    hasFiles,
+}: FormProps<TFormValues, Schema>) => {
+    const form = useForm({
+        ...options,
+        resolver: zodResolver(schema),
+    });
+
+    const onFormSubmit = async (data: TFormValues) => {
+        await onSubmit(data);
+        form.reset();
+    };
+
+    return (
+        <FormProvider {...form}>
+            <form
+                className={cn('space-y-6', className)}
+                onSubmit={form.handleSubmit(onFormSubmit)}
+                id={id}
+                encType={hasFiles ? 'multipart/form-data' : undefined}
+            >
+                {children(form)}
+            </form>
+        </FormProvider>
+    );
+};
 
 export {
     useFormField,

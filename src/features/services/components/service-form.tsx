@@ -1,8 +1,8 @@
-import { Form, Input } from '@/components/ui/form';
+import { Form, Input } from '@/components/ui/form-v1';
 import { ServiceData, serviceSchema } from '../api/create-service';
 import { FieldError } from 'react-hook-form';
-import { SwitchField } from '@/components/ui/form/switch-field';
-import { Textarea } from '@/components/ui/form/textarea';
+import { SwitchField } from '@/components/ui/form-v1/switch-field';
+import { Textarea } from '@/components/ui/form-v1/textarea';
 import { H4 } from '@/components/typography';
 import { useDashboardData } from '@/context/dashboard';
 import { toast } from 'sonner';
@@ -14,7 +14,7 @@ import { useUpdateService } from '../api/edit-service';
 import { UseMutationResult } from '@tanstack/react-query';
 import { ServiceProvidersSection } from './providers';
 import { UploadImageComponent } from '@/components/images/upload-image';
-import { FormDetailsHeader } from '@/components/ui/form/details-header';
+import { FormDetailsHeader } from '@/components/ui/form-v1/details-header';
 
 interface ServiceFormProps {
     mode: 'create' | 'edit';
