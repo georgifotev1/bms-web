@@ -1,0 +1,42 @@
+import { Textarea } from '../textarea';
+import {
+    FormControl,
+    FormDescription,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from './form';
+
+import { BaseFormFieldProps } from './form.interfaces';
+
+export interface FormTextareaProps extends BaseFormFieldProps {
+    placeholder?: string;
+    className?: string;
+}
+
+export const FormTextarea = ({
+    control,
+    name,
+    label,
+    placeholder,
+    description,
+    ...props
+}: FormTextareaProps) => (
+    <FormField
+        control={control}
+        name={name}
+        render={({ field }) => (
+            <FormItem>
+                <FormLabel>{label}</FormLabel>
+                <FormControl>
+                    <Textarea placeholder={placeholder} {...field} {...props} />
+                </FormControl>
+                {description && (
+                    <FormDescription>{description}</FormDescription>
+                )}
+                <FormMessage />
+            </FormItem>
+        )}
+    />
+);

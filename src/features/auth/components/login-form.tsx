@@ -1,71 +1,83 @@
 import { Link, useSearchParams, useNavigate } from 'react-router';
 
 import { Button } from '@/components/ui/button';
-import { Form, Input } from '@/components/ui/form-v1';
 import { paths } from '@/config/paths';
-import { useLogin, loginInputSchema } from '@/lib/auth';
+import { useLogin, loginInputSchema, LoginInput } from '@/lib/auth';
+import { Form } from '@/components/ui/form/form';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { FormInput } from '@/components/ui/form/input';
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from '@/components/ui/card';
 
 export const LoginForm = () => {
     const login = useLogin();
     const [searchParams] = useSearchParams();
     const redirectTo = searchParams.get('redirectTo');
     const navigate = useNavigate();
+    const form = useForm<LoginInput>({
+        resolver: zodResolver(loginInputSchema),
+    });
 
     return (
-        <div>
-            <Form
-                onSubmit={values => {
-                    login.mutate(values, {
-                        onSuccess: () =>
-                            navigate(
-                                redirectTo ? redirectTo : paths.app.root.path
-                            ),
-                    });
-                }}
-                schema={loginInputSchema}
-            >
-                {({ register, formState }) => (
-                    <>
-                        <Input
-                            type='email'
-                            label='Email Address'
-                            error={formState.errors['email']}
-                            registration={register('email')}
-                        />
-                        <Input
-                            type='password'
-                            label='Password'
-                            error={formState.errors['password']}
-                            registration={register('password')}
-                        />
-                        <div>
-                            <Button
-                                isLoading={login.isPending}
-                                disabled={login.isPending}
-                                type='submit'
-                                className='w-full'
-                            >
-                                Log in
+        <div className='flex flex-col min-h-[50vh] h-full w-full items-center justify-center px-4'>
+            <Card className='w-full'>
+                <CardHeader>
+                    <CardTitle className='text-2xl'>Login</CardTitle>
+                    <CardDescription>
+                        Enter your email and password to login to your account.
+                    </CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <Form {...form}>
+                        <form
+                            onSubmit={form.handleSubmit(values => {
+                                login.mutate(values, {
+                                    onSuccess: () =>
+                                        navigate(
+                                            redirectTo
+                                                ? redirectTo
+                                                : paths.app.root.path
+                                        ),
+                                });
+                            })}
+                            className='space-y-8'
+                        >
+                            <FormInput
+                                control={form.control}
+                                name='email'
+                                label='Email'
+                                type='email'
+                                placeholder='Enter your email'
+                            />
+                            <FormInput
+                                control={form.control}
+                                name='password'
+                                label='Password'
+                                type='password'
+                                placeholder='*******'
+                            />
+                            <Button type='submit' className='w-full'>
+                                Login
                             </Button>
-                        </div>
-                        {login.error && (
-                            <div className='text-red-500 text-sm'>
-                                {login.error.message}
-                            </div>
-                        )}
-                    </>
-                )}
-            </Form>
-            <div className='mt-2 flex items-center justify-end'>
-                <div className='text-sm'>
-                    <Link
-                        to={paths.app.auth.register.getHref(redirectTo)}
-                        className='font-medium text-blue-600 hover:text-blue-500'
-                    >
-                        Register
-                    </Link>
-                </div>
-            </div>
+                        </form>
+                    </Form>
+                    <div className='mt-4 text-center text-sm'>
+                        Don&apos;t have an account?{' '}
+                        <Link
+                            to={paths.app.auth.register.getHref(redirectTo)}
+                            className='underline'
+                        >
+                            Sign up
+                        </Link>
+                    </div>
+                </CardContent>
+            </Card>
         </div>
     );
 };
