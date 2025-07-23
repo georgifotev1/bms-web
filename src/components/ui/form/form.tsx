@@ -4,6 +4,7 @@ import { Slot } from '@radix-ui/react-slot';
 import {
     Controller,
     FormProvider,
+    useForm,
     useFormContext,
     useFormState,
     type ControllerProps,
@@ -13,8 +14,9 @@ import {
 
 import { cn } from '@/utils/cn';
 import { Label } from '@/components/ui/label';
-
-const Form = FormProvider;
+import z, { ZodType } from 'zod';
+import { FormProps } from './form.interfaces';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 type FormFieldContextValue<
     TFieldValues extends FieldValues = FieldValues,
@@ -153,6 +155,43 @@ function FormMessage({ className, ...props }: React.ComponentProps<'p'>) {
         </p>
     );
 }
+
+const Form = <
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    Schema extends ZodType<any, any, any>,
+    TFormValues extends FieldValues = z.infer<Schema>
+>({
+    onSubmit,
+    children,
+    className,
+    options,
+    id,
+    schema,
+    hasFiles,
+}: FormProps<TFormValues, Schema>) => {
+    const form = useForm({
+        ...options,
+        resolver: zodResolver(schema),
+    });
+
+    // const onFormSubmit = async (data: TFormValues) => {
+    //     await onSubmit(data);
+    //     form.reset();
+    // };
+
+    return (
+        <FormProvider {...form}>
+            <form
+                className={cn('space-y-6', className)}
+                onSubmit={form.handleSubmit(onSubmit)}
+                id={id}
+                encType={hasFiles ? 'multipart/form-data' : undefined}
+            >
+                {children(form)}
+            </form>
+        </FormProvider>
+    );
+};
 
 export {
     Form,

@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import * as React from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
+import { Toaster } from 'sonner';
 
 type AppProviderProps = {
     children: React.ReactNode;
@@ -24,6 +25,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
                     {import.meta.env.DEV && <ReactQueryDevtools />}
                     {children}
                 </QueryClientProvider>
+                <Toaster />
             </ErrorBoundary>
         </React.Suspense>
     );
