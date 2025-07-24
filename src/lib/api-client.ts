@@ -1,6 +1,5 @@
 import { paths } from '@/config/paths';
 import { env } from '../config/env';
-import { toast } from 'sonner';
 
 function interceptor(
     path: string,
@@ -29,7 +28,6 @@ async function fetchWrapper<T>(
         if (!response.ok) {
             const errorData = await response.json().catch(() => null);
             const message = errorData?.error || response.statusText;
-            toast.error(message);
             if (
                 response.status === 401 &&
                 !window.location.pathname.includes('auth')
@@ -39,6 +37,7 @@ async function fetchWrapper<T>(
                     searchParams.get('redirectTo') || window.location.pathname;
                 window.location.href = paths.app.auth.login.getHref(redirectTo);
             }
+            throw new Error(message);
         }
 
         return (await response.json()) as T;

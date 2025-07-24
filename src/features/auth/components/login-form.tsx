@@ -12,6 +12,7 @@ import {
     CardHeader,
     CardTitle,
 } from '@/components/ui/card';
+import { toast } from 'sonner';
 
 export const LoginForm = () => {
     const login = useLogin();
@@ -38,6 +39,9 @@ export const LoginForm = () => {
                                             ? redirectTo
                                             : paths.app.root.path
                                     ),
+                                onError: () => {
+                                    toast.error('Invalid credentials!');
+                                },
                             });
                         }}
                         schema={loginInputSchema}
@@ -70,10 +74,10 @@ export const LoginForm = () => {
                         )}
                     </Form>
                     <div className='mt-4 text-center text-sm'>
-                        Don&apos;t have an account?{' '}
+                        Don&apos;t have an account?
                         <Link
                             to={paths.app.auth.register.getHref(redirectTo)}
-                            className='underline'
+                            className='underline ml-1'
                         >
                             Sign up
                         </Link>

@@ -1,77 +1,97 @@
 import { Link, useNavigate, useSearchParams } from 'react-router';
-
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Form, Input } from '@/components/ui/form-v1';
 import { paths } from '@/config/paths';
 import { registerInputSchema, useRegister } from '@/lib/auth';
+import { toast } from 'sonner';
+import { Form } from '@/components/ui/form/form';
+import { FormInput } from '@/components/ui/form/input';
 
 export const RegisterForm = () => {
-    const login = useRegister();
+    const register = useRegister();
     const [searchParams] = useSearchParams();
     const redirectTo = searchParams.get('redirectTo');
     const navigate = useNavigate();
 
     return (
-        <div>
-            <Form
-                onSubmit={values => {
-                    login.mutate(values, {
-                        onSuccess: () =>
-                            navigate(
-                                redirectTo ? redirectTo : paths.app.root.path
-                            ),
-                    });
-                }}
-                schema={registerInputSchema}
-            >
-                {({ register, formState }) => (
-                    <>
-                        <Input
-                            type='text'
-                            label='Full Name'
-                            error={formState.errors['username']}
-                            registration={register('username')}
-                        />
-                        <Input
-                            type='email'
-                            label='Email Address'
-                            error={formState.errors['email']}
-                            registration={register('email')}
-                        />
-                        <Input
-                            type='password'
-                            label='Password'
-                            error={formState.errors['password']}
-                            registration={register('password')}
-                        />
-                        <div>
-                            <Button
-                                isLoading={login.isPending}
-                                disabled={login.isPending}
-                                type='submit'
-                                className='w-full'
-                            >
-                                Submit
-                            </Button>
-                        </div>
-                        {login.error && (
-                            <div className='text-red-500 text-sm'>
-                                {login.error.message}
-                            </div>
-                        )}
-                    </>
-                )}
-            </Form>
-            <div className='mt-2 flex items-center justify-end'>
-                <div className='text-sm'>
-                    <Link
-                        to={paths.app.auth.login.getHref(redirectTo)}
-                        className='font-medium text-blue-600 hover:text-blue-500'
+        <div className='flex flex-col min-h-[50vh] h-full w-full items-center justify-center px-4'>
+            <Card className='w-full'>
+                <CardHeader>
+                    <CardTitle className='text-2xl'>Regiter</CardTitle>
+                    <CardDescription>Register to the platform.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <Form
+                        onSubmit={values => {
+                            register.mutate(values, {
+                                onSuccess: () =>
+                                    navigate(
+                                        redirectTo
+                                            ? redirectTo
+                                            : paths.app.root.path
+                                    ),
+                                onError: err => toast.error(err.message),
+                            });
+                        }}
+                        options={{
+                            defaultValues: {
+                                username: '',
+                                email: '',
+                                password: '',
+                            },
+                        }}
+                        schema={registerInputSchema}
                     >
-                        Register
-                    </Link>
-                </div>
-            </div>
+                        {({ control, formState: { isValid } }) => (
+                            <>
+                                <FormInput
+                                    control={control}
+                                    name='username'
+                                    label='Full Name'
+                                    type='text'
+                                    placeholder='John Doe'
+                                />
+                                <FormInput
+                                    control={control}
+                                    name='email'
+                                    label='Email'
+                                    type='email'
+                                    placeholder='johndoe@gmail.com'
+                                />
+                                <FormInput
+                                    control={control}
+                                    name='password'
+                                    label='Password'
+                                    type='password'
+                                    placeholder='******'
+                                />
+                                <Button
+                                    disabled={!isValid}
+                                    type='submit'
+                                    className='w-full'
+                                >
+                                    Login
+                                </Button>
+                            </>
+                        )}
+                    </Form>
+                    <div className='mt-4 text-center text-sm'>
+                        Already have an account
+                        <Link
+                            to={paths.app.auth.login.getHref(redirectTo)}
+                            className='underline ml-1'
+                        >
+                            Sign up
+                        </Link>
+                    </div>
+                </CardContent>
+            </Card>
         </div>
     );
 };
