@@ -7,7 +7,7 @@ interface UseUnsavedChangesWithRouterProps {
     onNavigateAway?: () => void;
 }
 
-export const useUnsavedChangesWithRouter = ({
+export const usePreventUnsavedChanges = ({
     hasUnsavedChanges,
     message = 'You have unsaved changes. Are you sure you want to leave?',
     onNavigateAway,
