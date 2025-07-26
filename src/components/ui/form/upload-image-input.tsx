@@ -16,39 +16,32 @@ import {
     DialogHeader,
     DialogTitle,
     DialogFooter,
+    DialogDescription,
 } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import {
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from './form';
+import { Button, buttonVariants } from '@/components/ui/button';
+import { FormControl, FormField, FormItem, FormMessage } from './form';
 import { ACCEPTED_IMAGE_TYPES } from '@/constants';
 import { BaseFormFieldProps } from './form.interfaces';
+import { Label } from '../label';
 
 export interface FormImageUploaderProps<T extends FieldValues = FieldValues>
     extends BaseFormFieldProps<T> {
     aspectRatio?: number;
     isLogo?: boolean;
-    onCroppedImage?: (file: File) => void;
 }
 
 export const FormImageUploader = <T extends FieldValues = FieldValues>({
     name,
     control,
     label,
-    description,
     aspectRatio,
     isLogo = false,
-    onCroppedImage,
 }: FormImageUploaderProps<T>) => {
     const [open, setOpen] = React.useState(false);
     const [imgSrc, setImgSrc] = React.useState('');
     const [crop, setCrop] = React.useState<Crop>();
     const [completedCrop, setCompletedCrop] = React.useState<PixelCrop>();
+    const [originalFile, setOriginalFile] = React.useState<File | null>(null);
     const imgRef = React.useRef<HTMLImageElement>(null);
     const previewCanvasRef = React.useRef<HTMLCanvasElement>(null);
 
@@ -58,7 +51,7 @@ export const FormImageUploader = <T extends FieldValues = FieldValues>({
         const file = e.target.files?.[0];
         if (!file) return;
 
-        field.onChange(file);
+        setOriginalFile(file);
 
         const reader = new FileReader();
         reader.onload = e => {
@@ -161,7 +154,6 @@ export const FormImageUploader = <T extends FieldValues = FieldValues>({
     const getCroppedImg = async (): Promise<File | null> => {
         const image = imgRef.current;
         const previewCanvas = previewCanvasRef.current;
-        const originalFile = field.value as File;
         if (!image || !previewCanvas || !completedCrop || !originalFile) {
             return null;
         }
@@ -208,12 +200,13 @@ export const FormImageUploader = <T extends FieldValues = FieldValues>({
         const cropped = await getCroppedImg();
         if (cropped) {
             field.onChange(cropped);
-            onCroppedImage?.(cropped);
         }
+
         setOpen(false);
         setImgSrc('');
         setCrop(undefined);
         setCompletedCrop(undefined);
+        setOriginalFile(null);
     };
 
     const handleCropCancel = () => {
@@ -221,6 +214,7 @@ export const FormImageUploader = <T extends FieldValues = FieldValues>({
         setImgSrc('');
         setCrop(undefined);
         setCompletedCrop(undefined);
+        setOriginalFile(null);
     };
 
     return (
@@ -230,22 +224,23 @@ export const FormImageUploader = <T extends FieldValues = FieldValues>({
                 name={name}
                 render={() => (
                     <FormItem>
-                        {label && <FormLabel>{label}</FormLabel>}
                         <FormControl>
-                            <label className='inline-flex items-center gap-2 cursor-pointer border px-3 py-1 rounded text-sm'>
+                            <Label
+                                className={buttonVariants({
+                                    variant: 'outline',
+                                    size: 'sm',
+                                })}
+                            >
                                 <ImageIcon className='w-4 h-4' />
-                                Upload image
+                                {label}
                                 <input
                                     type='file'
                                     accept={ACCEPTED_IMAGE_TYPES.join(',')}
                                     onChange={onImageChange}
                                     className='sr-only'
                                 />
-                            </label>
+                            </Label>
                         </FormControl>
-                        {description && (
-                            <FormDescription>{description}</FormDescription>
-                        )}
                         <FormMessage />
                     </FormItem>
                 )}
@@ -256,6 +251,7 @@ export const FormImageUploader = <T extends FieldValues = FieldValues>({
                     <DialogHeader>
                         <DialogTitle>Crop Your Image</DialogTitle>
                     </DialogHeader>
+                    <DialogDescription></DialogDescription>
 
                     <div className='flex justify-center p-4'>
                         {imgSrc && (

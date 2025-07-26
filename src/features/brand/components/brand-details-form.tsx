@@ -7,14 +7,13 @@ import {
 import { FormDetailsHeader } from '@/components/ui/form-v1/details-header';
 import { useBrandContext } from '@/context/brand';
 import { FieldError } from 'react-hook-form';
-import { UploadBannerComponent } from '@/components/images/upload-banner';
 import { UploadImageComponent } from '@/components/images/upload-image';
 import { Textarea } from '@/components/ui/form-v1/textarea';
 import { type Option, SelectField } from '@/components/ui/form-v1/select-field';
 import { useCountries } from '@/lib/countries';
 import * as React from 'react';
-// import WorkingHours from './working-hours';
-// import SocialLinks from './social-links';
+import { ImagePreview } from '@/components/images/image-preview';
+import { BannerUploadField } from '@/components/images/upload-banner';
 
 export const BrandDetailsForm = () => {
     const brand = useBrandContext();
@@ -91,9 +90,10 @@ export const BrandDetailsForm = () => {
             className='w-full'
             options={{ mode: 'onChange', defaultValues: getFormDefaults() }}
         >
-            {({ formState, watch, register, setValue }) => {
+            {({ formState, watch, register, setValue, control }) => {
                 const banner = watch('banner');
                 const logo = watch('logo');
+                console.log('isDirty', formState.isDirty);
                 const isSubmitDisabled =
                     Object.keys(formState.dirtyFields).length === 0 ||
                     !formState.isValid;
@@ -105,23 +105,24 @@ export const BrandDetailsForm = () => {
                             isLoading={updateBrand.isPending}
                         />
                         <div className='px-4 lg:!px-10 space-y-6'>
-                            <UploadBannerComponent
-                                image={banner}
-                                defaultUrl={brand.bannerUrl ?? undefined}
-                                buttonText='Upload'
-                                registration={register('banner')}
-                                error={
-                                    formState.errors.banner as
-                                        | FieldError
-                                        | undefined
-                                }
-                                onCroppedImage={croppedFile => {
-                                    setValue('banner', croppedFile);
-                                }}
-                                onRemoveImage={() => {
-                                    setValue('banner', null);
-                                }}
-                            />
+                            <div className='flex flex-col gap-6 items-center relative'>
+                                <ImagePreview
+                                    file={
+                                        banner instanceof File ? banner : null
+                                    }
+                                    defaultUrl={brand.bannerUrl ?? undefined}
+                                    fullWidth
+                                    className='h-52'
+                                />
+                                <div className='flex flex-col absolute bottom-4 right-8'>
+                                    <BannerUploadField
+                                        control={control}
+                                        name='banner'
+                                        aspectRatio={16 / 9}
+                                        label='Upload'
+                                    />
+                                </div>
+                            </div>
                             <UploadImageComponent
                                 image={logo}
                                 isLogo
