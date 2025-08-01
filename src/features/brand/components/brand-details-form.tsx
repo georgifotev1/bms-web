@@ -1,4 +1,3 @@
-import { Form, Input, Label } from '@/components/ui/form-v1';
 import {
     BrandData,
     brandDetailsSchema,
@@ -6,14 +5,17 @@ import {
 } from '../api/update-brand';
 import { FormDetailsHeader } from '@/components/ui/form-v1/details-header';
 import { useBrandContext } from '@/context/brand';
-import { FieldError } from 'react-hook-form';
-import { UploadImageComponent } from '@/components/images/upload-image';
-import { Textarea } from '@/components/ui/form-v1/textarea';
-import { type Option, SelectField } from '@/components/ui/form-v1/select-field';
 import { useCountries } from '@/lib/countries';
 import * as React from 'react';
 import { ImagePreview } from '@/components/images/image-preview';
-import { BannerUploadField } from '@/components/images/upload-banner';
+import { UploadImageField } from '@/components/images/upload-image';
+import { Muted } from '@/components/typography';
+import { Form } from '@/components/ui/form/form';
+import { FormInput } from '@/components/ui/form/input';
+import { FormTextarea } from '@/components/ui/form/textarea';
+import { Label } from '@/components/ui/label';
+import { FormSelect } from '@/components/ui/form/select';
+import { FormSelectOption } from '@/components/ui/form/form.interfaces';
 
 export const BrandDetailsForm = () => {
     const brand = useBrandContext();
@@ -25,8 +27,8 @@ export const BrandDetailsForm = () => {
             return { countryOptions: [], currencyOptions: [] };
         }
 
-        const countryOpts: Option[] = [];
-        const currencyOpts: Option[] = [];
+        const countryOpts: FormSelectOption[] = [];
+        const currencyOpts: FormSelectOption[] = [];
         const seenCurrencies = new Set();
 
         countries.data.forEach(country => {
@@ -68,35 +70,36 @@ export const BrandDetailsForm = () => {
         updateBrand.mutate(submitData);
     };
 
-    const getFormDefaults = (): BrandData => {
-        return {
-            name: brand.name ?? '',
-            pageUrl: brand.pageUrl ?? '',
-            description: brand.description ?? '',
-            email: brand.email ?? '',
-            phone: brand.phone ?? '',
-            address: brand.address ?? '',
-            city: brand.city ?? '',
-            state: brand.state ?? '',
-            zipCode: brand.zipCode ?? '',
-            country: brand.country ?? '',
-            currency: brand.currency ?? '',
-        };
-    };
     return (
         <Form
             onSubmit={handleSubmit}
             schema={brandDetailsSchema}
             className='w-full'
-            options={{ mode: 'onChange', defaultValues: getFormDefaults() }}
+            options={{
+                defaultValues: {
+                    name: brand.name ?? '',
+                    pageUrl: brand.pageUrl ?? '',
+                    description: brand.description ?? '',
+                    email: brand.email ?? '',
+                    phone: brand.phone ?? '',
+                    address: brand.address ?? '',
+                    city: brand.city ?? '',
+                    state: brand.state ?? '',
+                    zipCode: brand.zipCode ?? '',
+                    country: brand.country ?? '',
+                    currency: brand.currency ?? '',
+                    logo: brand.logoUrl ?? '',
+                    banner: brand.bannerUrl ?? '',
+                },
+            }}
         >
-            {({ formState, watch, register, setValue, control }) => {
+            {({ formState, control, watch }) => {
                 const banner = watch('banner');
+
                 const logo = watch('logo');
-                console.log('isDirty', formState.isDirty);
                 const isSubmitDisabled =
-                    Object.keys(formState.dirtyFields).length === 0 ||
-                    !formState.isValid;
+                    !formState.isDirty || !formState.isValid;
+
                 return (
                     <div className='flex flex-col relative gap-6 max-w-[1140px] mx-auto'>
                         <FormDetailsHeader
@@ -115,7 +118,7 @@ export const BrandDetailsForm = () => {
                                     className='h-52'
                                 />
                                 <div className='flex flex-col absolute bottom-4 right-8'>
-                                    <BannerUploadField
+                                    <UploadImageField
                                         control={control}
                                         name='banner'
                                         aspectRatio={16 / 9}
@@ -123,43 +126,39 @@ export const BrandDetailsForm = () => {
                                     />
                                 </div>
                             </div>
-                            <UploadImageComponent
-                                image={logo}
-                                isLogo
-                                defaultUrl={brand.logoUrl ?? undefined}
-                                buttonText='Upload'
-                                label='Add a logo'
-                                registration={register('logo')}
-                                error={
-                                    formState.errors.logo as
-                                        | FieldError
-                                        | undefined
-                                }
-                                onCroppedImage={croppedFile => {
-                                    setValue('logo', croppedFile);
-                                }}
-                                onRemoveImage={() => {
-                                    setValue('logo', null);
-                                }}
-                            />
-                            <Input
+                            <div className='flex gap-6 items-center'>
+                                <ImagePreview
+                                    file={logo instanceof File ? logo : null}
+                                    defaultUrl={brand.logoUrl ?? undefined}
+                                    isLogo
+                                />
+                                <div className='flex flex-col'>
+                                    <span>Add a logo</span>
+                                    <Muted>Up to 5 MB in size</Muted>
+                                    <UploadImageField
+                                        control={control}
+                                        name='logo'
+                                        label='Upload'
+                                        isLogo
+                                    />
+                                </div>
+                            </div>
+                            <FormInput
+                                control={control}
+                                name='name'
+                                label='Name'
                                 type='text'
-                                defaultValue={brand.name}
-                                label='Brand name'
-                                error={formState.errors['name']}
-                                registration={register('name')}
                             />
-                            <Input
+                            <FormInput
+                                control={control}
                                 type='text'
-                                defaultValue={brand.pageUrl}
+                                name='pageUrl'
                                 label='Your booking page URL'
-                                error={formState.errors['pageUrl']}
-                                registration={register('pageUrl')}
                             />
-                            <Textarea
-                                label='Brand Description'
-                                registration={register('description')}
-                                error={formState.errors['description']}
+
+                            <FormTextarea
+                                control={control}
+                                name='description'
                             />
 
                             <div className='border-t border-solid border-tertiary py-6 space-y-6'>
@@ -167,16 +166,18 @@ export const BrandDetailsForm = () => {
                                     Contact Details
                                 </Label>
 
-                                <Input
+                                <FormInput
+                                    control={control}
+                                    name='email'
                                     label='Email'
-                                    registration={register('email')}
-                                    error={formState.errors['email']}
+                                    type='email'
                                 />
 
-                                <Input
+                                <FormInput
+                                    control={control}
+                                    name='phone'
                                     label='Phone Number'
-                                    registration={register('phone')}
-                                    error={formState.errors['phone']}
+                                    type='text'
                                 />
                             </div>
 
@@ -185,47 +186,49 @@ export const BrandDetailsForm = () => {
                                     Location
                                 </Label>
 
-                                <Input
+                                <FormInput
+                                    control={control}
+                                    name='address'
                                     label='Address'
-                                    registration={register('address')}
-                                    error={formState.errors['address']}
+                                    type='text'
                                 />
 
-                                <Input
+                                <FormInput
+                                    control={control}
+                                    name='city'
                                     label='City'
-                                    registration={register('city')}
-                                    error={formState.errors['city']}
+                                    type='text'
                                 />
 
                                 <div className='flex gap-4'>
-                                    <Input
+                                    <FormInput
+                                        control={control}
+                                        name='state'
                                         label='State'
-                                        registration={register('state')}
-                                        error={formState.errors['state']}
+                                        type='text'
                                     />
 
-                                    <Input
-                                        label='ZIP code'
-                                        registration={register('zipCode')}
-                                        error={formState.errors['zipCode']}
+                                    <FormInput
+                                        control={control}
+                                        name='zipCode'
+                                        label='Zip Code'
+                                        type='text'
                                     />
                                 </div>
 
                                 <div className='flex gap-4'>
-                                    <SelectField
+                                    <FormSelect
+                                        control={control}
+                                        name='country'
                                         label='Country'
-                                        error={formState.errors['country']}
                                         options={countryOptions}
-                                        registration={register('country')}
-                                        defaultValue={brand.country}
                                     />
 
-                                    <SelectField
+                                    <FormSelect
+                                        control={control}
+                                        name='currency'
                                         label='Currency'
-                                        error={formState.errors['currency']}
                                         options={currencyOptions}
-                                        registration={register('currency')}
-                                        defaultValue={brand.currency}
                                     />
                                 </div>
                             </div>

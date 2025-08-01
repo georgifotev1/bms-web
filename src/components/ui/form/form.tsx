@@ -174,11 +174,6 @@ const Form = <
         resolver: zodResolver(schema),
     });
 
-    // const onFormSubmit = async (data: TFormValues) => {
-    //     await onSubmit(data);
-    //     form.reset();
-    // };
-
     return (
         <FormProvider {...form}>
             <form

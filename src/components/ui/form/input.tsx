@@ -49,14 +49,3 @@ export const FormInput = <T extends FieldValues = FieldValues>({
         )}
     />
 );
-
-// Expample usage:
-
-//               <FormInput
-//                 control={form.control}
-//                 name="email"
-//                 label="Email"
-//                 type="email"
-//                 placeholder="Enter your email"
-//                 description="We'll never share your email with anyone else."
-//               />
