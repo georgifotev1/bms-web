@@ -23,7 +23,7 @@ import { TimePickerField } from '@/components/ui/form-v1/time-picker-field';
 import { createApiDateTime, getNextAvailableTimeSlot } from '../helpers';
 import { Textarea } from '@/components/ui/form-v1/textarea';
 import { DatePickerField } from '@/components/ui/form-v1/date-picker-field';
-import { getDay, parse, addMinutes, format } from 'date-fns';
+import { getDay, parse, addMinutes, format, isBefore } from 'date-fns';
 import { WorkingHour } from '@/types/api';
 import { toast } from 'sonner';
 
@@ -39,6 +39,10 @@ export function AddEventDialog(props: IProps) {
     const brand = useBrandContext();
 
     const [open, setOpen] = React.useState<boolean>(false);
+
+    if (!props.startTime || !props.startDate) return;
+    if (isBefore(parse(props.startTime, 'HH:mm', props.startDate), new Date()))
+        return;
 
     const getSelectedDateWorkingHours = (
         selectedDate: Date
@@ -139,7 +143,7 @@ export function AddEventDialog(props: IProps) {
                                     registration={register('serviceId')}
                                 />
 
-                                <div className='grid grid-cols-3 gap-2'>
+                                <div className='flex gap-2'>
                                     <DatePickerField
                                         label='Event Date'
                                         error={formState.errors['eventDate']}

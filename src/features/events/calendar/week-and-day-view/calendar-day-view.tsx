@@ -108,7 +108,7 @@ export function CalendarDayView({ singleDayEvents, multiDayEvents }: IProps) {
                                             className={cn(
                                                 'relative',
                                                 isDisabled &&
-                                                    'bg-calendar-disabled-hour'
+                                                    'bg-gray-100 cursor-not-allowed line-through pointer-events-none'
                                             )}
                                             style={{ height: '96px' }}
                                         >
@@ -128,7 +128,7 @@ export function CalendarDayView({ singleDayEvents, multiDayEvents }: IProps) {
                                                     )}
                                                 >
                                                     <div className='absolute inset-x-0 top-0 h-[24px] cursor-pointer group'>
-                                                        <div className='absolute left-0 top-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-100 text-xs font-medium text-primary bg-background px-1 py-0.5 rounded shadow-sm border border-primary'>
+                                                        <div className='absolute left-0 top-0 right-0 opacity-0 group-hover:opacity-100 text-xs font-medium text-primary bg-background px-1 py-0.5 rounded shadow-sm border border-primary'>
                                                             {formatTimeSlot(
                                                                 hour,
                                                                 0
@@ -151,7 +151,7 @@ export function CalendarDayView({ singleDayEvents, multiDayEvents }: IProps) {
                                                     )}
                                                 >
                                                     <div className='absolute inset-x-0 top-[24px] h-[24px] cursor-pointer group'>
-                                                        <div className='absolute left-0 top-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-100 text-xs font-medium text-primary bg-background px-1 py-0.5 rounded shadow-sm border border-primary'>
+                                                        <div className='absolute left-0 top-0 right-0 opacity-0 group-hover:opacity-100 text-xs font-medium text-primary bg-background px-1 py-0.5 rounded shadow-sm border border-primary'>
                                                             {formatTimeSlot(
                                                                 hour,
                                                                 15
@@ -173,7 +173,7 @@ export function CalendarDayView({ singleDayEvents, multiDayEvents }: IProps) {
                                                     )}
                                                 >
                                                     <div className='absolute inset-x-0 top-[48px] h-[24px] cursor-pointer group'>
-                                                        <div className='absolute left-0 top-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-100 text-xs font-medium text-primary bg-background px-1 py-0.5 rounded shadow-sm border border-primary'>
+                                                        <div className='absolute left-0 top-0 right-0 opacity-0 group-hover:opacity-100 text-xs font-medium text-primary bg-background px-1 py-0.5 rounded shadow-sm border border-primary'>
                                                             {formatTimeSlot(
                                                                 hour,
                                                                 30
@@ -195,7 +195,7 @@ export function CalendarDayView({ singleDayEvents, multiDayEvents }: IProps) {
                                                     )}
                                                 >
                                                     <div className='absolute inset-x-0 top-[72px] h-[24px] cursor-pointer group'>
-                                                        <div className='absolute left-0 top-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-100 text-xs font-medium text-primary bg-background px-1 py-0.5 rounded shadow-sm border border-primary'>
+                                                        <div className='absolute left-0 top-0 right-0 opacity-0 group-hover:opacity-100 text-xs font-medium text-primary bg-background px-1 py-0.5 rounded shadow-sm border border-primary'>
                                                             {formatTimeSlot(
                                                                 hour,
                                                                 45

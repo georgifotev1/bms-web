@@ -184,7 +184,7 @@ export function CalendarWeekView({ singleDayEvents, multiDayEvents }: IProps) {
                                                                         0
                                                                     )}
                                                                 >
-                                                                    <div className='absolute left-0 top-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-100 text-xs font-medium text-primary bg-background px-1 py-0.5 rounded shadow-sm border border-primary'>
+                                                                    <div className='absolute left-0 top-0 right-0 opacity-0 group-hover:opacity-100 text-xs font-medium text-primary bg-background px-1 py-0.5 rounded shadow-sm border border-primary'>
                                                                         {formatTimeSlot(
                                                                             hour,
                                                                             0
@@ -212,7 +212,7 @@ export function CalendarWeekView({ singleDayEvents, multiDayEvents }: IProps) {
                                                                         15
                                                                     )}
                                                                 >
-                                                                    <div className='absolute left-0 top-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-100 text-xs font-medium text-primary bg-background px-1 py-0.5 rounded shadow-sm border border-primary'>
+                                                                    <div className='absolute left-0 top-0 right-0 opacity-0 group-hover:opacity-100 text-xs font-medium text-primary bg-background px-1 py-0.5 rounded shadow-sm border border-primary'>
                                                                         {formatTimeSlot(
                                                                             hour,
                                                                             15
@@ -240,7 +240,7 @@ export function CalendarWeekView({ singleDayEvents, multiDayEvents }: IProps) {
                                                                         30
                                                                     )}
                                                                 >
-                                                                    <div className='absolute left-0 top-0 right-0 opacity-0 group-hover:opacity-100 transition-opacity duration-100 text-xs font-medium text-primary bg-background px-1 py-0.5 rounded shadow-sm border border-primary'>
+                                                                    <div className='absolute left-0 top-0 right-0 opacity-0 group-hover:opacity-100 text-xs font-medium text-primary bg-background px-1 py-0.5 rounded shadow-sm border border-primary'>
                                                                         {formatTimeSlot(
                                                                             hour,
                                                                             30
