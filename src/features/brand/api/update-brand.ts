@@ -1,4 +1,3 @@
-import { ACCEPTED_IMAGE_TYPES, MAX_FILE_SIZE } from '@/constants';
 import { api } from '@/lib/api-client';
 import { queryKeys } from '@/lib/react-query';
 import { BrandProfile } from '@/types/api';
@@ -24,28 +23,8 @@ export const brandDetailsSchema = z.object({
     city: z.string().optional(),
     address: z.string().optional(),
     currency: z.string().optional(),
-    logo: z
-        .any()
-        .optional()
-        .refine(file => {
-            if (!file || file.size === undefined) return true;
-            return file.size <= MAX_FILE_SIZE;
-        }, `Max image size is 5MB.`)
-        .refine(file => {
-            if (!file || file.type === undefined) return true;
-            return ACCEPTED_IMAGE_TYPES.includes(file.type);
-        }, 'Only .jpg, .jpeg, .png and .webp formats are supported.'),
-    banner: z
-        .any()
-        .optional()
-        .refine(file => {
-            if (!file || file.size === undefined) return true;
-            return file.size <= MAX_FILE_SIZE;
-        }, `Max image size is 5MB.`)
-        .refine(file => {
-            if (!file || file.type === undefined) return true;
-            return ACCEPTED_IMAGE_TYPES.includes(file.type);
-        }, 'Only .jpg, .jpeg, .png and .webp formats are supported.'),
+    logoUrl: z.string().optional(),
+    bannerUrl: z.string(),
 });
 
 export type BrandData = z.infer<typeof brandDetailsSchema>;
@@ -64,24 +43,8 @@ export const getBrandFormData = (data: BrandData) => {
     formData.append('city', data.city || '');
     formData.append('address', data.address || '');
     formData.append('currency', data.currency || '');
-
-    if (data.logo) {
-        if (data.logo instanceof File) {
-            formData.append('logo', data.logo);
-        }
-        if (typeof data.logo === 'string') {
-            formData.append('logoUrl', data.logo);
-        }
-    }
-
-    if (data.banner) {
-        if (data.banner instanceof File) {
-            formData.append('banner', data.banner);
-        }
-        if (typeof data.banner === 'string') {
-            formData.append('bannerUrl', data.banner);
-        }
-    }
+    formData.append('logoUrl', data.logoUrl || '');
+    formData.append('bannerUrl', data.bannerUrl || '');
 
     return formData;
 };

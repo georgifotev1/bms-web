@@ -1,44 +1,25 @@
-import React, { useState, useEffect } from 'react';
 import { Image as ImageIcon } from 'lucide-react';
 import { cn } from '@/utils/cn';
 
 interface ImagePreviewProps {
-    file: File | null;
     fallback?: React.ReactNode;
     className?: string;
     imageClassName?: string;
     alt?: string;
-    defaultUrl?: string;
     fullWidth?: boolean;
     isLogo?: boolean;
+    previewUrl?: string;
 }
 
 export const ImagePreview: React.FC<ImagePreviewProps> = ({
-    file,
     fallback,
     className,
     imageClassName,
     alt = 'Preview',
-    defaultUrl,
     fullWidth,
     isLogo,
+    previewUrl,
 }) => {
-    const [previewUrl, setPreviewUrl] = useState<string>(defaultUrl ?? '');
-
-    useEffect(() => {
-        if (!file) {
-            setPreviewUrl(defaultUrl ?? '');
-            return;
-        }
-
-        const url = URL.createObjectURL(file);
-        setPreviewUrl(url);
-
-        return () => {
-            URL.revokeObjectURL(url);
-        };
-    }, [file, defaultUrl]);
-
     if (!previewUrl) {
         return (
             <div

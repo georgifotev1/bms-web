@@ -5,6 +5,7 @@ const createEnv = () => {
         APP_URL: z.string().optional().default('localhost:5173'),
         API_URL: z.string().optional().default('http://localhost:8080/v1'),
         APP_HOST: z.string(),
+        CLOUDINARY_CLOUD_NAME: z.string(),
     });
 
     const envVars = Object.entries(import.meta.env).reduce<

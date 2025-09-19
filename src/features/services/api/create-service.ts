@@ -1,4 +1,3 @@
-import { ACCEPTED_IMAGE_TYPES, MAX_FILE_SIZE } from '@/constants';
 import { api } from '@/lib/api-client';
 import { queryKeys } from '@/lib/react-query';
 import { Service } from '@/types/api';
@@ -17,17 +16,7 @@ export const serviceSchema = z.object({
     bufferTime: z.coerce.number().optional(),
     cost: z.string().optional(),
     isVisible: z.coerce.boolean().default(true),
-    image: z
-        .any()
-        .optional()
-        .refine(file => {
-            if (!file || file.size === undefined) return true;
-            return file.size <= MAX_FILE_SIZE;
-        }, `Max image size is 5MB.`)
-        .refine(file => {
-            if (!file || file.type === undefined) return true;
-            return ACCEPTED_IMAGE_TYPES.includes(file.type);
-        }, 'Only .jpg, .jpeg, .png and .webp formats are supported.'),
+    image: z.string().optional(),
     userIds: z
         .array(z.coerce.number().int().nonnegative())
         .min(1, 'At least one provider must be assigned'),
@@ -50,16 +39,7 @@ export const getServiceFormData = (data: ServiceData) => {
             formData.append('userIds', id.toString());
         });
     }
-
-    if (data.image) {
-        if (data.image instanceof File) {
-            formData.append('image', data.image); // File upload
-        }
-        if (typeof data.image === 'string') {
-            formData.append('imageUrl', data.image); // URL string
-        }
-    }
-
+    formData.append('image', data.image || ''); // File upload
     return formData;
 };
 

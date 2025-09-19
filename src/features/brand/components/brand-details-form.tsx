@@ -5,8 +5,6 @@ import {
 } from '../api/update-brand';
 import { FormDetailsHeader } from '@/components/ui/form-v1/details-header';
 import { useBrandContext } from '@/context/brand';
-import { useCountries } from '@/lib/countries';
-import * as React from 'react';
 import { ImagePreview } from '@/components/images/image-preview';
 import { UploadImageField } from '@/components/images/upload-image';
 import { Muted } from '@/components/typography';
@@ -15,59 +13,13 @@ import { FormInput } from '@/components/ui/form/input';
 import { FormTextarea } from '@/components/ui/form/textarea';
 import { Label } from '@/components/ui/label';
 import { FormSelect } from '@/components/ui/form/select';
-import { FormSelectOption } from '@/components/ui/form/form.interfaces';
 
 export const BrandDetailsForm = () => {
     const brand = useBrandContext();
     const updateBrand = useUpdateBrand(brand.id);
-    const countries = useCountries();
-
-    const { countryOptions, currencyOptions } = React.useMemo(() => {
-        if (!countries?.data) {
-            return { countryOptions: [], currencyOptions: [] };
-        }
-
-        const countryOpts: FormSelectOption[] = [];
-        const currencyOpts: FormSelectOption[] = [];
-        const seenCurrencies = new Set();
-
-        countries.data.forEach(country => {
-            if (
-                country.currencies &&
-                Object.keys(country.currencies).length > 0
-            ) {
-                countryOpts.push({
-                    label: country.name.common,
-                    value: country.name.common,
-                });
-
-                const currencyCode = Object.keys(country.currencies)[0];
-                if (!seenCurrencies.has(currencyCode)) {
-                    seenCurrencies.add(currencyCode);
-                    currencyOpts.push({
-                        label: currencyCode,
-                        value: currencyCode,
-                    });
-                }
-            }
-        });
-
-        return { countryOptions: countryOpts, currencyOptions: currencyOpts };
-    }, [countries?.data]);
 
     const handleSubmit = (values: BrandData) => {
-        const submitData = {
-            ...values,
-            banner:
-                values.banner?.length === 0 || values.banner === null
-                    ? brand.bannerUrl
-                    : values.banner,
-            logo:
-                values.logo?.length === 0 || values.logo === null
-                    ? brand.logoUrl
-                    : values.logo,
-        };
-        updateBrand.mutate(submitData);
+        updateBrand.mutate(values);
     };
 
     return (
@@ -88,15 +40,14 @@ export const BrandDetailsForm = () => {
                     zipCode: brand.zipCode ?? '',
                     country: brand.country ?? '',
                     currency: brand.currency ?? '',
-                    logo: brand.logoUrl ?? '',
-                    banner: brand.bannerUrl ?? '',
+                    logoUrl: brand.logoUrl ?? '',
+                    bannerUrl: brand.bannerUrl ?? '',
                 },
             }}
         >
             {({ formState, control, watch }) => {
-                const banner = watch('banner');
-
-                const logo = watch('logo');
+                const banner = watch('bannerUrl');
+                const logo = watch('logoUrl');
                 const isSubmitDisabled =
                     !formState.isDirty || !formState.isValid;
 
@@ -110,17 +61,14 @@ export const BrandDetailsForm = () => {
                         <div className='px-4 lg:!px-10 space-y-6'>
                             <div className='flex flex-col gap-6 items-center relative'>
                                 <ImagePreview
-                                    file={
-                                        banner instanceof File ? banner : null
-                                    }
-                                    defaultUrl={brand.bannerUrl ?? undefined}
+                                    previewUrl={banner ?? brand.bannerUrl}
                                     fullWidth
                                     className='h-52'
                                 />
                                 <div className='flex flex-col absolute bottom-4 right-8'>
                                     <UploadImageField
                                         control={control}
-                                        name='banner'
+                                        name='bannerUrl'
                                         aspectRatio={16 / 9}
                                         label='Upload'
                                     />
@@ -128,8 +76,7 @@ export const BrandDetailsForm = () => {
                             </div>
                             <div className='flex gap-6 items-center'>
                                 <ImagePreview
-                                    file={logo instanceof File ? logo : null}
-                                    defaultUrl={brand.logoUrl ?? undefined}
+                                    previewUrl={logo ?? brand.logoUrl}
                                     isLogo
                                 />
                                 <div className='flex flex-col'>
@@ -137,7 +84,7 @@ export const BrandDetailsForm = () => {
                                     <Muted>Up to 5 MB in size</Muted>
                                     <UploadImageField
                                         control={control}
-                                        name='logo'
+                                        name='logoUrl'
                                         label='Upload'
                                         isLogo
                                     />
@@ -221,14 +168,22 @@ export const BrandDetailsForm = () => {
                                         control={control}
                                         name='country'
                                         label='Country'
-                                        options={countryOptions}
+                                        options={[
+                                            {
+                                                label: 'Bulgaria',
+                                                value: 'Bulgaria',
+                                            },
+                                        ]}
                                     />
 
                                     <FormSelect
                                         control={control}
                                         name='currency'
                                         label='Currency'
-                                        options={currencyOptions}
+                                        options={[
+                                            { label: 'BGN', value: 'BGN' },
+                                            { label: 'EUR', value: 'EUR' },
+                                        ]}
                                     />
                                 </div>
                             </div>

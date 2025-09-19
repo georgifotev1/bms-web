@@ -23,6 +23,8 @@ import { FormControl, FormField, FormItem, FormMessage } from './form';
 import { ACCEPTED_IMAGE_TYPES } from '@/constants';
 import { BaseFormFieldProps } from './form.interfaces';
 import { Label } from '../label';
+import { uploadToCloudinary } from '@/utils/uploadToCloudinary';
+import { useBrandContext } from '@/context/brand';
 
 export interface FormImageUploaderProps<T extends FieldValues = FieldValues>
     extends BaseFormFieldProps<T> {
@@ -44,7 +46,7 @@ export const FormImageUploader = <T extends FieldValues = FieldValues>({
     const [originalFile, setOriginalFile] = React.useState<File | null>(null);
     const imgRef = React.useRef<HTMLImageElement>(null);
     const previewCanvasRef = React.useRef<HTMLCanvasElement>(null);
-
+    const { id: brandId } = useBrandContext();
     const { field } = useController({ name, control });
 
     const onImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -198,9 +200,9 @@ export const FormImageUploader = <T extends FieldValues = FieldValues>({
 
     const handleCropConfirm = async () => {
         const cropped = await getCroppedImg();
-        if (cropped) {
-            field.onChange(cropped);
-        }
+        if (!cropped) return;
+        const res = await uploadToCloudinary(cropped, brandId);
+        field.onChange(res.url);
 
         setOpen(false);
         setImgSrc('');

@@ -1,6 +1,5 @@
 import { Form, Input } from '@/components/ui/form-v1';
 import { ServiceData, serviceSchema } from '../api/create-service';
-import { FieldError } from 'react-hook-form';
 import { SwitchField } from '@/components/ui/form-v1/switch-field';
 import { Textarea } from '@/components/ui/form-v1/textarea';
 import { H4 } from '@/components/typography';
@@ -14,7 +13,8 @@ import { useUpdateService } from '../api/edit-service';
 import { UseMutationResult } from '@tanstack/react-query';
 import { ServiceProvidersSection } from './providers';
 import { FormDetailsHeader } from '@/components/ui/form-v1/details-header';
-import { UploadImageComponent } from '@/components/images/upload-imagev1';
+import { ImagePreview } from '@/components/images/image-preview';
+import { UploadImageField } from '@/components/images/upload-image';
 
 interface ServiceFormProps {
     mode: 'create' | 'edit';
@@ -34,9 +34,9 @@ export const ServiceForm = ({ mode, service, mutation }: ServiceFormProps) => {
             const submitData = {
                 ...values,
                 image:
-                    values.image?.length === 0
+                    values.imageUrl?.length === 0
                         ? service.imageUrl
-                        : values.image,
+                        : values.imageUrl,
             };
 
             mutation.mutate(submitData, {
@@ -64,7 +64,8 @@ export const ServiceForm = ({ mode, service, mutation }: ServiceFormProps) => {
             bufferTime: service.bufferTime,
             description: service.description,
             isVisible: service.isVisible ?? true,
-            userIds: service.providers || [],
+            userIds: service.providers ?? [],
+            imageUrl: service.imageUrl ?? '',
         };
     };
 
@@ -75,8 +76,8 @@ export const ServiceForm = ({ mode, service, mutation }: ServiceFormProps) => {
             hasFiles
             options={{ defaultValues: getFormDefaults() }}
         >
-            {({ register, formState, setValue, watch, control }) => {
-                const image = watch('image');
+            {({ register, formState, watch, control }) => {
+                const image = watch('imageUrl');
                 const isSubmitDisabled = () => {
                     if (isEditMode) {
                         return Object.keys(formState.dirtyFields).length === 0;
@@ -94,8 +95,24 @@ export const ServiceForm = ({ mode, service, mutation }: ServiceFormProps) => {
                         <div className='lg:grid lg:grid-cols-2 lg:gap-14 px-4 lg:!px-10'>
                             <div className='col-start-1 flex flex-col gap-4 mb-4 grow-0'>
                                 <H4>Service Details</H4>
-
-                                <UploadImageComponent
+                                <div className='flex flex-col gap-6 items-center relative'>
+                                    <ImagePreview
+                                        previewUrl={image ?? service?.imageUrl}
+                                        fullWidth
+                                        className='h-52'
+                                    />
+                                    <div className='flex flex-col absolute bottom-4 right-8'>
+                                        <UploadImageField
+                                            control={control}
+                                            name='imageUrl'
+                                            aspectRatio={16 / 9}
+                                            label={
+                                                isEditMode ? 'Edit' : 'Upload'
+                                            }
+                                        />
+                                    </div>
+                                </div>
+                                {/* <UploadImageComponent
                                     image={image}
                                     defaultUrl={
                                         isEditMode
@@ -116,7 +133,7 @@ export const ServiceForm = ({ mode, service, mutation }: ServiceFormProps) => {
                                     onRemoveImage={() => {
                                         setValue('image', null);
                                     }}
-                                />
+                                /> */}
 
                                 <Input
                                     type='text'
