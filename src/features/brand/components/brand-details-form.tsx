@@ -27,6 +27,7 @@ export const BrandDetailsForm = () => {
             onSubmit={handleSubmit}
             schema={brandDetailsSchema}
             className='w-full'
+            hasFiles
             options={{
                 defaultValues: {
                     name: brand.name ?? '',
@@ -43,14 +44,14 @@ export const BrandDetailsForm = () => {
                     logoUrl: brand.logoUrl ?? '',
                     bannerUrl: brand.bannerUrl ?? '',
                 },
-                mode: 'onChange',
             }}
         >
             {({ formState, control, watch }) => {
                 const banner = watch('bannerUrl');
                 const logo = watch('logoUrl');
                 const isSubmitDisabled =
-                    !formState.isDirty || !formState.isValid;
+                    !formState.isDirty ||
+                    Object.keys(formState.errors).length > 0;
 
                 return (
                     <div className='flex flex-col relative gap-6 max-w-[1140px] mx-auto'>

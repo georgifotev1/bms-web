@@ -26,13 +26,12 @@ export type ServiceData = z.infer<typeof serviceSchema>;
 
 export const getServiceFormData = (data: ServiceData) => {
     const formData = new FormData();
-
     formData.append('title', data.title);
     formData.append('description', data.description || '');
     formData.append('duration', data.duration.toString());
     formData.append('bufferTime', data.bufferTime?.toString() || '0');
     formData.append('cost', data.cost || '');
-    formData.append('isVisible', data.isVisible?.toString() || 'false');
+    formData.append('isVisible', data.isVisible?.toString());
 
     if (data.userIds && data.userIds.length > 0) {
         data.userIds.forEach(id => {

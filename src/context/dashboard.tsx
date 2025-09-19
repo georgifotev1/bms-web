@@ -72,7 +72,6 @@ export const DashboardProvider: React.FC<DashboardProviderProps> = ({
             {
                 queryKey: [queryKeys.services, brandId],
                 queryFn: () => getServices(brandId),
-                enabled: !!brandId,
             },
         ],
     });
@@ -98,12 +97,12 @@ export const DashboardProvider: React.FC<DashboardProviderProps> = ({
             error: servicesQuery.error,
             isError: servicesQuery.isError,
         },
-        isLoading: queries.every((q) => q.isLoading),
-        isAnyLoading: queries.some((q) => q.isLoading),
-        hasError: queries.some((q) => q.isError),
-        isAllSuccess: queries.every((q) => q.isSuccess),
+        isLoading: queries.every(q => q.isLoading),
+        isAnyLoading: queries.some(q => q.isLoading),
+        hasError: queries.some(q => q.isError),
+        isAllSuccess: queries.every(q => q.isSuccess),
         refetchAll: () => {
-            queries.forEach((query) => query.refetch());
+            queries.forEach(query => query.refetch());
         },
         stats: {
             usersCount: usersQuery.data?.length || 0,

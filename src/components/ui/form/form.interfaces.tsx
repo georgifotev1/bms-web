@@ -21,6 +21,7 @@ export interface BaseFormFieldProps<T extends FieldValues = FieldValues> {
     name: FieldPath<T>;
     label?: string;
     description?: string;
+    defaultChecked?: boolean;
 }
 
 export interface FormSelectOption {

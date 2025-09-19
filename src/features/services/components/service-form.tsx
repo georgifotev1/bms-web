@@ -1,6 +1,5 @@
 import { Form, Input } from '@/components/ui/form-v1';
 import { ServiceData, serviceSchema } from '../api/create-service';
-import { SwitchField } from '@/components/ui/form-v1/switch-field';
 import { Textarea } from '@/components/ui/form-v1/textarea';
 import { H4 } from '@/components/typography';
 import { useDashboardData } from '@/context/dashboard';
@@ -15,6 +14,7 @@ import { ServiceProvidersSection } from './providers';
 import { FormDetailsHeader } from '@/components/ui/form-v1/details-header';
 import { ImagePreview } from '@/components/images/image-preview';
 import { UploadImageField } from '@/components/images/upload-image';
+import { FormSwitch } from '@/components/ui/form/switch';
 
 interface ServiceFormProps {
     mode: 'create' | 'edit';
@@ -29,10 +29,13 @@ export const ServiceForm = ({ mode, service, mutation }: ServiceFormProps) => {
     const isEditMode = mode === 'edit';
 
     const handleSubmit = (values: ServiceData) => {
-        if (isEditMode && service) {
+        if (isEditMode) {
             mutation.mutate(values, {
                 onSuccess: () => {
                     toast.success('Service updated!');
+                },
+                onError: e => {
+                    toast.error(`Something went wrong, ${e.message}`);
                 },
             });
         } else {
@@ -65,13 +68,14 @@ export const ServiceForm = ({ mode, service, mutation }: ServiceFormProps) => {
             onSubmit={handleSubmit}
             schema={serviceSchema}
             hasFiles
+            key={service?.updatedAt}
             options={{ defaultValues: getFormDefaults() }}
         >
             {({ register, formState, watch, control }) => {
                 const image = watch('imageUrl');
                 const isSubmitDisabled = () => {
                     if (isEditMode) {
-                        return Object.keys(formState.dirtyFields).length === 0;
+                        return !formState.isDirty;
                     }
                     return !formState.isValid;
                 };
@@ -111,13 +115,15 @@ export const ServiceForm = ({ mode, service, mutation }: ServiceFormProps) => {
                                     label='Title'
                                 />
                                 <Input
-                                    type='number'
+                                    type='text'
+                                    pattern='^\d+(\.\d+)?$'
                                     error={formState.errors.duration}
                                     registration={register('duration')}
                                     label='Duration'
                                 />
                                 <Input
-                                    type='number'
+                                    type='text'
+                                    pattern='^\d+(\.\d+)?$'
                                     error={formState.errors.cost}
                                     registration={register('cost')}
                                     placeholder='$30.00'
@@ -133,14 +139,14 @@ export const ServiceForm = ({ mode, service, mutation }: ServiceFormProps) => {
                                     registration={register('description')}
                                     label='Description'
                                 />
-                                <SwitchField
-                                    registration={register('isVisible')}
+                                <FormSwitch
+                                    control={control}
+                                    name='isVisible'
                                     defaultChecked={
                                         isEditMode
                                             ? service?.isVisible ?? true
                                             : true
                                     }
-                                    label='Visible'
                                 />
                             </div>
                             <ServiceProvidersSection
