@@ -16,7 +16,7 @@ export const serviceSchema = z.object({
     bufferTime: z.coerce.number().optional(),
     cost: z.string().optional(),
     isVisible: z.coerce.boolean().default(true),
-    image: z.string().optional(),
+    imageUrl: z.string().optional(),
     userIds: z
         .array(z.coerce.number().int().nonnegative())
         .min(1, 'At least one provider must be assigned'),
@@ -39,7 +39,7 @@ export const getServiceFormData = (data: ServiceData) => {
             formData.append('userIds', id.toString());
         });
     }
-    formData.append('image', data.image || ''); // File upload
+    formData.append('imageUrl', data.imageUrl || ''); // File upload
     return formData;
 };
 
