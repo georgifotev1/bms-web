@@ -13,8 +13,8 @@ import { useCreateService } from '../api/create-service';
 import { useUpdateService } from '../api/edit-service';
 import { UseMutationResult } from '@tanstack/react-query';
 import { ServiceProvidersSection } from './providers';
-import { UploadImageComponent } from '@/components/images/upload-image';
 import { FormDetailsHeader } from '@/components/ui/form-v1/details-header';
+import { UploadImageComponent } from '@/components/images/upload-imagev1';
 
 interface ServiceFormProps {
     mode: 'create' | 'edit';

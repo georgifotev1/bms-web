@@ -1,5 +1,11 @@
-export const MainRoute = () => {
-    const hostname = window.location.hostname;
-    const subdomain = hostname.split('.')[0];
-    return <div>Brand: {subdomain}</div>;
+import { Outlet } from 'react-router';
+
+export const ErrorBoundary = () => {
+    return <div>Something went wrong!</div>;
 };
+
+const PublicAppRoot = () => {
+    return <Outlet />;
+};
+
+export default PublicAppRoot;

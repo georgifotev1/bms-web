@@ -13,3 +13,13 @@ export const useBrand = (brandId: number) => {
         enabled: !!brandId && brandId > 0,
     });
 };
+
+const getBrandPublic = async (): Promise<BrandProfile> => {
+    return await api.get('/brand/public');
+};
+export const useBrandPublic = () => {
+    return useQuery({
+        queryKey: [queryKeys.brand],
+        queryFn: () => getBrandPublic(),
+    });
+};
