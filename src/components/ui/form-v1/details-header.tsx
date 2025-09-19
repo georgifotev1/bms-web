@@ -17,7 +17,7 @@ export const FormDetailsHeader = ({
 }) => {
     return (
         <header className='h-14 sticky bg-background top-0 z-10 lg:px-10'>
-            <div className='py-3 flex items-center justify-between px-4 lg:!px-0 border-b border-solid border-tertiary'>
+            <div className='py-3 flex items-center justify-between px-4 lg:!px-0'>
                 <div className='flex items-center gap-2'>
                     {goBackTo && (
                         <ButtonLink variant='ghost' size='icon' to={goBackTo}>

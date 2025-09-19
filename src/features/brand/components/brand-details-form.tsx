@@ -43,6 +43,7 @@ export const BrandDetailsForm = () => {
                     logoUrl: brand.logoUrl ?? '',
                     bannerUrl: brand.bannerUrl ?? '',
                 },
+                mode: 'onChange',
             }}
         >
             {({ formState, control, watch }) => {

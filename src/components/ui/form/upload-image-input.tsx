@@ -25,6 +25,7 @@ import { BaseFormFieldProps } from './form.interfaces';
 import { Label } from '../label';
 import { uploadToCloudinary } from '@/utils/uploadToCloudinary';
 import { useBrandContext } from '@/context/brand';
+import { Spinner } from '../spinner/spinner';
 
 export interface FormImageUploaderProps<T extends FieldValues = FieldValues>
     extends BaseFormFieldProps<T> {
@@ -44,6 +45,7 @@ export const FormImageUploader = <T extends FieldValues = FieldValues>({
     const [crop, setCrop] = React.useState<Crop>();
     const [completedCrop, setCompletedCrop] = React.useState<PixelCrop>();
     const [originalFile, setOriginalFile] = React.useState<File | null>(null);
+    const [isLoading, setIsLoading] = React.useState<boolean>(false);
     const imgRef = React.useRef<HTMLImageElement>(null);
     const previewCanvasRef = React.useRef<HTMLCanvasElement>(null);
     const { id: brandId } = useBrandContext();
@@ -63,6 +65,7 @@ export const FormImageUploader = <T extends FieldValues = FieldValues>({
             }
         };
         reader.readAsDataURL(file);
+        e.target.value = '';
     };
 
     const onImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
@@ -112,9 +115,11 @@ export const FormImageUploader = <T extends FieldValues = FieldValues>({
             ctx.save();
 
             if (circular) {
-                const centerX = cropWidth / 2;
-                const centerY = cropHeight / 2;
-                const radius = Math.min(cropWidth, cropHeight) / 2;
+                const canvasWidth = canvas.width / pixelRatio;
+                const canvasHeight = canvas.height / pixelRatio;
+                const centerX = canvasWidth / 2;
+                const centerY = canvasHeight / 2;
+                const radius = Math.min(canvasWidth, canvasHeight) / 2;
 
                 ctx.beginPath();
                 ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
@@ -199,6 +204,7 @@ export const FormImageUploader = <T extends FieldValues = FieldValues>({
     };
 
     const handleCropConfirm = async () => {
+        setIsLoading(true);
         const cropped = await getCroppedImg();
         if (!cropped) return;
         const res = await uploadToCloudinary(cropped, brandId);
@@ -209,6 +215,7 @@ export const FormImageUploader = <T extends FieldValues = FieldValues>({
         setCrop(undefined);
         setCompletedCrop(undefined);
         setOriginalFile(null);
+        setIsLoading(false);
     };
 
     const handleCropCancel = () => {
@@ -289,9 +296,12 @@ export const FormImageUploader = <T extends FieldValues = FieldValues>({
                         </Button>
                         <Button
                             onClick={handleCropConfirm}
-                            disabled={!completedCrop}
+                            disabled={!completedCrop || isLoading}
                         >
-                            Apply Crop
+                            <span className='flex gap-2 items-center'>
+                                {isLoading && <Spinner />}
+                                <span>Apply Crop</span>
+                            </span>
                         </Button>
                     </DialogFooter>
                 </DialogContent>

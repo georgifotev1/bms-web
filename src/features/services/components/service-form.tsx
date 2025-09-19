@@ -30,16 +30,7 @@ export const ServiceForm = ({ mode, service, mutation }: ServiceFormProps) => {
 
     const handleSubmit = (values: ServiceData) => {
         if (isEditMode && service) {
-            // Handle edit mode - preserve existing image if no new one uploaded
-            const submitData = {
-                ...values,
-                image:
-                    values.imageUrl?.length === 0
-                        ? service.imageUrl
-                        : values.imageUrl,
-            };
-
-            mutation.mutate(submitData, {
+            mutation.mutate(values, {
                 onSuccess: () => {
                     toast.success('Service updated!');
                 },
@@ -112,28 +103,6 @@ export const ServiceForm = ({ mode, service, mutation }: ServiceFormProps) => {
                                         />
                                     </div>
                                 </div>
-                                {/* <UploadImageComponent
-                                    image={image}
-                                    defaultUrl={
-                                        isEditMode
-                                            ? service?.imageUrl
-                                            : undefined
-                                    }
-                                    label={'Service image'}
-                                    buttonText={isEditMode ? 'Edit' : 'Upload'}
-                                    registration={register('image')}
-                                    error={
-                                        formState.errors.image as
-                                            | FieldError
-                                            | undefined
-                                    }
-                                    onCroppedImage={croppedFile => {
-                                        setValue('image', croppedFile);
-                                    }}
-                                    onRemoveImage={() => {
-                                        setValue('image', null);
-                                    }}
-                                /> */}
 
                                 <Input
                                     type='text'
@@ -142,13 +111,13 @@ export const ServiceForm = ({ mode, service, mutation }: ServiceFormProps) => {
                                     label='Title'
                                 />
                                 <Input
-                                    type='text'
+                                    type='number'
                                     error={formState.errors.duration}
                                     registration={register('duration')}
                                     label='Duration'
                                 />
                                 <Input
-                                    type='text'
+                                    type='number'
                                     error={formState.errors.cost}
                                     registration={register('cost')}
                                     placeholder='$30.00'
