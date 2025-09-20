@@ -76,8 +76,8 @@ export function DroppableTimeBlock({
             ref={drop as unknown as React.RefObject<HTMLDivElement>}
             className={cn(
                 'h-[24px]',
-                isOver && canDrop && 'bg-accent/50',
-                isOver && !canDrop && 'bg-destructive/50'
+                isOver && canDrop && 'bg-accent',
+                isOver && !canDrop && 'bg-destructive'
             )}
         >
             {data?.originalEvent && data?.newStartDate && data?.newEndDate && (

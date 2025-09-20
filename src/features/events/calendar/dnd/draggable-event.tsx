@@ -17,13 +17,13 @@ export function DraggableEvent({ event, children }: DraggableEventProps) {
     const [{ isDragging }, drag] = useDrag(() => ({
         type: ItemTypes.EVENT,
         item: { event },
-        collect: (monitor) => ({ isDragging: monitor.isDragging() }),
+        collect: monitor => ({ isDragging: monitor.isDragging() }),
     }));
 
     drag(ref);
 
     return (
-        <div ref={ref} className={cn(isDragging && 'opacity-40')}>
+        <div ref={ref} className={cn(isDragging && 'opacity-90')}>
             {children}
         </div>
     );

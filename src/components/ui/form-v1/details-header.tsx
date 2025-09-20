@@ -32,7 +32,10 @@ export const FormDetailsHeader = ({
                     className='rounded-4xl'
                     type='submit'
                 >
-                    <span>{isLoading ? <Spinner /> : 'Save'}</span>
+                    <span className='flex items-center gap-2'>
+                        {isLoading && <Spinner />}
+                        <span>Save</span>
+                    </span>
                 </Button>
             </div>
         </header>

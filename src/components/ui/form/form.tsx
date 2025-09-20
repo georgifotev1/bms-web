@@ -174,11 +174,15 @@ const Form = <
         resolver: zodResolver(schema),
     });
 
+    const handleSubmit = async (data: TFormValues) => {
+        await onSubmit(data);
+        form.reset(data);
+    };
     return (
         <FormProvider {...form}>
             <form
                 className={cn('space-y-6', className)}
-                onSubmit={form.handleSubmit(onSubmit)}
+                onSubmit={form.handleSubmit(handleSubmit)}
                 id={id}
                 encType={hasFiles ? 'multipart/form-data' : undefined}
             >
