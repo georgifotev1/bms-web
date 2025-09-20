@@ -29,13 +29,11 @@ export const WorkingHoursForm = () => {
             options={{ defaultValues: { workingHours: defaultWorkingHours } }}
         >
             {({ register, setValue, formState }) => {
-                const isSubmitDisabled = !formState.isDirty;
-
                 return (
                     <div className='flex flex-col relative gap-6 max-w-[1140px] mx-auto'>
                         <FormDetailsHeader
                             title='Working Hours'
-                            disabled={isSubmitDisabled}
+                            disabled={!formState.isDirty}
                             isLoading={updateWorkingHours.isPending}
                         />
                         <WorkingHours

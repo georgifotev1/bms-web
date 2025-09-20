@@ -49,12 +49,11 @@ export const BrandDetailsForm = () => {
             {({ formState, control, watch }) => {
                 const banner = watch('bannerUrl');
                 const logo = watch('logoUrl');
-                const isSubmitDisabled = !formState.isDirty;
                 return (
                     <div className='flex flex-col relative gap-6 max-w-[1140px] mx-auto'>
                         <FormDetailsHeader
                             title='Your Brand'
-                            disabled={isSubmitDisabled}
+                            disabled={!formState.isDirty}
                             isLoading={updateBrand.isPending}
                         />
                         <div className='px-4 lg:!px-10 space-y-6'>

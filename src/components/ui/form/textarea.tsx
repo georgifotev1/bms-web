@@ -32,7 +32,12 @@ export const FormTextarea = <T extends FieldValues = FieldValues>({
             <FormItem>
                 <FormLabel>{label}</FormLabel>
                 <FormControl>
-                    <Textarea placeholder={placeholder} {...field} {...props} />
+                    <Textarea
+                        className='resize-none'
+                        placeholder={placeholder}
+                        {...field}
+                        {...props}
+                    />
                 </FormControl>
                 {description && (
                     <FormDescription>{description}</FormDescription>
