@@ -3,7 +3,7 @@ import {
     brandDetailsSchema,
     useUpdateBrand,
 } from '../api/update-brand';
-import { FormDetailsHeader } from '@/components/ui/form-v1/details-header';
+import { FormDetailsHeader } from '@/components/ui/form/form-details-header';
 import { useBrandContext } from '@/context/brand';
 import { ImagePreview } from '@/components/images/image-preview';
 import { UploadImageField } from '@/components/images/upload-image';
