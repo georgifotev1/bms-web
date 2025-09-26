@@ -1,3 +1,6 @@
+import { useBrandContext } from '@/context/brand';
+
 export const MainPage = () => {
-    return <h1>Hello</h1>;
+    const brand = useBrandContext();
+    return <h1>Hello from {brand.name}</h1>;
 };

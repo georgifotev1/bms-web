@@ -2,24 +2,17 @@ import { BrandProfile } from '@/types/api';
 import { api } from '../../../lib/api-client';
 import { useQuery } from '@tanstack/react-query';
 import { queryKeys } from '@/lib/react-query';
+import { endpoints, EndpointVisibility } from '@/config/endpoints';
 
-const getBrand = async (brandId: number): Promise<BrandProfile> => {
-    return await api.get(`/brand/${brandId}`);
-};
-export const useBrand = (brandId: number) => {
-    return useQuery({
-        queryKey: [queryKeys.brand, brandId],
-        queryFn: () => getBrand(brandId),
-        enabled: !!brandId && brandId > 0,
-    });
+const getBrand = async (
+    visibility: EndpointVisibility
+): Promise<BrandProfile> => {
+    return await api.get(endpoints.brand[visibility]);
 };
 
-const getBrandPublic = async (): Promise<BrandProfile> => {
-    return await api.get('/brand/public');
-};
-export const useBrandPublic = () => {
+export const useBrand = (visibility: EndpointVisibility = 'private') => {
     return useQuery({
         queryKey: [queryKeys.brand],
-        queryFn: () => getBrandPublic(),
+        queryFn: () => getBrand(visibility),
     });
 };

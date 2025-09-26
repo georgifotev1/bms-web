@@ -8,8 +8,8 @@ const getCustomers = (): Promise<Customer[]> => {
     return api.get('/customers');
 };
 
-const getServices = async (brandId: number): Promise<Service[]> => {
-    return await api.get(`/service/${brandId}`);
+const getServices = async (): Promise<Service[]> => {
+    return await api.get(`/service`);
 };
 
 const getUsers = (): Promise<User[]> => {
@@ -52,12 +52,10 @@ const DashboardContext = createContext<DashboardContextType | undefined>(
 
 interface DashboardProviderProps {
     children: ReactNode;
-    brandId: number;
 }
 
 export const DashboardProvider: React.FC<DashboardProviderProps> = ({
     children,
-    brandId,
 }) => {
     const queries = useQueries({
         queries: [
@@ -70,8 +68,8 @@ export const DashboardProvider: React.FC<DashboardProviderProps> = ({
                 queryFn: () => getCustomers(),
             },
             {
-                queryKey: [queryKeys.services, brandId],
-                queryFn: () => getServices(brandId),
+                queryKey: [queryKeys.services],
+                queryFn: () => getServices(),
             },
         ],
     });

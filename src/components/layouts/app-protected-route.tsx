@@ -15,7 +15,7 @@ export const AppProtectedRoute = ({
     const location = useLocation();
 
     const brandId = user.data?.brandId;
-    const brand = useBrand(brandId ?? 0);
+    const brand = useBrand();
 
     if (user.isLoading || user.isFetching || brand.isLoading) {
         return <LoadingScreen />;
