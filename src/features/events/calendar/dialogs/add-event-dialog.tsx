@@ -17,7 +17,6 @@ import {
     useCreateEvent,
 } from '@/features/events/api/create-events';
 import { SelectField } from '@/components/ui/form-v1/select-field';
-import { useDashboardData } from '@/context/dashboard';
 import { useBrandContext } from '@/context/brand';
 import { TimePickerField } from '@/components/ui/form-v1/time-picker-field';
 import { createApiDateTime, getNextAvailableTimeSlot } from '../helpers';
@@ -26,6 +25,9 @@ import { DatePickerField } from '@/components/ui/form-v1/date-picker-field';
 import { getDay, parse, addMinutes, format, isBefore } from 'date-fns';
 import { WorkingHour } from '@/types/api';
 import { toast } from 'sonner';
+import { useUsers } from '@/features/users/api/get-users';
+import { useCustomers } from '@/features/customers/api/get-customers';
+import { useServices } from '@/features/services/api/get-service';
 
 interface IProps {
     children: React.ReactNode;
@@ -34,7 +36,9 @@ interface IProps {
 }
 
 export function AddEventDialog(props: IProps) {
-    const { users, customers, services } = useDashboardData();
+    const { data: users } = useUsers();
+    const { data: customers } = useCustomers();
+    const { data: services } = useServices();
     const event = useCreateEvent();
     const brand = useBrandContext();
 
@@ -103,9 +107,8 @@ export function AddEventDialog(props: IProps) {
                         const selectedDate = watch('eventDate');
                         const serviceId = watch('serviceId');
                         const serviceDuration =
-                            services.data?.find(
-                                service => service.id === serviceId
-                            )?.duration ?? 15;
+                            services?.find(service => service.id === serviceId)
+                                ?.duration ?? 15;
 
                         return (
                             <>
@@ -113,7 +116,7 @@ export function AddEventDialog(props: IProps) {
                                     label='User'
                                     error={formState.errors['userId']}
                                     options={
-                                        users.data?.map(user => ({
+                                        users?.map(user => ({
                                             label: user.name,
                                             value: user.id,
                                         })) ?? []
@@ -124,7 +127,7 @@ export function AddEventDialog(props: IProps) {
                                     label='Customer'
                                     error={formState.errors['customerId']}
                                     options={
-                                        customers?.data?.map(customer => ({
+                                        customers?.map(customer => ({
                                             label: customer.name,
                                             value: customer.id,
                                         })) ?? []
@@ -135,7 +138,7 @@ export function AddEventDialog(props: IProps) {
                                     label='Service'
                                     error={formState.errors['serviceId']}
                                     options={
-                                        services?.data?.map(service => ({
+                                        services?.map(service => ({
                                             label: service.title,
                                             value: service.id,
                                         })) ?? []

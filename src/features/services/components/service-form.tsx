@@ -2,7 +2,6 @@ import { Form, Input } from '@/components/ui/form-v1';
 import { ServiceData, serviceSchema } from '../api/create-service';
 import { Textarea } from '@/components/ui/form-v1/textarea';
 import { H4 } from '@/components/typography';
-import { useDashboardData } from '@/context/dashboard';
 import { toast } from 'sonner';
 import { paths } from '@/config/paths';
 import { useNavigate } from 'react-router';
@@ -15,6 +14,7 @@ import { FormDetailsHeader } from '@/components/ui/form-v1/details-header';
 import { ImagePreview } from '@/components/images/image-preview';
 import { UploadImageField } from '@/components/images/upload-image';
 import { FormSwitch } from '@/components/ui/form/switch';
+import { useUsers } from '@/features/users/api/get-users';
 
 interface ServiceFormProps {
     mode: 'create' | 'edit';
@@ -23,7 +23,7 @@ interface ServiceFormProps {
 }
 
 export const ServiceForm = ({ mode, service, mutation }: ServiceFormProps) => {
-    const { users, isLoading } = useDashboardData();
+    const { data: users, isLoading } = useUsers();
     const navigate = useNavigate();
 
     const isEditMode = mode === 'edit';
@@ -151,7 +151,7 @@ export const ServiceForm = ({ mode, service, mutation }: ServiceFormProps) => {
                             </div>
                             <ServiceProvidersSection
                                 isLoading={isLoading}
-                                users={users.data}
+                                users={users}
                                 control={control}
                                 initialValues={
                                     isEditMode ? service?.providers || [] : []

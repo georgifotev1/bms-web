@@ -1,6 +1,5 @@
 import { AppSidebar } from '@/components/app-sidebar/app-sidebar';
 import { SidebarProvider } from '@/components/ui/sidebar';
-import { DashboardProvider } from '@/context/dashboard';
 
 export default function DashboardLayout({
     children,
@@ -9,10 +8,8 @@ export default function DashboardLayout({
 }) {
     return (
         <SidebarProvider>
-            <DashboardProvider>
-                <AppSidebar />
-                <main className='w-full'>{children}</main>
-            </DashboardProvider>
+            <AppSidebar />
+            <main className='w-full'>{children}</main>
         </SidebarProvider>
     );
 }

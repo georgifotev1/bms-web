@@ -1,4 +1,3 @@
-import { useDashboardData } from '@/context/dashboard';
 import { H3, SmallText, SmallTextMuted } from '@/components/typography';
 import { LoadingScreen } from '@/components/ui/spinner/loading-screen';
 import { Image, Plus } from 'lucide-react';
@@ -6,16 +5,20 @@ import { ProvidersAvatars } from './providers-avatars';
 import { ButtonLink } from '@/components/ui/link';
 import { paths } from '@/config/paths';
 import { useNavigate } from 'react-router';
+import { useServices } from '../api/get-service';
+import { useUsers } from '@/features/users/api/get-users';
 
 export const ServicesList = () => {
-    const { services, users, isLoading } = useDashboardData();
     const navigate = useNavigate();
-    if (isLoading) return <LoadingScreen />;
-    if (!services.data) return;
+    const { data: services, isLoading: servicesLoading } = useServices();
+    const { data: users, isLoading: usersLoading } = useUsers();
+
+    if (usersLoading || servicesLoading) return <LoadingScreen />;
+    if (!services) return;
     return (
         <section className='container md:px-12 mx-auto'>
             <div className='flex items-center justify-between h-14 sticky bg-background top-0 z-10 lg:px-10  border-b border-solid border-tertiary'>
-                <H3>Services ({services.data.length})</H3>
+                <H3>Services ({services.length})</H3>
                 <ButtonLink
                     to={paths.app.services.new}
                     variant='default'
@@ -26,7 +29,7 @@ export const ServicesList = () => {
             </div>
 
             <div className='flex flex-col gap-2 my-8'>
-                {services.data.map(service => (
+                {services?.map(service => (
                     <div
                         key={service.id}
                         className='flex items-center gap-4 py-2 px-4 justify-between border rounded-sm cursor-pointer hover:bg-accent/50'
@@ -61,7 +64,7 @@ export const ServicesList = () => {
                         <div>
                             <ProvidersAvatars
                                 providers={service.providers}
-                                users={users.data}
+                                users={users}
                             />
                         </div>
                     </div>
